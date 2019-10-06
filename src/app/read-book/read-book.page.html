@@ -11,45 +11,57 @@
 
 <ion-content>
   <!-- clicar no card pode abrir um overview (histórico) do aluno -->
-    <ion-card class="welcome-card">
-      <img src="/assets/shapes.svg" alt="" />
-      <ion-card-header>
-        <ion-card-subtitle>999 Pontos de Leitura</ion-card-subtitle>
-        <ion-card-title>Nome do Aluno</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Sua pontuação está acima da média. Você lê mais que 30% das pessoas.</p>
-      </ion-card-content>
-    </ion-card>
-    <ion-list lines="none">
-      <ion-list-header>
-        <ion-label>Recursos</ion-label>
-      </ion-list-header>
-      <ion-item>
-        <ion-icon slot="start" color="medium" name="book"></ion-icon>
-        <ion-label>Pesquisar livro</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon slot="start" color="medium" name="build"></ion-icon>
-        <ion-label>Editar meus conteúdos</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-        <ion-label>Escrever novo conteúdo</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-        <ion-label>Outras opções</ion-label>
-      </ion-item>
-    </ion-list>
+  <ion-card class="welcome-card">
+    <img src="/assets/shapes.svg" alt="" />
+    <ion-card-header>
+      <ion-card-subtitle>999 Pontos de Leitura</ion-card-subtitle>
+      <ion-card-title>Nome do Aluno</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Sua pontuação está acima da média. Você lê mais que 30% das pessoas.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-list lines="none">
+    <ion-list-header>
+      <ion-label>Recursos</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-icon slot="start" color="medium" name="book"></ion-icon>
+      <ion-label>Pesquisar livro</ion-label>
+    </ion-item>
+    <ion-searchbar placeholder="Livro..." [(ngModel)]="terms" (ionInput)="digitEvent($event)" clearInput>
+    </ion-searchbar>
 
     <ion-list>
-      <ion-item *ngFor="let item of items">
-        <ion-icon [name]="item.icon" slot="start"></ion-icon>
-        {{item.title}}
-        <div class="item-note" slot="end">
-          {{item.note}}
-        </div>
-      </ion-item>
+      <ion-chip class="ion-padding" *ngFor="let item of this.data.items">
+        <ion-avatar *ngIf="item != null">
+          <img src="{{item?.volumeInfo?.imageLinks?.smallThumbnail}}">
+        </ion-avatar>
+        <ion-label> {{item.volumeInfo.title}}</ion-label>
+      </ion-chip>
     </ion-list>
+
+    <ion-item>
+      <ion-icon slot="start" color="medium" name="build"></ion-icon>
+      <ion-label>Editar meus conteúdos</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" color="medium" name="grid"></ion-icon>
+      <ion-label>Escrever novo conteúdo</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
+      <ion-label>Outras opções</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item *ngFor="let item of items">
+      <ion-icon [name]="item.icon" slot="start"></ion-icon>
+      {{item.title}}
+      <div class="item-note" slot="end">
+        {{item.note}}
+      </div>
+    </ion-item>
+  </ion-list>
 </ion-content>
