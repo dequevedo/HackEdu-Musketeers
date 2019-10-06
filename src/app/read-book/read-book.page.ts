@@ -20,12 +20,14 @@ export class ReadBookPage implements OnInit {
   }
 
   digitEvent(cid: any) {
-    this.data = {
-      items: []
-    };
-    this.bookService.load(cid.target.value).then(response => {
-      this.data = response;
-    });
+    if(cid.target.value != ''){
+      this.data = {
+        items: []
+      };
+      this.bookService.load(cid.target.value).then(response => {
+        this.data = response;
+      });
+    }
   }
 
 }
