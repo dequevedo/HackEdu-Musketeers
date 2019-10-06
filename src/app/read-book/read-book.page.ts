@@ -23,7 +23,6 @@ export class ReadBookPage implements OnInit {
     this.data = {
       items: []
     };
-    console.log(cid.target.value);
     this.bookService.load(cid.target.value).then(response => {
       this.data = response;
     });

@@ -25,7 +25,6 @@ export class BookServiceService {
         )
         .subscribe(data => {
           this.data = data;
-          console.log(this.data);
           resolve(this.data);
         });
 
