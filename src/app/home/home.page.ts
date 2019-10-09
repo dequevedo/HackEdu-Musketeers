@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DatabaseService } from 'src/app/database.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,8 @@ export class HomePage {
   ];
 
   constructor(
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private menu: MenuController
     ) {}
 
   abrirAvisos(){
@@ -37,6 +39,7 @@ export class HomePage {
   }
 
   ngOnInit() {
+    this.menu.enable(true);
     this.aluno = this.databaseService.getAluno();
   }
 }
