@@ -1,5 +1,122 @@
 {
-  "Professores": [{
-    "Id": 00001
-  }]
+  "SeileDB":{
+    "Professores": [
+      {
+        "Id": 11111,
+        "nome": "ProfessorNameTest",
+        "ra": 11111111,
+        "turmas": [
+          {
+            "id": 11111
+          },
+          {
+            "id": 11112
+          }
+        ]
+      },
+      {
+        "Id": 11112,
+        "nome": "ProfessorNameTest2",
+        "ra": 11111112,
+        "turmas": [
+          {
+            "id": 11111
+          },
+          {
+            "id": 11112
+          }
+        ]
+      }
+    ],
+    "Turmas": [
+      {
+        "id": 11111,
+        "desc": "6 ano B",
+        "ano": 2019
+      },
+      {
+        "id": 11112,
+        "desc": "7 ano A",
+        "ano": 2019
+      }
+    ],
+    "Alunos": [
+      {
+        "id": 11111,
+        "matricula": 415262,
+        "turma_id": 11111,
+        "nome": "André Rafael Nogueira"
+      },
+      {
+        "id": 11112,
+        "matricula": 435136,
+        "turma_id": 11112,
+        "nome": "Ricardo Cristovão de Lima"
+      }
+    ],
+    "Avisos": [
+      {
+        "id": 11111,
+        "icon": "information",
+        "data": "13/10/2019",
+        "turmas": [
+          {
+            "id": 11111
+          },
+          {
+            "id": 11112
+          }
+        ],
+        "msg": "Amanha (22/10) os alunos do 6 e 7 ano farão a olimpiada de matemática"
+      },
+      {
+        "id": 11112,
+        "icon": "alert",
+        "data": "17/10/2019",
+        "turmas": [],
+        "msg": "Segunda feira dia 27/11 não haverá aula"
+      }
+    ],
+    "Tarefas": [
+      {
+        "id": 11111,
+        "icon": "book",
+        "data": "18/10/2019",
+        "turmas": [
+          {
+            "id": 11111
+          },
+          {
+            "id": 11112
+          }
+        ],
+        "msg": "Ler o livro O Pequeno Prícipe para ao dia 22/10/2019"
+      },
+      {
+        "id": 11112,
+        "icon": "book",
+        "data": "12/10/2019",
+        "turmas": [
+          {
+            "id": 11111
+          }
+        ],
+        "msg": "Resolver listas de exercícios de matemática para o dia 17/10/2019"
+      }
+    ],
+    "contas": [
+      {
+        "user": "mariavitoria",
+        "pass": "mariavitoria123",
+        "ra": 415262,
+        "img": "https://p2.trrsf.com/image/fget/cf/460/0/images.terra.com/2017/11/09/252610-em-tempo-de-amar-maria-vitoria-vitor-650x488-1.jpg"
+      },
+      {
+        "user": "415262",
+        "pass": "andrerf",
+        "ra": 415262,
+        "img": "https://queconceito.com.br/wp-content/uploads/simbolo.jpg"
+      }
+    ]
+  }
 }
