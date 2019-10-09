@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { DatabaseService } from 'src/app/database.service';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: 'list.page.html',
-  styleUrls: ['list.page.scss']
+  selector: 'app-boletim',
+  templateUrl: './boletim.page.html',
+  styleUrls: ['./boletim.page.scss'],
 })
-export class ListPage implements OnInit {
+export class BoletimPage implements OnInit {
+
+  public aluno: any;
+
   private selectedItem: any;
   private icons = [
     'flask',
@@ -20,7 +24,10 @@ export class ListPage implements OnInit {
     'build'
   ];
   public items: Array<{ title: string; note: string; icon: string }> = [];
-  constructor() {
+  constructor(
+    private databaseService: DatabaseService
+    ) 
+    {
     for (let i = 1; i < 11; i++) {
       this.items.push({
         title: 'Item ' + i,
@@ -31,9 +38,7 @@ export class ListPage implements OnInit {
   }
 
   ngOnInit() {
+    this.aluno = this.databaseService.getAluno();
   }
-  // add back when alpha.4 is out
-  // navigate(item) {
-  //   this.router.navigate(['/list', JSON.stringify(item)]);
-  // }
+
 }

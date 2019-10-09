@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BookServiceService } from 'src/app/book-service.service';
-import { TemplateParseResult } from '@angular/compiler';
+import { DatabaseService } from 'src/app/database.service';
 
 @Component({
   selector: 'app-read-book',
@@ -9,14 +9,21 @@ import { TemplateParseResult } from '@angular/compiler';
 })
 export class ReadBookPage implements OnInit {
 
+  public aluno: any;
+
   terms: string;
+
   data: any = {
     items: []
   };
 
-  constructor(private bookService: BookServiceService) { }
+  constructor(
+    private bookService: BookServiceService,
+    private databaseService: DatabaseService
+    ) {}
 
   ngOnInit() {
+    this.aluno = this.databaseService.getAluno();
   }
 
   digitEvent(cid: any) {

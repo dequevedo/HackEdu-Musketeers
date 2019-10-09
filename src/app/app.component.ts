@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { DatabaseService } from 'src/app/database.service';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +11,18 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+
+  public aluno: any;
+
   public appPages = [
     {
-      title: 'Home',
+      title: 'Principal',
       url: '/home',
       icon: 'home'
     },
     {
-      title: 'List',
-      url: '/list',
+      title: 'Boletim',
+      url: '/boletim',
       icon: 'list'
     }
     ,
@@ -27,12 +31,14 @@ export class AppComponent {
       url: '/read-book',
       icon: 'book'
     }
+
   ];
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private databaseService: DatabaseService
   ) {
     this.initializeApp();
   }
@@ -42,5 +48,9 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  ngOnInit() {
+    this.aluno = this.databaseService.getAluno();
   }
 }
