@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookServiceService } from 'src/app/book-service.service';
 import { DatabaseService } from 'src/app/database.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-read-book',
@@ -19,12 +20,18 @@ export class ReadBookPage implements OnInit {
 
   constructor(
     private bookService: BookServiceService,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private menu: MenuController
     ) {}
 
   ngOnInit() {
     this.aluno = this.databaseService.getAluno();
   }
+
+  ionViewDidEnter() {
+    this.menu.enable(true);
+    this.aluno = this.databaseService.getAluno();
+  }  
 
   digitEvent(cid: any) {
     if(cid.target.value != ''){

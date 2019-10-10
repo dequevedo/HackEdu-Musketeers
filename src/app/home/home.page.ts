@@ -42,4 +42,8 @@ export class HomePage {
     this.menu.enable(true);
     this.aluno = this.databaseService.getAluno();
   }
+
+  ionViewDidEnter() {
+    this.menu.enable(true);
+  }  
 }
