@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { DatabaseService } from 'src/app/database.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +39,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private router: Router
   ) {
     this.initializeApp();
   }
@@ -52,5 +54,10 @@ export class AppComponent {
 
   ngOnInit() {
     this.aluno = this.databaseService.getAluno();
+  }
+
+  desconectar(){
+    this.databaseService.usuario = undefined;
+    this.router.navigate(['/login/']);
   }
 }
