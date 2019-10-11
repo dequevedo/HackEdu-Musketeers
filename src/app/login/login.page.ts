@@ -29,8 +29,10 @@ export class LoginPage implements OnInit {
 
   async login(){
     await this.databaseService.contas.subscribe(response => {
-        //verifica login e senha
-        response.forEach(element => {
+        var array = Object.values(response); //pega os objetos dentro do objeto response, e coloca em um array
+        
+        //verifica login e senha (foreach parece com erro, mas funciona)
+        array.forEach(element => {
           if(element.user == this.id && element.user != undefined && this.id != undefined && this.password != undefined){
             if(element.pass == this.password){
               console.log("usuário logado: "+element.user+" = "+this.id);
