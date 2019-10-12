@@ -1,0 +1,1 @@
+ionic cordova prepare     --> comando usado para preparar o app para utilizar o ionic serve --devapp (testar no app do ionic)

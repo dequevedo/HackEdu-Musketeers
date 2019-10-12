@@ -1,5 +1,7 @@
 {
   "name": "HackEdu-Musketeers",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
