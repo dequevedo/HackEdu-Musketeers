@@ -26,6 +26,12 @@ export class LoginPage implements OnInit {
     this.menu.enable(false);
   }  
 
+  register(){
+    this.databaseService.getAlunoPorMatricula("449312").subscribe(response =>{
+      console.log(response.valueOf);
+    })
+    // this.router.navigate(['/register/']);
+  }
 
   async login(){
     await this.databaseService.contas.subscribe(response => {
