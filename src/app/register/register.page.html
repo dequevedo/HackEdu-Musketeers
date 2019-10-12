@@ -1,9 +1,24 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Register</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registrar-se</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <br>
+  <br>
+  <br>
+  <ion-row justify-content-center align-items-center>
+    <ion-item>
+      <ion-label position="floating">N° da Matrícula</ion-label>
+      <ion-input [(ngModel)]="matricula"></ion-input>
+    </ion-item>
+  </ion-row>
+  <br>
+  <ion-row justify-content-center align-items-center>
+    <ion-button color="primary" fill="outline" (click)="findMatricula()">Registrar</ion-button>
+  </ion-row>
 </ion-content>

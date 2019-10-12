@@ -7,21 +7,28 @@
   <ion-button *ngIf="afAuth.auth.currentUser" [routerLink]="['/home/', this.uid]">To second page</ion-button> -->
   <br>
   <br>
-  <ion-row class="ion-justify-content-center" class="ion-align-items-center">
+  <ion-row justify-content-center align-items-center>
     <h1 style="font-size: 55px;">SEILE</h1>
   </ion-row>
-  <ion-row class="ion-justify-content-center" class="ion-align-items-center">
+  <ion-row justify-content-center align-items-center>
     <ion-label>Sistema Estudantil de Incentivo a Leitura</ion-label>
   </ion-row>
   <br>
-  <ion-card class="ion-padding" style="border: 1px solid lightgray; border-radius: 25px;">
+  <ion-card padding style="border: 1px solid lightgray; border-radius: 25px;">
     <ion-card-header>
       <ion-card-title>Entrar</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-input placeholder="Login" [(ngModel)]="id"></ion-input>
-      <ion-input placeholder="Senha" type="password" [(ngModel)]="password"></ion-input>
-      <ion-button color="secondary" fill="outline" (click)="login()">Entrar</ion-button>
+      <ion-item>
+        <ion-label position="floating">Login</ion-label>
+        <ion-input [(ngModel)]="id"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+      <br>
+      <ion-button color="success" fill="outline" (click)="login()">Entrar</ion-button>
       <ion-button color="primary" fill="outline" (click)="register()">Registrar</ion-button>
     </ion-card-content>
   </ion-card>
@@ -31,32 +38,32 @@
 <ion-footer>
   <ion-toolbar>
     <!-- CREDITOS -->
-    <ion-row class="ion-justify-content-center" style=" border-top: 1px solid grey;">
-      <ion-col size="2">
-        <ion-row class="ion-justify-content-center">
+    <ion-row justify-content-center style=" border-top: 1px solid grey;">
+      <ion-col size="3">
+        <ion-row justify-content-center>
           <ion-label style="font-size: 11px">
             Desenvolvimento:
           </ion-label>
         </ion-row>
       </ion-col>
       <ion-col size="7">
-        <ion-row class="ion-justify-content-center">
+        <ion-row justify-content-center>
           <ion-label style="font-size: 11px">
             Apoio:
           </ion-label>
         </ion-row>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="2.2">
-        <ion-row class="ion-justify-content-center">
+    <ion-row justify-content-center>
+      <ion-col size="3">
+        <ion-row justify-content-center>
           <ion-col>
             <img src="assets/icon/musketeersLOGO.png" alt="Time The Musketeers">
           </ion-col>
         </ion-row>
       </ion-col>
       <ion-col size="7">
-        <ion-row class="ion-justify-content-center">
+        <ion-row justify-content-center>
           <ion-col>
             <img src="assets/icon/cpsLOGO.png" alt="Prefeitura de Campinas">
           </ion-col>
