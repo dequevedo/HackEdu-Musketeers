@@ -49,7 +49,6 @@ export class HomePage {
       } else {
         alert("n° de matrícula não encontrada no ano atual")
       }
-
     });
     this.menu.enable(true);
   }
