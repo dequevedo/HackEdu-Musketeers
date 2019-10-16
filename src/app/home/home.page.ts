@@ -40,13 +40,18 @@ export class HomePage {
 
   ngOnInit() {
     this.menu.enable(true);
-    this.databaseService.getAluno().then(resp => {
-      this.aluno = resp;
-      console.log(this.aluno);
-    });
   }
 
   ionViewDidEnter() {
+    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
+      if (res.data[0] != undefined) {
+        this.aluno = res.data[0];
+      } else {
+        alert("n° de matrícula não encontrada no ano atual")
+      }
+
+    });
     this.menu.enable(true);
   }
+
 }

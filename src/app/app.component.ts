@@ -13,7 +13,9 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
 
-  public aluno: any;
+  public aluno: {
+    nome: ""
+  };
 
   public appPages = [
     {
@@ -53,11 +55,15 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.aluno = this.databaseService.getAluno();
+    var alunoTemp = this.databaseService.getAluno();
+    if(alunoTemp!=undefined){
+      this.aluno = alunoTemp;
+    }
   }
 
   desconectar(){
-    this.databaseService.usuario = undefined;
+    this.databaseService.conta = undefined;
+    this.databaseService.aluno = undefined;
     this.router.navigate(['/login/']);
   }
 }

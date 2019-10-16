@@ -7,9 +7,9 @@
         Boletim
       </ion-title>
       <ion-chip outline slot="end">
-          <ion-label>{{aluno.name}}</ion-label>
+          <ion-label>{{aluno?.attributes?.nome}}</ion-label>
           <ion-avatar>
-            <img src="{{aluno.img}}">
+            <img src="{{aluno?.img}}">
           </ion-avatar>
       </ion-chip>
     </ion-toolbar>

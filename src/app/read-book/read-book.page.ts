@@ -10,7 +10,7 @@ import { MenuController } from '@ionic/angular';
 })
 export class ReadBookPage implements OnInit {
 
-  public aluno: any;
+  aluno: any;
 
   terms: string;
 
@@ -22,19 +22,25 @@ export class ReadBookPage implements OnInit {
     private bookService: BookServiceService,
     private databaseService: DatabaseService,
     private menu: MenuController
-    ) {}
+  ) { }
 
   ngOnInit() {
-    this.aluno = this.databaseService.getAluno();
+
   }
 
   ionViewDidEnter() {
     this.menu.enable(true);
-    this.aluno = this.databaseService.getAluno();
-  }  
+    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
+      if (res.data[0] != undefined) {
+        this.aluno = res.data[0];
+      } else {
+        alert("n° de matrícula não encontrada no ano atual")
+      }
+    });
+  }
 
   digitEvent(cid: any) {
-    if(cid.target.value != ''){
+    if (cid.target.value != '') {
       this.data = {
         items: []
       };

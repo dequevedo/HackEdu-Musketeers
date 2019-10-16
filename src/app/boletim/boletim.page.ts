@@ -40,12 +40,17 @@ export class BoletimPage implements OnInit {
   }
 
   ngOnInit() {
-    this.aluno = this.databaseService.getAluno();
   }
 
   ionViewDidEnter() {
     this.menu.enable(true);
-    this.aluno = this.databaseService.getAluno();
+    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
+      if (res.data[0] != undefined) {
+        this.aluno = res.data[0];
+      } else {
+        alert("n° de matrícula não encontrada no ano atual")
+      }
+    });
   }  
 
 }

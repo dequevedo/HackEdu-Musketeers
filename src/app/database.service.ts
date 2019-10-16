@@ -30,11 +30,16 @@ export class DatabaseService {
 
         //procura o user digitado nas contas obtidas
         var conta = array.find(x => x.user == user);
-
+        
         //se encontrar o user, retorna a conta, senão retorna
-        if (conta != undefined && conta != null) {
+        if (conta != undefined) {
+          // console.log("conta não é undefined");
           resolve(conta);
-        } else {
+        } else if(this.conta != undefined){
+          // console.log("this.conta não é undefined");
+          resolve(this.conta);
+        }else{
+          // console.log("retornou undefined");
           resolve(undefined);
         }
 
@@ -42,21 +47,21 @@ export class DatabaseService {
     });
   }
 
-  getAlunoPorMatricula(matricula: string): any {
+  async getAlunoFromAPI(matricula: any): Promise<any> {
     const url: string = this.imabaseUrl + "/alunos?filter%5Bmatricula%5D=" + matricula + "&filter%5Bano%5D=2019&apikey=" + this.imaDBkey;
-    return this.httpClient.get(url);
+    return new Promise((resolve) => {
+      console.log(url);
+      this.httpClient.get(url).subscribe(res => {
+        resolve(res);
+      });
+    });
   }
 
   setConta(conta: any) {
     this.conta = conta;
-    this.aluno = this.getAlunoPorMatricula(conta.matricula);
   }
 
-  async getAluno(): Promise<any> {
-    return new Promise((resolve) => {
-      this.aluno = this.getAlunoPorMatricula(this.conta.matricula);
-      resolve(this.aluno);
-
-    });
+  getAluno() {
+    return this.aluno;
   }
 }

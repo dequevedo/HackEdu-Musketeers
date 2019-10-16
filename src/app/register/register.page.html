@@ -16,33 +16,44 @@
     <ion-button color="primary" fill="outline" (click)="findMatricula()">Pronto</ion-button>
   </ion-row>
   <br>
-  <ion-item *ngIf="this.alunoTemp != undefined" (click)="this.aluno = this.alunoTemp; this.alunoTemp = undefined">
+  <ion-item color="light" detail *ngIf="this.alunoTemp != undefined"
+    (click)="aluno = alunoTemp; this.alunoTemp = undefined" style="border: 1px solid lightgray; border-radius: 10px;">
     <ion-label>{{this.alunoTemp?.attributes?.nome}}</ion-label>
   </ion-item>
 
   <!-- FORMULÁRIO -->
-  <ion-card *ngIf="this.aluno != undefined" class="welcome-card">
+  <ion-card *ngIf="this.aluno != undefined" class="welcome-card"
+    style="border: 1px solid lightgray; border-radius: 25px;">
     <ion-card-header>
       <ion-card-subtitle>Cadastre seus dados</ion-card-subtitle>
       <ion-card-title>{{this.aluno?.attributes?.nome}}</ion-card-title>
-      <ion-card-title>Matrícula: {{this.aluno?.attributes?.matricula}}</ion-card-title>
     </ion-card-header>
     <!-- <img src="assets/icon/musketeersLOGO.png" alt="" /> -->
     <ion-card-content>
-      <ion-item>
-        <ion-label position="floating" [(ngModel)]="formNascimento">Data de Nascimento</ion-label>
-        <ion-input placeholder="1995-12-31"></ion-input>
+      <ion-item color="light">
+        <ion-label position="floating">A Matrícula será o seu login de acesso</ion-label>
+        <ion-input value="{{this.aluno?.attributes?.matricula}}" readonly></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating" [(ngModel)]="formSenha">Crie uma senha</ion-label>
-        <ion-input type="password"></ion-input>
+        <ion-label position="floating">Data de Nascimento</ion-label>
+        <ion-input placeholder="1995-12-31" [(ngModel)]="formNascimento"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating" [(ngModel)]="formReSenha">Repita a senha</ion-label>
-        <ion-input type="password" ></ion-input>
+        <ion-label position="floating">Crie uma senha</ion-label>
+        <ion-input type="password" [(ngModel)]="formSenha"></ion-input>
       </ion-item>
-      <ion-button color="success" fill="outline" (click)="cadastrar()">Cadastrar</ion-button>
-      <ion-button color="danger" fill="outline" (click)="this.aluno = undefined">Cancelar</ion-button>
+      <ion-item>
+        <ion-label position="floating">Repita a senha</ion-label>
+        <ion-input type="password" [(ngModel)]="formReSenha"></ion-input>
+      </ion-item>
+      <br>
+      <ion-row>
+        <ion-label color="danger">{{this.formResponse}}</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-button color="success" fill="outline" (click)="cadastrar()">Cadastrar</ion-button>
+        <ion-button color="danger" fill="outline" (click)="this.aluno = undefined">Cancelar</ion-button>
+      </ion-row>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -7,9 +7,9 @@
         Leitura
       </ion-title>
       <ion-chip outline slot="end">
-          <ion-label>{{aluno.name}}</ion-label>
+          <ion-label>{{aluno?.attributes?.nome}}</ion-label>
           <ion-avatar>
-            <img src="{{aluno.img}}">
+            <img src="{{aluno?.img}}">
           </ion-avatar>
       </ion-chip>
     </ion-toolbar>
@@ -18,10 +18,10 @@
 <ion-content>
   <!-- clicar no card pode abrir um overview (histórico) do aluno -->
   <ion-card class="welcome-card">
-    <img src="{{aluno.img}}" alt="" />
+    <img src="{{aluno?.img}}" alt="" />
     <ion-card-header>
       <ion-card-subtitle>999 Pontos de Leitura</ion-card-subtitle>
-      <ion-card-title>{{aluno.name}}</ion-card-title>
+      <ion-card-title>{{aluno?.attributes?.nome}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <p>Sua pontuação está acima da média. Você lê mais que 30% das pessoas.</p>
