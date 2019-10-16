@@ -14,7 +14,8 @@ const routes: Routes = [
   { path: 'read-book', loadChildren: './read-book/read-book.module#ReadBookPageModule' },
   { path: 'boletim', loadChildren: './boletim/boletim.module#BoletimPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'register', loadChildren: './register/register.module#RegisterPageModule' }
+  { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },  { path: 'notas', loadChildren: './notas/notas.module#NotasPageModule' }
+
 
 
 ];
