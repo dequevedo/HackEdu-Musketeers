@@ -14,6 +14,9 @@ export class BoletimPage implements OnInit {
   }
 
   public aluno: any;
+
+  private notas: {};
+
   private statusCheck: any;
   private selectedItem: any;
   private icons = [
@@ -48,10 +51,10 @@ export class BoletimPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.menu.enable(true);
-    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
+    this.databaseService.getNotas(this.databaseService.conta.matricula).then(res => {
       if (res.data[0] != undefined) {
-        this.aluno = res.data[0];
+        this.notas = res.data
+        console.log(res.data);
       } else {
         alert("n° de matrícula não encontrada no ano atual")
       }

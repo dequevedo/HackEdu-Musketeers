@@ -16,11 +16,11 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <ion-card *ngFor="let nota of notas">
     <ion-grid style="height: 43px;">
       <ion-row style="background-color: lightgray; height: 44px;">
         <ion-col no-margin class="Vcenter" size='5'>
-          <h4 no-margin no-padding class="mat">Educação Fisica</h4>
+          <h4 no-margin no-padding class="mat">{{nota?.attributes?.an_discipl}}</h4>
         </ion-col>
         <ion-col no-padding no-margin size='1'></ion-col>
         <ion-col no-padding no-margin size='6'>
@@ -55,17 +55,11 @@
             </div>
             <div *ngSwitchCase="'Notas'">
               <ion-list>
-                <ion-item>
-                  <ion-label>B1: 5 </ion-label>
+                <ion-item *ngIf="nota?.attributes?.an_nota_cod == 'N1'">
+                  <ion-label>{{nota?.attributes?.an_nota_cod}}: {{nota?.attributes?.an_nota_val}} </ion-label>
                 </ion-item>
-                <ion-item>
-                  <ion-label>B2: 7</ion-label>
-                </ion-item>
-                <ion-item>
-                  <ion-label>B3: 8 </ion-label>
-                </ion-item>
-                <ion-item>
-                  <ion-label>B4: - </ion-label>
+                <ion-item *ngIf="nota?.attributes?.an_nota_cod == 'NF'">
+                  <ion-label>{{nota?.attributes?.an_nota_cod}}: {{nota?.attributes?.an_nota_val}} </ion-label>
                 </ion-item>
               </ion-list>
             </div>

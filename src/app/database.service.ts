@@ -57,6 +57,17 @@ export class DatabaseService {
     });
   }
 
+  
+  async getNotas(matricula: any): Promise<any> {
+    const url: string = this.imabaseUrl + "/alunos_notas?filter%5Bano%5D=2019&filter%5Bmatricula%5D=" + matricula + "&apikey=" + this.imaDBkey;
+    return new Promise((resolve) => {
+      console.log(url);
+      this.httpClient.get(url).subscribe(res => {
+        resolve(res);
+      });
+    });
+  }
+
   setConta(conta: any) {
     this.conta = conta;
   }
