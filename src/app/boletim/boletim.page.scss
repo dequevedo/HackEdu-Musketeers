@@ -1,12 +1,17 @@
 .seg{
-    --color-checked: red;     
+    --color-checked: rgba(255, 0, 0, 0.603);  
+    --color: rgb(0, 0, 0);
+    --color--activated: none;
+    --background: none;
+   
+    
     min-height: 44px;
     min-width: 80px;
-    margin: auto;
+    margin: 0px;
     position: relative;
-    bottom: 5px;
+    bottom: 0px;
   }
-  
+
 .mat{
     font-size: 12pt;
     font-weight: bold;

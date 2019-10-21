@@ -9,8 +9,12 @@ import { MenuController } from '@ionic/angular';
 })
 export class BoletimPage implements OnInit {
 
-  public aluno: any;
+  segmentButtonClicked(ev: any) {
+    console.log('Segment button clicked', this.statusCheck);
+  }
 
+  public aluno: any;
+  private statusCheck: any;
   private selectedItem: any;
   private icons = [
     'flask',
@@ -40,6 +44,7 @@ export class BoletimPage implements OnInit {
   }
 
   ngOnInit() {
+  
   }
 
   ionViewDidEnter() {
