@@ -1,0 +1,46 @@
+.seg{
+    --color-checked: red;     
+    min-height: 44px;
+    min-width: 80px;
+    margin: auto;
+    position: relative;
+    bottom: 5px;
+  }
+  
+.mat{
+    font-size: 12pt;
+    font-weight: bold;
+    color: black;
+    font-family: Arial;
+}
+
+.bol{
+    font-size: 7pt;   
+    height: 20px;
+    position: relative;
+    top: 0px; bottom: 0;
+    left: 0; right: 0;
+}
+
+.bot{
+    height: 30px;
+    min-width: 160px;
+}
+
+.Vcenter{    
+    position: relative;
+top: 0; bottom: 0;
+left: 0; right: 0;
+margin: auto;
+}
+
+.icon{
+    font-size: 20px;
+    position: relative;
+    top: 0px; bottom: 0;
+    left: 0; right: 0;
+}
+
+
+
+  

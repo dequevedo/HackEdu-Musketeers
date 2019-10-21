@@ -16,7 +16,30 @@
   </ion-header>
   
   <ion-content>
-    <ion-list>
+    <ion-card style="height: 55px; margin: 5px;" >
+      <ion-grid>
+        <ion-row >   
+          <ion-col class="Vcenter"  size = '5' >       
+            <h4  no-margin no-padding class="mat">Educação Fisica</h4>
+          </ion-col>        
+          <ion-col size = '1'></ion-col>
+          <ion-col size = '6'  >
+              <ion-segment class="bot" >
+                  <ion-segment-button no-margin no-padding class="seg" layout = "icon-end" value="Faltas">                      
+                    <ion-label no-margin class="bol" >Falta(s)</ion-label>
+                    <ion-icon class="icon" name="arrow-dropdown"></ion-icon>
+                  </ion-segment-button>
+                  <ion-segment-button no-margin no-padding class="seg" layout = "icon-end" value="Notas" >                      
+                    <ion-label no-margin class="bol">Nota(s)</ion-label>
+                    <ion-icon class="icon" name="arrow-dropdown"></ion-icon>
+                  </ion-segment-button>
+                </ion-segment>
+          </ion-col>
+        </ion-row>
+      </ion-grid>      
+    </ion-card>
+    
+    <!-- <ion-list>
       <ion-item *ngFor="let item of items">
         <ion-icon [name]="item.icon" slot="start"></ion-icon>
         {{item.title}}
@@ -24,7 +47,7 @@
           {{item.note}}
         </div>
       </ion-item>
-    </ion-list>
+    </ion-list> -->
     <!--
 		testando comit
       <div *ngIf="selectedItem" padding>
