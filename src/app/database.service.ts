@@ -12,14 +12,25 @@ export class DatabaseService {
   imaDBkey: string = "QnhXYwfxN1Qaz4wmBfl7jkCL1c";
 
   //variaveis de conta e aluno
-  public conta: any = {"matricula": 459104};
+  //RETIRAR PRESETS QUANDO O APP ESTIVER PRONTO
+  public conta: any = {
+    "user": "mariavitoria",
+    "pass": "mariavitoria123",
+    "matricula": 459104,
+    "img": "https://p2.trrsf.com/image/fget/cf/460/0/images.terra.com/2017/11/09/252610-em-tempo-de-amar-maria-vitoria-vitor-650x488-1.jpg"
+  };
   public aluno: any = undefined;
+  public materialArray: any;
 
   //url base do firebase
   private firebaseUrl = "https://portalseile.firebaseio.com/SeileDB";
 
 
   constructor(private httpClient: HttpClient) { }
+
+  getContaLocal() {
+    return this.conta;
+  }
 
   async getConta(user: any): Promise<any> {
     const url: string = this.firebaseUrl + "/contas" + ".json";
@@ -30,15 +41,15 @@ export class DatabaseService {
 
         //procura o user digitado nas contas obtidas
         var conta = array.find(x => x.user == user);
-        
+
         //se encontrar o user, retorna a conta, senão retorna
         if (conta != undefined) {
           // console.log("conta não é undefined");
           resolve(conta);
-        } else if(this.conta != undefined){
+        } else if (this.conta != undefined) {
           // console.log("this.conta não é undefined");
           resolve(this.conta);
-        }else{
+        } else {
           // console.log("retornou undefined");
           resolve(undefined);
         }
@@ -57,7 +68,7 @@ export class DatabaseService {
     });
   }
 
-  
+
   async getNotas(matricula: any): Promise<any> {
     const url: string = this.imabaseUrl + "/alunos_notas?filter%5Bano%5D=2019&filter%5Bmatricula%5D=" + matricula + "&apikey=" + this.imaDBkey;
     return new Promise((resolve) => {

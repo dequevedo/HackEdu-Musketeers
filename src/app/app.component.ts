@@ -13,9 +13,8 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
 
-  public aluno: {
-    nome: ""
-  };
+  aluno: any;
+  conta: any;
 
   public appPages = [
     {
@@ -55,13 +54,31 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    var alunoTemp = this.databaseService.getAluno();
-    if(alunoTemp!=undefined){
-      this.aluno = alunoTemp;
-    }
+    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
+      if (res.data[0] != undefined) {
+        this.aluno = res.data[0];
+      } else {
+        alert("n° de matrícula não encontrada no ano atual")
+      }
+    });
+
+    this.conta = this.databaseService.getContaLocal();
   }
 
-  desconectar(){
+
+  ionViewDidEnter() {
+    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
+      if (res.data[0] != undefined) {
+        this.aluno = res.data[0];
+      } else {
+        alert("n° de matrícula não encontrada no ano atual")
+      }
+    });
+
+    this.conta = this.databaseService.getContaLocal();
+  }
+
+  desconectar() {
     this.databaseService.conta = undefined;
     this.databaseService.aluno = undefined;
     this.router.navigate(['/login/']);

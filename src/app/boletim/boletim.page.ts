@@ -21,34 +21,40 @@ export class BoletimPage implements OnInit {
   constructor(
     private databaseService: DatabaseService,
     private menu: MenuController
-  ) {  }
+  ) { }
 
   ngOnInit() {
 
   }
 
   ionViewDidEnter() {
-    this.databaseService.getNotas(this.databaseService.conta.matricula).then(res => {
-      if (res.data[0] != undefined) {
-        res.data.forEach(element => {
-          var elem = this.materiaArray.find(x => x.materia == element.attributes.an_discipl)
-          if (elem) {
-            elem.notas.push(element);
-          } else {
-            this.materiaArray.push({
-              "materia": element.attributes.an_discipl,
-              "notas": [element],
-              "statusCheck": ''
-            });
+    if (this.databaseService.materialArray != undefined) {
+      this.materiaArray = this.databaseService.materialArray
+    } else {
+      this.databaseService.getNotas(this.databaseService.conta.matricula).then(res => {
+        if (res.data[0] != undefined) {
+          res.data.forEach(element => {
+            var elem = this.materiaArray.find(x => x.materia == element.attributes.an_discipl)
+            if (elem) {
+              elem.notas.push(element);
+            } else {
+              this.materiaArray.push({
+                "materia": element.attributes.an_discipl,
+                "notas": [element],
+                "statusCheck": ''
+              });
+            }
           }
+          );
+          this.databaseService.materialArray = this.materiaArray
+          console.log(this.materiaArray)
+        } else {
+          alert("n° de matrícula não encontrada no ano atual")
         }
-        );
-        console.log(this.materiaArray)
-      } else {
-        alert("n° de matrícula não encontrada no ano atual")
-      }
-    });
-    
+      });
+    }
+
+
     this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
       if (res.data[0] != undefined) {
         this.aluno = res.data[0];

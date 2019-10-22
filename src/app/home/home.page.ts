@@ -25,6 +25,8 @@ export class HomePage {
     { icon: "brush", msg: "Desenhar um personagem característico do folclore brasileiro para o aida 22/11/2019" }
   ];
 
+  conta: any;
+
   constructor(
     private databaseService: DatabaseService,
     private menu: MenuController
@@ -50,6 +52,7 @@ export class HomePage {
         alert("n° de matrícula não encontrada no ano atual")
       }
     });
+    this.conta = this.databaseService.getContaLocal();
     this.menu.enable(true);
   }
 

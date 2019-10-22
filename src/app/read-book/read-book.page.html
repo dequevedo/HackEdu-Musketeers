@@ -1,24 +1,32 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>
-        Leitura
-      </ion-title>
-      <ion-chip outline slot="end">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-row nowrap justify-content-center align-items-center>
+      <ion-col>
+        <ion-title>
+          Leitura
+        </ion-title>
+      </ion-col>
+      <ion-col size="7">
+        <ion-chip outline nowrap>
           <ion-label>{{aluno?.attributes?.nome}}</ion-label>
           <ion-avatar>
-            <img src="{{aluno?.img}}">
+            <img src="{{conta?.img}}">
           </ion-avatar>
-      </ion-chip>
-    </ion-toolbar>
-  </ion-header>
+        </ion-chip>
+      </ion-col>
+    </ion-row>
+
+
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
   <!-- clicar no card pode abrir um overview (histórico) do aluno -->
   <ion-card class="welcome-card">
-    <img src="{{aluno?.img}}" alt="" />
+    <img src="{{conta?.img}}" alt="" />
     <ion-card-header>
       <ion-card-subtitle>999 Pontos de Leitura</ion-card-subtitle>
       <ion-card-title>{{aluno?.attributes?.nome}}</ion-card-title>

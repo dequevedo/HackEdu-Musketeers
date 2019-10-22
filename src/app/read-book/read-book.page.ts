@@ -11,6 +11,7 @@ import { MenuController } from '@ionic/angular';
 export class ReadBookPage implements OnInit {
 
   aluno: any;
+  conta: any
 
   terms: string;
 
@@ -37,6 +38,8 @@ export class ReadBookPage implements OnInit {
         alert("n° de matrícula não encontrada no ano atual")
       }
     });
+
+    this.conta = this.databaseService.getContaLocal();
   }
 
   digitEvent(cid: any) {
