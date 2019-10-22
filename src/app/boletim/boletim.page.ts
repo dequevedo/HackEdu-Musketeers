@@ -12,9 +12,6 @@ export class BoletimPage implements OnInit {
   segmentButtonClicked(ev: any) {
     console.log('Segment button clicked', this.materiaArray);
   }
-  teste(){
-    console.log("Vai que dará certo")
-  }
 
   public aluno: any;
   materiaArray = []

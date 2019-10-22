@@ -1,7 +1,7 @@
 .seg{
     --color-checked: rgba(255, 0, 0, 0.603);  
     --color: rgb(0, 0, 0);
-    --color--activated: none;
+    --text-color--activated: rgba(255, 0, 0); ;
     --background: none;
    
     
@@ -21,6 +21,7 @@
 
 .bol{
     font-size: 7pt;   
+    color: black;
     height: 20px;
     position: relative;
     top: 0px; bottom: 0;
@@ -30,6 +31,7 @@
 .bot{
     height: 30px;
     min-width: 160px;
+     
 }
 
 .Vcenter{    
