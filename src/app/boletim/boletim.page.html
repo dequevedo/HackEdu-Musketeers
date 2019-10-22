@@ -25,15 +25,25 @@
         <ion-col no-padding no-margin size='1'></ion-col>
         <ion-col no-padding no-margin size='6'>
           <ion-segment class="bot" [(ngModel)]="materia.statusCheck">
-            <ion-segment-button no-padding class="seg" layout="icon-end" value="Faltas">
-              <ion-label no-margin class="bol">Falta(s)</ion-label>
+            <ion-segment-button *ngIf="materia.statusCheck != 'Faltas'" no-padding class="seg" layout="icon-end"
+              value="Faltas">
+              <ion-label no-margin class="bol">Faltas(s)</ion-label>
               <ion-icon class="icon" name="arrow-dropdown"></ion-icon>
-
             </ion-segment-button>
-            <ion-segment-button no-padding class="seg" layout="icon-end"  value="Notas"
-              (ionSelect)="segmentButtonClicked($event)" >
+            <ion-segment-button *ngIf="materia.statusCheck == 'Faltas'" no-padding class="seg" layout="icon-end"
+              value="none">
+              <ion-label no-margin class="bol">Faltas(s)</ion-label>
+              <ion-icon class="icon" name="arrow-dropup"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button *ngIf="materia.statusCheck != 'Notas'" no-padding class="seg" layout="icon-end"
+              value="Notas" (ionSelect)="segmentButtonClicked($event)">
               <ion-label no-margin class="bol">Nota(s)</ion-label>
               <ion-icon class="icon" name="arrow-dropdown"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button *ngIf="materia.statusCheck == 'Notas'" no-padding class="seg" layout="icon-end"
+              value="none" (ionSelect)="segmentButtonClicked($event)">
+              <ion-label no-margin class="bol">Nota(s)</ion-label>
+              <ion-icon class="icon" name="arrow-dropup"></ion-icon>
             </ion-segment-button>
           </ion-segment>
         </ion-col>
