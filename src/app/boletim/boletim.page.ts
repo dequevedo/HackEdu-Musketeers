@@ -10,13 +10,16 @@ import { MenuController } from '@ionic/angular';
 export class BoletimPage implements OnInit {
 
   segmentButtonClicked(ev: any) {
-    console.log('Segment button clicked', this.statusCheck);
+    console.log('Segment button clicked', this.materiaArray);
+  }
+  teste(){
+    console.log("Vai que dará certo")
   }
 
   public aluno: any;
   materiaArray = []
 
-  private statusCheck: any;
+  //private statusCheck: any;
 
   constructor(
     private databaseService: DatabaseService,
@@ -38,7 +41,7 @@ export class BoletimPage implements OnInit {
             this.materiaArray.push({
               "materia": element.attributes.an_discipl,
               "notas": [element],
-              "statusCheck": 'Faltas'
+              "statusCheck": ''
             });
           }
         }

@@ -30,8 +30,8 @@
               <ion-icon class="icon" name="arrow-dropdown"></ion-icon>
 
             </ion-segment-button>
-            <ion-segment-button no-padding class="seg" layout="icon-end" value="Notas"
-              (ionSelect)="segmentButtonClicked($event)">
+            <ion-segment-button no-padding class="seg" layout="icon-end"  value="Notas"
+              (ionSelect)="segmentButtonClicked($event)" >
               <ion-label no-margin class="bol">Nota(s)</ion-label>
               <ion-icon class="icon" name="arrow-dropdown"></ion-icon>
             </ion-segment-button>
@@ -42,7 +42,7 @@
     <ion-grid>
       <ion-row>
         <ion-col no-padding no-margin size="12">
-          <div [ngSwitch]="statusCheck">
+          <div [ngSwitch]="materia.statusCheck">
             <div *ngSwitchCase="'Faltas'">
               <ion-list>
                 <ion-item>
