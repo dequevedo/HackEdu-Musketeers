@@ -12,7 +12,7 @@ export class DatabaseService {
   imaDBkey: string = "QnhXYwfxN1Qaz4wmBfl7jkCL1c";
 
   //variaveis de conta e aluno
-  public conta: any = undefined;
+  public conta: any = {"matricula": 459104};
   public aluno: any = undefined;
 
   //url base do firebase

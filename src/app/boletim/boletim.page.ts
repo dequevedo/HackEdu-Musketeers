@@ -14,51 +14,49 @@ export class BoletimPage implements OnInit {
   }
 
   public aluno: any;
-
-  private notas: {};
+  materiaArray = []
 
   private statusCheck: any;
-  private selectedItem: any;
-  private icons = [
-    'flask',
-    'wifi',
-    'beer',
-    'football',
-    'basketball',
-    'paper-plane',
-    'american-football',
-    'boat',
-    'bluetooth',
-    'build'
-  ];
-  public items: Array<{ title: string; note: string; icon: string }> = [];
+
   constructor(
     private databaseService: DatabaseService,
     private menu: MenuController
-    ) 
-    {
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
-  }
+  ) {  }
 
   ngOnInit() {
-  
+
   }
 
   ionViewDidEnter() {
     this.databaseService.getNotas(this.databaseService.conta.matricula).then(res => {
       if (res.data[0] != undefined) {
-        this.notas = res.data
-        console.log(res.data);
+        res.data.forEach(element => {
+          var elem = this.materiaArray.find(x => x.materia == element.attributes.an_discipl)
+          if (elem) {
+            elem.notas.push(element);
+          } else {
+            this.materiaArray.push({
+              "materia": element.attributes.an_discipl,
+              "notas": [element],
+              "statusCheck": 'Faltas'
+            });
+          }
+        }
+        );
+        console.log(this.materiaArray)
       } else {
         alert("n° de matrícula não encontrada no ano atual")
       }
     });
-  }  
+    
+    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
+      if (res.data[0] != undefined) {
+        this.aluno = res.data[0];
+      } else {
+        alert("n° de matrícula não encontrada no ano atual")
+      }
+    });
+    this.menu.enable(true);
+  }
 
 }
