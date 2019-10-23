@@ -22,9 +22,9 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let materia of materiaArray">
+  <ion-card color="light" *ngFor="let materia of materiaArray">
     <ion-grid style="height: 43px;">
-      <ion-row style="background-color: lightgray; height: 44px;">
+      <ion-row>
         <ion-col no-margin class="Vcenter" size='5'>
           <h4 no-margin no-padding class="mat">{{materia?.materia}}</h4>
         </ion-col>
@@ -33,10 +33,10 @@
           <ion-segment class="bot" [(ngModel)]="materia.statusCheck">
             <ion-segment-button class="seg" *ngIf="materia.statusCheck != 'Faltas'" no-padding  layout="icon-end"
               value="Faltas">
-              <ion-label no-margin class="bol">Faltas(s)</ion-label>
+              <ion-label no-margin class="bol" color="white">Faltas(s)</ion-label>
               <ion-icon class="icon" name="arrow-dropdown"></ion-icon>
             </ion-segment-button>
-            <ion-segment-button class="seg" *ngIf="materia.statusCheck == 'Faltas'" no-padding  layout="icon-end"
+            <ion-segment-button class="segActive" *ngIf="materia.statusCheck == 'Faltas'" no-padding  layout="icon-end"
               value="none">
               <ion-label no-margin class="bol">Faltas(s)</ion-label>
               <ion-icon class="icon" name="arrow-dropup"></ion-icon>
@@ -46,7 +46,7 @@
               <ion-label no-margin class="bol">Nota(s)</ion-label>
               <ion-icon class="icon" name="arrow-dropdown"></ion-icon>
             </ion-segment-button>
-            <ion-segment-button class="seg" *ngIf="materia.statusCheck == 'Notas'" no-padding  layout="icon-end"
+            <ion-segment-button class="segActive" color="medium" *ngIf="materia.statusCheck == 'Notas'" no-padding  layout="icon-end"
               value="none" (ionSelect)="segmentButtonClicked($event)">
               <ion-label no-margin class="bol">Nota(s)</ion-label>
               <ion-icon class="icon" name="arrow-dropup"></ion-icon>
@@ -81,20 +81,4 @@
       </ion-row>
     </ion-grid>
   </ion-card>
-
-  <!-- <ion-list>
-      <ion-item *ngFor="let item of items">
-        <ion-icon [name]="item.icon" slot="start"></ion-icon>
-        {{item.title}}
-        <div class="item-note" slot="end">
-          {{item.note}}
-        </div>
-      </ion-item>
-    </ion-list> -->
-  <!--
-		testando comit
-      <div *ngIf="selectedItem" padding>
-        You navigated here from <b>{{selectedItem.title }}</b>
-      </div>
-    -->
 </ion-content>

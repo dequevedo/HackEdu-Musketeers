@@ -10,10 +10,11 @@ import { MenuController } from '@ionic/angular';
 export class BoletimPage implements OnInit {
 
   segmentButtonClicked(ev: any) {
-    console.log('Segment button clicked', this.materiaArray);
+    // console.log('Segment button clicked', this.materiaArray);
   }
 
   public aluno: any;
+  public conta: any;
   materiaArray = []
 
   //private statusCheck: any;
@@ -54,15 +55,22 @@ export class BoletimPage implements OnInit {
       });
     }
 
+    this.conta = this.databaseService.getContaLocal()
 
-    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
-      if (res.data[0] != undefined) {
-        this.aluno = res.data[0];
-      } else {
-        alert("n° de matrícula não encontrada no ano atual")
-      }
-    });
+    if (this.databaseService.aluno != undefined) {
+      this.materiaArray = this.databaseService.materialArray
+    } else {
+      this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
+        if (res.data[0] != undefined) {
+          this.aluno = res.data[0];
+        } else {
+          alert("n° de matrícula não encontrada no ano atual")
+        }
+      });
+    }
+
     this.menu.enable(true);
   }
+
 
 }
