@@ -10,6 +10,9 @@ import { pipe } from 'rxjs';
 })
 export class BookServiceService {
   data: any;
+
+  book: any
+
   private baseUrl = "https://www.googleapis.com/books/v1/volumes";
   private appKey = "AIzaSyCB8qzQKMirjrzE2og6ouLtQ1zal1dMkAc";
   constructor(public http: HttpClient) { }

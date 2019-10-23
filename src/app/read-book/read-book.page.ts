@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BookServiceService } from 'src/app/book-service.service';
 import { DatabaseService } from 'src/app/database.service';
 import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-read-book',
@@ -12,6 +13,7 @@ export class ReadBookPage implements OnInit {
 
   aluno: any;
   conta: any
+  search: Boolean = false
 
   terms: string;
 
@@ -22,7 +24,8 @@ export class ReadBookPage implements OnInit {
   constructor(
     private bookService: BookServiceService,
     private databaseService: DatabaseService,
-    private menu: MenuController
+    private menu: MenuController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -40,6 +43,12 @@ export class ReadBookPage implements OnInit {
     });
 
     this.conta = this.databaseService.getContaLocal();
+  }
+
+  addLivro(livro: any){
+    this.bookService.book = livro;
+    this.router.navigate(['/add-book/']);
+    console.log(livro);
   }
 
   digitEvent(cid: any) {

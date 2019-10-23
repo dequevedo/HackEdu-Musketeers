@@ -9,21 +9,21 @@
           Principal
         </ion-title>
       </ion-col>
-      <ion-col size="7">
+      <!-- <ion-col size="7">
         <ion-chip outline nowrap>
           <ion-label>{{aluno?.attributes?.nome}}</ion-label>
           <ion-avatar>
             <img src="{{conta?.img}}">
           </ion-avatar>
         </ion-chip>
-      </ion-col>
+      </ion-col> -->
     </ion-row>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card (click)="abrirTarefas()">
-    <ion-card-header>
+  <ion-card style="border: 1px solid lightgray" (click)="abrirAvisos()">
+    <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
       <ion-card-subtitle>Avisos</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
@@ -35,9 +35,8 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
-
-  <ion-card (click)="abrirTarefas()">
-    <ion-card-header>
+  <ion-card style="border: 1px solid lightgray" (click)="abrirTarefas()">
+      <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
       <ion-card-subtitle>Tarefas de Casa</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
