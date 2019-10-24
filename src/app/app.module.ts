@@ -11,6 +11,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Md5 } from 'ts-md5'; 
 
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { File} from '@ionic-native/file/ngx';
+
 
 
 @NgModule({
@@ -25,6 +28,8 @@ import { Md5 } from 'ts-md5';
   providers: [
     StatusBar,
     SplashScreen,
+    FileChooser,
+    File,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Md5
   ],

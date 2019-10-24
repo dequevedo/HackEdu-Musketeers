@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/database.service';
-import { MenuController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular'; 
 
 @Component({
   selector: 'app-boletim',

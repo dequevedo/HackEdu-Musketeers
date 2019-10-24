@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { BookServiceService } from '../book-service.service';
 import { DatabaseService } from '../database.service';
 
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { File} from '@ionic-native/file/ngx';
+
 @Component({
   selector: 'app-add-book',
   templateUrl: './add-book.page.html',
@@ -11,7 +14,9 @@ export class AddBookPage implements OnInit {
 
   constructor(    
     private bookService: BookServiceService,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private fileChooser: FileChooser,
+    private file: File
     ) { }
 
   book: any;
@@ -33,6 +38,11 @@ export class AddBookPage implements OnInit {
     });
 
     this.conta = this.databaseService.getContaLocal();
+  }
+  teste(){
+    this.fileChooser.open()
+  .then(uri => alert(uri))
+  .catch(e => alert(e)); 
   }
 
 }
