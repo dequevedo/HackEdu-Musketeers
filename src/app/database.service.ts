@@ -58,6 +58,9 @@ export class DatabaseService {
     });
   }
 
+  
+
+
   async getAlunoFromAPI(matricula: any): Promise<any> {
     const url: string = this.imabaseUrl + "/alunos?filter%5Bmatricula%5D=" + matricula + "&filter%5Bano%5D=2019&apikey=" + this.imaDBkey;
     return new Promise((resolve) => {

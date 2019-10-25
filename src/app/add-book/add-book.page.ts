@@ -41,8 +41,15 @@ export class AddBookPage implements OnInit {
   }
   teste(){
     this.fileChooser.open()
-  .then(uri => alert(uri))
+  .then((uri)  => { alert(uri);
+
+    this.file.resolveLocalFilesystemUrl(uri).then((newUrl) => {
+      alert(JSON.stringify(newUrl));
+    })
+  })
   .catch(e => alert(e)); 
+
+
   }
 
 }
