@@ -4,6 +4,13 @@ import { DatabaseService } from '../database.service';
 
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { File} from '@ionic-native/file/ngx';
+import { buffer } from 'rxjs/operators';
+
+import {AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage'
+
+
+//import firebase from '@angular/fire/firebase-node'
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-add-book',
@@ -16,7 +23,8 @@ export class AddBookPage implements OnInit {
     private bookService: BookServiceService,
     private databaseService: DatabaseService,
     private fileChooser: FileChooser,
-    private file: File
+    private file: File,
+    private firebase: AngularFireStorage
     ) { }
 
   book: any;
@@ -45,11 +53,35 @@ export class AddBookPage implements OnInit {
 
     this.file.resolveLocalFilesystemUrl(uri).then((newUrl) => {
       alert(JSON.stringify(newUrl));
-    })
+
+      let dirPath = newUrl.nativeURL;
+      let dirPathSegments = dirPath.split("/")
+      dirPathSegments.pop()
+      dirPath = dirPathSegments.join("/")
+      alert("oi23")
+      this.file.readAsArrayBuffer(dirPath, newUrl.name).then( (buffer) => {
+        alert("oi1")
+         this.upload(buffer, newUrl.name);
+        alert("oi")
+      })
+    }).catch(e => alert(e));
+     
+
   })
   .catch(e => alert(e)); 
 
 
+  }
+
+   upload(buffer, name) {
+    alert("knduiiubciujbui")
+    let blob = new Blob([buffer]);
+
+    
+    
+    this.firebase.ref('Resumos/' + name).put(blob).then((d) => {
+      alert("Enviado!")
+    }).catch(e => alert("JSON.stringify(e)"));
   }
 
 }

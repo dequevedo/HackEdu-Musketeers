@@ -14,6 +14,19 @@ import { Md5 } from 'ts-md5';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { File} from '@ionic-native/file/ngx';
 
+//import firebase from '@angular/fire/firebase-node'
+
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire';
+
+
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import { AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireStorageModule} from '@angular/fire/storage'
+import { from } from 'rxjs';
+
+
+//firebase.initializeApp(environment.firebase);
 
 
 @NgModule({
@@ -23,7 +36,11 @@ import { File} from '@ionic-native/file/ngx';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule
   ],
   providers: [
     StatusBar,
