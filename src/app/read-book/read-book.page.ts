@@ -3,6 +3,7 @@ import { BookServiceService } from 'src/app/book-service.service';
 import { DatabaseService } from 'src/app/database.service';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { FirebaseService } from '../firebase.service';
 
 @Component({
   selector: 'app-read-book',
@@ -24,6 +25,7 @@ export class ReadBookPage implements OnInit {
   constructor(
     private bookService: BookServiceService,
     private databaseService: DatabaseService,
+    private firebaseService: FirebaseService,
     private menu: MenuController,
     private router: Router
   ) { }
@@ -34,21 +36,22 @@ export class ReadBookPage implements OnInit {
 
   ionViewDidEnter() {
     this.menu.enable(true);
-    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
+    this.databaseService.getAlunoFromAPI(undefined).then(res => {
       if (res.data[0] != undefined) {
         this.aluno = res.data[0];
       } else {
-        alert("n° de matrícula não encontrada no ano atual")
+        alert("Aluno não encontrado no ano atual")
       }
     });
 
-    this.conta = this.databaseService.getContaLocal();
+    console.log(this.firebaseService.getContaLocal());
+    this.conta = this.firebaseService.getContaLocal();
   }
 
   addLivro(livro: any){
     this.bookService.book = livro;
     this.router.navigate(['/add-book/']);
-    console.log(livro);
+    console.log(livro); // -------------------------------------------
   }
 
   digitEvent(cid: any) {

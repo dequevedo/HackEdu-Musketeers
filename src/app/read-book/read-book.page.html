@@ -24,7 +24,7 @@
 <ion-content>
   <!-- clicar no card pode abrir um overview (histórico) do aluno -->
   <ion-card class="welcome-card">
-    <img src="{{conta?.img}}" alt="" />
+    <img src="{{this.firebaseService?.conta?.img}}" alt="" />
     <ion-card-header>
       <ion-card-subtitle>999 Pontos de Leitura</ion-card-subtitle>
       <ion-card-title>{{aluno?.attributes?.nome}}</ion-card-title>

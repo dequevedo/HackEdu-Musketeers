@@ -3,6 +3,7 @@ import { DatabaseService } from '../database.service';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Md5Service } from '../md5.service';
+import { FirebaseService } from '../firebase.service';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,6 @@ export class RegisterPage implements OnInit {
 
 
   conta: any = {
-    user: "",
     pass: "",
     matricula: undefined,
     img: "assets/icon/musketeersLOGO.png"
@@ -31,6 +31,7 @@ export class RegisterPage implements OnInit {
 
 
   constructor(private databaseService: DatabaseService,
+    private firebaseService: FirebaseService,
     private loadingController: LoadingController,
     private md5: Md5Service,
     private router: Router
@@ -61,7 +62,7 @@ export class RegisterPage implements OnInit {
       });
     });
 
-    await this.databaseService.getConta(this.matricula).then(response => {
+    await this.firebaseService.verifyUser(this.matricula).then(response => {
 
       if (response == undefined) {
         //busca a matricula digitada na API da IMA
@@ -96,11 +97,11 @@ export class RegisterPage implements OnInit {
     }
     else {
       this.conta.matricula = this.aluno.attributes.matricula;
-      this.conta.user = this.aluno.attributes.matricula;
       this.conta.pass = this.md5.toMD5(this.formSenha).toString();
 
-      this.databaseService.setConta(this.conta);
+      this.firebaseService.setConta(this.matricula);
       console.log("Formulário correto");
+      this.firebaseService.newConta(this.conta, this.matricula);
       this.router.navigate(['/home/']);
     }
   }

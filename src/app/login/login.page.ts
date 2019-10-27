@@ -3,6 +3,7 @@ import { MenuController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { DatabaseService } from 'src/app/database.service';
 import { Md5Service } from '../md5.service';
+import { FirebaseService } from '../firebase.service';
 
 @Component({
   selector: 'app-login',
@@ -10,16 +11,16 @@ import { Md5Service } from '../md5.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  user: string = "mariavitoria";
-  protected password: string = "mariavitoria123";
+  user: string = "459102";
+  protected password: string = "testinho";
 
-  response: string = undefined;
+  erroMessage: string = undefined;
 
   constructor(
     private menu: MenuController,
     private router: Router,
-    private databaseService: DatabaseService,
     private loadingController: LoadingController,
+    private firebaseService: FirebaseService,
     private md5: Md5Service
   ) { }
 
@@ -33,7 +34,7 @@ export class LoginPage implements OnInit {
 
   register() {
     this.router.navigate(['/register/']);
-  }
+  } 
 
   async login() {
     this.loadingController.create({
@@ -42,25 +43,29 @@ export class LoginPage implements OnInit {
     }).then((res) => {
       res.present();
       res.onDidDismiss().then((dis) => {
+        this.router.navigate(['/home/']);
       });
     });
 
-    await this.databaseService.getConta(this.user).then(response => {
-      this.loadingController.dismiss();
+    await this.firebaseService.verifyUser(this.user).then(resp => {
+      var response: any = resp
+      
       if(response!= undefined){
-        var hashPass = this.md5.toMD5(this.password).toString(); //transforma a senha digitada com md5
+        var hashPass = this.md5.toMD5(this.password).toString(); //transforma a senha digitada em hash com md5
+
         if (hashPass == response.pass) {
-          this.databaseService.setConta(response);
-          this.response = undefined;
-          this.router.navigate(['/home/']);
+          this.firebaseService.setConta(this.user);
+          this.erroMessage = undefined;
         }else{
-          this.databaseService.setConta(undefined);
-          this.response = "login ou senha incorretos";
+          this.firebaseService.setConta(undefined);
+          this.erroMessage = "login ou senha incorretos";
         }
       }else{
-        this.databaseService.setConta(undefined);
-        this.response = "login ou senha incorretos";
+        this.firebaseService.setConta(undefined);
+        this.erroMessage = "login ou senha incorretos";
       }
+
+      this.loadingController.dismiss();
     });
   }
 

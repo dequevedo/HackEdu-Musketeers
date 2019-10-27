@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { DatabaseService } from 'src/app/database.service';
 import { Router } from '@angular/router';
+import { FirebaseService } from './firebase.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +13,6 @@ import { Router } from '@angular/router';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-
-  aluno: any;
-  conta: any;
 
   public appPages = [
     {
@@ -41,6 +39,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private databaseService: DatabaseService,
+    private firebaseService: FirebaseService,
     private router: Router
   ) {
     this.initializeApp();
@@ -54,33 +53,27 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
-      if (res.data[0] != undefined) {
-        this.aluno = res.data[0];
-      } else {
-        alert("n° de matrícula não encontrada no ano atual")
-      }
-    });
-
-    this.conta = this.databaseService.getContaLocal();
   }
 
 
-  ionViewDidEnter() {
-    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
-      if (res.data[0] != undefined) {
-        this.aluno = res.data[0];
-      } else {
-        alert("n° de matrícula não encontrada no ano atual")
-      }
-    });
+  // ionViewDidEnter() {
+  //   console.log(this.firebaseService.matricula);
+  //   this.databaseService.getAlunoFromAPI().then(res => {
+  //     if (res.data[0] != undefined) {
+  //       this.aluno = res.data[0];
+  //     } else {
+  //       alert("n° de matrícula não encontrada no ano atual")
+  //     }
+  //   });
+  //   this.conta = this.firebaseService.getContaLocal();
 
-    this.conta = this.databaseService.getContaLocal();
-  }
+  // }
 
   desconectar() {
-    this.databaseService.conta = undefined;
+    this.firebaseService.conta = undefined;
+    this.firebaseService.matricula = undefined;
     this.databaseService.aluno = undefined;
+    this.databaseService.materiaArray = undefined;
     this.router.navigate(['/login/']);
   }
 }

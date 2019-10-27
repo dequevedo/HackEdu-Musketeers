@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/database.service';
 import { MenuController } from '@ionic/angular'; 
+import { FirebaseService } from '../firebase.service';
 
 @Component({
   selector: 'app-boletim',
@@ -15,12 +16,13 @@ export class BoletimPage implements OnInit {
 
   public aluno: any;
   public conta: any;
-  materiaArray = []
+  materiaArray = undefined;
 
   //private statusCheck: any;
 
   constructor(
     private databaseService: DatabaseService,
+    private firebaseService: FirebaseService,
     private menu: MenuController
   ) { }
 
@@ -29,12 +31,16 @@ export class BoletimPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    if (this.databaseService.materialArray != undefined) {
-      this.materiaArray = this.databaseService.materialArray
+    if (this.databaseService.materiaArray != undefined) {
+      this.materiaArray = this.databaseService.materiaArray
     } else {
-      this.databaseService.getNotas(this.databaseService.conta.matricula).then(res => {
+      this.materiaArray = undefined;
+      this.databaseService.getNotas().then(res => {
         if (res.data[0] != undefined) {
           res.data.forEach(element => {
+            if(this.materiaArray == undefined){
+              this.materiaArray = [];
+            }
             var elem = this.materiaArray.find(x => x.materia == element.attributes.an_discipl)
             if (elem) {
               elem.notas.push(element);
@@ -47,27 +53,17 @@ export class BoletimPage implements OnInit {
             }
           }
           );
-          this.databaseService.materialArray = this.materiaArray
+          this.databaseService.materiaArray = this.materiaArray
           console.log(this.materiaArray)
         } else {
-          alert("n° de matrícula não encontrada no ano atual")
+          this.materiaArray = undefined
+          this.databaseService.materiaArray = this.materiaArray
+          alert("Não foram encontradas notas do aluno no ano atual")
         }
       });
     }
 
-    this.conta = this.databaseService.getContaLocal()
-
-    if (this.databaseService.aluno != undefined) {
-      this.materiaArray = this.databaseService.materialArray
-    } else {
-      this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
-        if (res.data[0] != undefined) {
-          this.aluno = res.data[0];
-        } else {
-          alert("n° de matrícula não encontrada no ano atual")
-        }
-      });
-    }
+    this.conta = this.firebaseService.getContaLocal()
 
     this.menu.enable(true);
   }

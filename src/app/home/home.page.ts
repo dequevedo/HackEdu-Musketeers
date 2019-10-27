@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DatabaseService } from 'src/app/database.service';
 import { MenuController } from '@ionic/angular';
+import { FirebaseService } from '../firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,12 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+
+  constructor(
+    private databaseService: DatabaseService,
+    private firebaseService: FirebaseService,
+    private menu: MenuController
+  ) { }
 
   public aluno: any;
 
@@ -27,10 +34,7 @@ export class HomePage {
 
   conta: any;
 
-  constructor(
-    private databaseService: DatabaseService,
-    private menu: MenuController
-  ) { }
+
 
   abrirAvisos() {
     console.log("abrirAvisos");
@@ -45,14 +49,15 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    this.databaseService.getAlunoFromAPI(this.databaseService.conta.matricula).then(res => {
+    this.databaseService.getAlunoFromAPI(undefined).then(res => {
       if (res.data[0] != undefined) {
         this.aluno = res.data[0];
+        this.databaseService.aluno = this.aluno
       } else {
-        alert("n° de matrícula não encontrada no ano atual")
+        alert("Aluno não encontrado no ano atual")
       }
     });
-    this.conta = this.databaseService.getContaLocal();
+    this.conta = this.firebaseService.getContaLocal();
     this.menu.enable(true);
   }
 

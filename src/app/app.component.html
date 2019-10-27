@@ -4,12 +4,17 @@
       <ion-header>
         <ion-toolbar>
           <ion-item>
-            <ion-avatar>
-              <img src="{{conta?.img}}">
-            </ion-avatar>
-            <ion-label padding>{{aluno?.attributes?.nome}}</ion-label>
+            <!-- <ion-thumbnail slot="start">
+              <img src="{{this.firebaseService?.conta?.img || async }}">
+            </ion-thumbnail> -->
+            <ion-label>
+              <h2>{{this.databaseService?.aluno?.attributes?.nome || async}}</h2>
+              <p color="medium" style="font-size: 10px;">Escola: {{this.databaseService?.aluno?.attributes?.local || async}}</p>
+              <p color="medium" style="font-size: 10px;">Serie: {{this.databaseService?.aluno?.attributes?.curso || async}} - {{this.databaseService?.aluno?.attributes?.turma || async}}</p>
+            </ion-label>
           </ion-item>
         </ion-toolbar>
+
       </ion-header>
       <ion-content>
         <ion-list>
@@ -24,12 +29,12 @@
         </ion-list>
       </ion-content>
       <ion-footer>
-          <ion-toolbar>
-              <ion-button expand="block" fill="outline" color="dark" (click)="desconectar()">
-                Desconectar 
-                <ion-icon slot="end" name="exit"></ion-icon>
-              </ion-button>
-          </ion-toolbar>
+        <ion-toolbar>
+          <ion-button expand="block" fill="outline" color="dark" (click)="desconectar()">
+            Desconectar
+            <ion-icon slot="end" name="exit"></ion-icon>
+          </ion-button>
+        </ion-toolbar>
       </ion-footer>
     </ion-menu>
     <ion-router-outlet main></ion-router-outlet>
