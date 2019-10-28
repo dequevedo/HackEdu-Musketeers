@@ -73,7 +73,7 @@ export class AddBookPage implements OnInit {
       .then((uri) => {
 
         this.file.resolveLocalFilesystemUrl(uri).then((newUrl) => {
-
+          alert(uri)
           this.filePath.resolveNativePath(uri)
             .then((filePath) => {
               filePath;

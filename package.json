@@ -24,6 +24,7 @@
     "@angular/router": "~8.1.2",
     "@ionic-native/android-permissions": "^5.15.1",
     "@ionic-native/core": "^5.0.0",
+    "@ionic-native/downloader": "^5.15.1",
     "@ionic-native/file": "^5.15.1",
     "@ionic-native/file-chooser": "^5.15.1",
     "@ionic-native/file-path": "^5.15.1",
@@ -44,6 +45,7 @@
     "firebase": "^7.2.2",
     "http": "0.0.0",
     "http-module": "0.0.5",
+    "integrator-cordova-plugin-downloader": "^1.1.0",
     "resources": "^0.4.3",
     "rxjs": "~6.5.1",
     "ts-md5": "^1.2.6",
@@ -95,7 +97,8 @@
       "cordova-plugin-file": {},
       "cordova-plugin-filepath": {},
       "cordova-plugin-file-transfer": {},
-      "cordova-plugin-android-permissions": {}
+      "cordova-plugin-android-permissions": {},
+      "integrator-cordova-plugin-downloader": {}
     },
     "platforms": [
       "android"

@@ -16,7 +16,7 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { File} from '@ionic-native/file/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { FileTransferObject, FileTransfer } from '@ionic-native/file-transfer/ngx'
- 
+import { Downloader } from '@ionic-native/downloader/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
@@ -58,6 +58,7 @@ import { from } from 'rxjs';
     FileTransfer,
     FileTransferObject,
     AndroidPermissions,
+    Downloader,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Md5
   ],

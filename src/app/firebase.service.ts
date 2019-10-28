@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 
 import { AngularFireStorage } from '@angular/fire/storage'
-import { FileTransfer, FileTransferObject} from '@ionic-native/file-transfer/ngx'
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx'
+import { Downloader } from '@ionic-native/downloader/ngx';
 
-
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
 import { NavController, LoadingController } from '@ionic/angular';
@@ -19,10 +20,12 @@ export class FirebaseService {
     private db: AngularFireDatabase,
     private firebase: AngularFireStorage,
     private transfer: FileTransfer,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private androidPermissions: AndroidPermissions,
+    private downloader: Downloader
   ) { }
 
-  
+
 
 
   matricula: "459102";
@@ -82,21 +85,59 @@ export class FirebaseService {
 
   }
 
-  downloadArquivo(){
-    const fileTransfer: FileTransferObject = this.transfer.create();
-    console.log("foi")
-    const url = 'https://firebasestorage.googleapis.com/v0/b/portalseile.appspot.com/o/Resumos%2F459102%2FnA%2F1572225480200.pdf?alt=media&token=27b58949-3dc9-4ea4-8958-83e0f550bf48';
-    fileTransfer.download(url, '/storage/emulated/0/Download/' + '1572225480200.pdf').then((entry) =>{
-      alert("fdf " + entry.toURL());
-      console.log("foi")
-    }).catch(e => alert(JSON.stringify(e)));
-    // this.firebase.ref('Resumos/459102/nA/1572225922444.pdf').getDownloadURL().toPromise().then((en) => {
-    //   //en.toURL();
+
+
+  async downloadArquivo() {
+
+    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE]);
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
+      result => console.log('Has permission?', result.hasPermission),
+      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)
+    );
+
+    const loading = await this.loadingController.create({
+      message: 'Baixando..'
+    });
+    await loading.present();
+
+    this.firebase.ref('Resumos/459102/nA/1572225922444.pdf').getDownloadURL().toPromise().then((en) => {
+
+
+      var request = {
+        uri: en,
+        title: 'Test',
+        description: '',
+        mimeType: '',
+        visibleInDownloadsUi: true,
+        notificationVisibility: 1,
+        destinationInExternalPublicDir: {
+          dirType: '/Resumos/', //Arrumar
+          subPath: '1572225922444.pdf'
+        },
+        //destinationUri: '/storage/emulated/0/Resumos/1572225922444.pdf'
+      };
       
-      
-    //   console.log(en);
-    // }).catch(e => console.log(e));
-  }//gs://portalseile.appspot.com/Resumos/459102/nA/1572225922444.pdf
+
+
+      this.downloader.download(request)
+        .then((location: string) => {
+          alert('Baixado' + location)
+          loading.dismiss();
+        }).catch((error: any) => alert(JSON.stringify(error)));
+
+
+    }).catch(e => alert(e));
+
+    //Outra maneira de fazer Download do Arquivo:
+
+    // const fileTransfer: FileTransferObject = this.transfer.create();
+    // console.log("foi")
+    // const url = 'https://firebasestorage.googleapis.com/v0/b/portalseile.appspot.com/o/Resumos%2F459102%2FnA%2F1572225480200.pdf?alt=media&token=27b58949-3dc9-4ea4-8958-83e0f550bf48';
+    // fileTransfer.download(url, '/storage/emulated/0/Download/' + '1572225480200.pdf').then((entry) => {
+
+    //   alert("Baixado: " + entry.toURL());
+    // }).catch(e => alert(JSON.stringify(e)));
+  }
 
 
 
