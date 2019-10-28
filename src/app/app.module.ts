@@ -16,9 +16,11 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { File} from '@ionic-native/file/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { FileTransferObject, FileTransfer } from '@ionic-native/file-transfer/ngx'
+ 
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
-//import firebase from '@angular/fire/firebase-node'
+
 
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
@@ -55,6 +57,7 @@ import { from } from 'rxjs';
     FilePath,
     FileTransfer,
     FileTransferObject,
+    AndroidPermissions,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Md5
   ],
