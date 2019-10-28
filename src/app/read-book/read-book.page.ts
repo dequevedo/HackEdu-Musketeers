@@ -44,7 +44,7 @@ export class ReadBookPage implements OnInit {
       }
     });
 
-    console.log(this.firebaseService.getContaLocal());
+    console.log(this.firebaseService.getContaLocal());    
     this.conta = this.firebaseService.getContaLocal();
   }
 

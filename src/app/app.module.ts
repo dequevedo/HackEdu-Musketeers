@@ -9,10 +9,14 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpModule }    from '@angular/http'
 import { Md5 } from 'ts-md5'; 
 
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { File} from '@ionic-native/file/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { FileTransferObject, FileTransfer } from '@ionic-native/file-transfer/ngx'
+
 
 //import firebase from '@angular/fire/firebase-node'
 
@@ -40,13 +44,17 @@ import { from } from 'rxjs';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFirestoreModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    HttpModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
     FileChooser,
     File,
+    FilePath,
+    FileTransfer,
+    FileTransferObject,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Md5
   ],

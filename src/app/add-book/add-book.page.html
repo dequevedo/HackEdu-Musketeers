@@ -37,9 +37,9 @@
       <ion-card-subtitle><b>Categorias: </b> {{book?.volumeInfo?.categories}}</ion-card-subtitle>
       <ion-card-subtitle><b>N° de Páginas: </b> {{book?.volumeInfo?.pageCount}}</ion-card-subtitle>
       <ion-card-subtitle><b>Descrição: </b> {{book?.volumeInfo?.description}}</ion-card-subtitle>
-      <ion-row>
-        <ion-input readonly>Selecionar Resenha/Resumo</ion-input>
-        <ion-button (click) ="teste()">Upload</ion-button>
+      <ion-row>        
+        <ion-button (click)="escolherArquivo()">Upload</ion-button>
+        <ion-input readonly>{{name}}</ion-input>
       </ion-row>
       <!-- <ion-row>
             <ion-label color="danger">{{this.formResponse}}</ion-label>
@@ -47,8 +47,9 @@
       <br>
       <br>
       <ion-row justify-content-center align-items-center>
-        <ion-button color="success" fill="outline">Enviar leitura</ion-button>
-        <ion-button color="danger" fill="outline">Cancelar</ion-button>
+        <ion-button color="success" fill="outline" [class.button-disabled]="butEnviar" (click)="enviarArquivo()">Enviar leitura
+        </ion-button>
+        <ion-button color="danger" fill="outline" [class.button-disabled]="butCancelar" (click) = "cancelarEnvio()">Cancelar</ion-button>
       </ion-row>
       <br>
     </ion-card-content>

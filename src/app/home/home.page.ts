@@ -60,5 +60,8 @@ export class HomePage {
     this.conta = this.firebaseService.getContaLocal();
     this.menu.enable(true);
   }
+  test(){
+    this.firebaseService.downloadArquivo();
+  }
 
 }
