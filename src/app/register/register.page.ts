@@ -106,4 +106,8 @@ export class RegisterPage implements OnInit {
     }
   }
 
+  goToRegisterProf(){
+    this.router.navigate(['/register-prof/']);
+  }
+
 }

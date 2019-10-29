@@ -20,3 +20,6 @@ npm install @ionic-native/file
 
 ionic cordova plugin add cordova-plugin-filechooser
 npm install @ionic-native/file-chooser 
+
+ionic cordova plugin add integrator-cordova-plugin-downloader
+npm install @ionic-native/downloader

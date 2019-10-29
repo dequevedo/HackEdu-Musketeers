@@ -17,18 +17,18 @@ export class DatabaseService {
 
   constructor(private httpClient: HttpClient,
     private firebaseService: FirebaseService
-    ) { }
+  ) { }
 
   async getAlunoFromAPI(matricula: any): Promise<any> {
 
-    if(matricula == undefined){
+    if (matricula == undefined) {
       matricula = this.firebaseService.matricula;
     }
 
     const url: string = this.imabaseUrl + "/alunos?filter%5Bmatricula%5D=" + matricula + "&filter%5Bano%5D=2019&apikey=" + this.imaDBkey;
 
-    console.log("getting aluno from: "+this.firebaseService.matricula)
-    
+    console.log("getting aluno from: " + this.firebaseService.matricula)
+
     return new Promise((resolve) => {
       console.log(url);
       this.httpClient.get(url).subscribe(res => {
@@ -43,6 +43,21 @@ export class DatabaseService {
       console.log(url);
       this.httpClient.get(url).subscribe(res => {
         resolve(res);
+      });
+    });
+  }
+
+  async verifyProfessorMatricula(profMatricula: string) {
+    const url: string = this.imabaseUrl + "/escolas_professores?filter%5Bano%5D=2019&filter%5Bmatricula%5D=" + profMatricula + "&apikey=" + this.imaDBkey;
+    return new Promise((resolve) => {
+      console.log(url);
+      this.httpClient.get(url).subscribe(res => {
+        var resp: any = res
+        if(resp.data[0].id != undefined){
+          resolve(res);
+        }else{
+          resolve(false);
+        }
       });
     });
   }
