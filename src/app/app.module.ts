@@ -19,6 +19,7 @@ import { FileTransferObject, FileTransfer } from '@ionic-native/file-transfer/ng
 import { Downloader } from '@ionic-native/downloader/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
+import { EmailComposer } from '@ionic-native/email-composer/ngx';  
 
 
 
@@ -59,6 +60,7 @@ import { from } from 'rxjs';
     FileTransferObject,
     AndroidPermissions,
     Downloader,
+    EmailComposer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Md5
   ],

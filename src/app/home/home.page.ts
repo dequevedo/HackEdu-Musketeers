@@ -3,6 +3,9 @@ import { DatabaseService } from 'src/app/database.service';
 import { MenuController } from '@ionic/angular';
 import { FirebaseService } from '../firebase.service';
 
+import { EmailComposer } from '@ionic-native/email-composer/ngx';  
+
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -13,7 +16,8 @@ export class HomePage {
   constructor(
     private databaseService: DatabaseService,
     private firebaseService: FirebaseService,
-    private menu: MenuController
+    private menu: MenuController,
+    private emailComposer: EmailComposer
   ) { }
 
   public aluno: any;
@@ -60,8 +64,33 @@ export class HomePage {
     this.conta = this.firebaseService.getContaLocal();
     this.menu.enable(true);
   }
-  test(){
-    this.firebaseService.downloadArquivo();
+  // test(){
+  //  //this.firebaseService.downloadArquivo();
+  //   let available: boolean;
+  //   this.emailComposer. isAvailable().then(available =>{
+  //      if(available) {
+  //        //this.testt();
+  //      }
+  //    }).catch((e) => alert(e));
+
+
+
+
+  // }
+  //Só fuinciona abrindo o gmail
+  enviarEmail() {
+    let email = {
+      to: 'iagoisborichi@gmail.com',
+      cc: '',
+      bcc: [],
+      attachments: [],
+      subject: 'Não haverá aula amanha',
+      body: 'Ass: FACAMP',
+      isHtml: true
+    }
+
+    this.emailComposer.open(email).then((res) => {alert("enviado: " + res)
+  }).catch(e => alert(e));
   }
 
 }
