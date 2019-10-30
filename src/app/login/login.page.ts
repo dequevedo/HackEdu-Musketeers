@@ -50,12 +50,14 @@ export class LoginPage implements OnInit {
     await this.firebaseService.verifyUser(this.user).then(resp => {
       var response: any = resp
       
-      if(response!= undefined){
+      if(response!= undefined && response != null){
         var hashPass = this.md5.toMD5(this.password).toString(); //transforma a senha digitada em hash com md5
 
         if (hashPass == response.pass) {
           this.firebaseService.setConta(this.user);
           this.erroMessage = undefined;
+          console.log("dismissing loadingController...")
+          this.loadingController.dismiss();
         }else{
           this.firebaseService.setConta(undefined);
           this.erroMessage = "login ou senha incorretos";
@@ -64,8 +66,6 @@ export class LoginPage implements OnInit {
         this.firebaseService.setConta(undefined);
         this.erroMessage = "login ou senha incorretos";
       }
-
-      this.loadingController.dismiss();
     });
   }
 

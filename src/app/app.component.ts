@@ -14,7 +14,27 @@ import { FirebaseService } from './firebase.service';
 })
 export class AppComponent {
 
-  public appPages = [
+  public appPagesAluno = [
+    {
+      title: 'Principal',
+      url: '/home',
+      icon: 'home'
+    },
+    {
+      title: 'Boletim',
+      url: '/boletim',
+      icon: 'list'
+    }
+    ,
+    {
+      title: 'Leitura',
+      url: '/read-book',
+      icon: 'book'
+    }
+
+  ];
+
+  public appPagesProf = [
     {
       title: 'Principal',
       url: '/home',

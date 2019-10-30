@@ -21,6 +21,7 @@ export class HomePage {
   ) { }
 
   public aluno: any;
+  profLocal: any;
 
   avisos: any[] = [
     { icon: "alert", msg: "Não haverá aula no dia 20/10/2019" },
@@ -53,25 +54,27 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    this.databaseService.getAlunoFromAPI(undefined).then(res => {
-      if (res.data[0] != undefined) {
-        this.aluno = res.data[0];
-        this.databaseService.aluno = this.aluno
-      } else {
-        alert("Aluno não encontrado no ano atual")
-      }
-    });
-    this.conta = this.firebaseService.getContaLocal();
+    if(this.firebaseService.conta.type != "Professor"){
+      this.databaseService.getAlunoFromAPI(undefined).then(res => {
+        if (res.data[0] != undefined) {
+          this.aluno = res.data[0];
+          this.databaseService.aluno = this.aluno
+        } else {
+          alert("Aluno não encontrado no ano atual")
+        }
+      });
+    }else if(this.databaseService.profLocal == undefined){
+      this.databaseService.getLocal(this.firebaseService.conta.attributes.local_list[0]).then(res => {
+        if (res.data[0] != undefined) {
+          this.databaseService.profLocal = res.data[0];
+        } else {
+          alert("Aluno não encontrado no ano atual")
+        }
+      });
+    }
     this.menu.enable(true);
   }
-  // test(){
-  //  //this.firebaseService.downloadArquivo();
-  //   let available: boolean;
-  //   this.emailComposer. isAvailable().then(available =>{
-  //      if(available) {
-  //        //this.testt();
-  //      }
-  //    }).catch((e) => alert(e));
+
 
 
 

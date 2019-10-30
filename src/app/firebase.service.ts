@@ -37,10 +37,10 @@ export class FirebaseService {
   verifyUser(user: any) {
     return new Promise((resolve) => {
       this.db.object("SeileDB/contas/" + user).valueChanges().subscribe(response => {
-
+        console.log("verify: "+resp);
         //se encontrar o user, retorna a conta, senão retorna undefined
         var resp: any = response;
-        if (resp != undefined) {
+        if (resp != undefined && resp != null) {
           resolve(resp);
         } else {
           resolve(undefined);
@@ -66,6 +66,7 @@ export class FirebaseService {
   setConta(user: string) {
     this.db.object("SeileDB/contas/" + user).valueChanges().subscribe(resp => {
       this.conta = resp;
+      console.log("this.conta: "+this.conta);
       this.matricula = this.conta.matricula
     });
   }

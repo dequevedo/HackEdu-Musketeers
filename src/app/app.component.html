@@ -3,7 +3,17 @@
     <ion-menu type="overlay">
       <ion-header>
         <ion-toolbar>
-          <ion-item>
+          <ion-item >
+            <!-- <ion-thumbnail slot="start">
+              <img src="{{this.firebaseService?.conta?.img || async }}">
+            </ion-thumbnail> -->
+            <ion-label *ngIf="this.firebaseService?.conta?.type == 'Professor'">
+              <h2>Prof. {{this.firebaseService?.conta?.attributes?.nome || async}}</h2>
+              <p color="medium" style="font-size: 10px;">Escola: {{this.databaseService.profLocal.attributes?.loc_descr || async}}</p>
+              <!-- <p color="medium" style="font-size: 10px;">Serie: {{this.databaseService?.aluno?.attributes?.curso || async}} - {{this.databaseService?.aluno?.attributes?.turma || async}}</p> -->
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="this.firebaseService?.conta?.type != 'Professor'">
             <!-- <ion-thumbnail slot="start">
               <img src="{{this.firebaseService?.conta?.img || async }}">
             </ion-thumbnail> -->
@@ -17,8 +27,18 @@
 
       </ion-header>
       <ion-content>
-        <ion-list>
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+        <ion-list *ngIf="this.firebaseService?.conta?.type == 'Professor'">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPagesProf">
+            <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
+              <ion-icon slot="start" [name]="p.icon"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+        <ion-list *ngIf="this.firebaseService?.conta?.type != 'Professor'">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPagesAluno">
             <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
               <ion-label>
