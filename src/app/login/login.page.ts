@@ -34,7 +34,7 @@ export class LoginPage implements OnInit {
 
   register() {
     this.router.navigate(['/register/']);
-  } 
+  }
 
   async login() {
     this.loadingController.create({
@@ -43,29 +43,30 @@ export class LoginPage implements OnInit {
     }).then((res) => {
       res.present();
       res.onDidDismiss().then((dis) => {
-        this.router.navigate(['/home/']);
       });
     });
 
     await this.firebaseService.verifyUser(this.user).then(resp => {
       var response: any = resp
-      
-      if(response!= undefined && response != null){
-        var hashPass = this.md5.toMD5(this.password).toString(); //transforma a senha digitada em hash com md5
+      console.log("dismissing loadingController...")
+      this.loadingController.dismiss();
 
+      if (response != undefined && response != null) {
+        var hashPass = this.md5.toMD5(this.password).toString(); //transforma a senha digitada em hash com md5
+        console.log(hashPass + "hpass | rpass"+response.pass)
         if (hashPass == response.pass) {
           this.firebaseService.setConta(this.user);
           this.erroMessage = undefined;
-          console.log("dismissing loadingController...")
-          this.loadingController.dismiss();
-        }else{
+          this.router.navigate(['/home/']);
+        } else {
           this.firebaseService.setConta(undefined);
           this.erroMessage = "login ou senha incorretos";
         }
-      }else{
+      } else {
         this.firebaseService.setConta(undefined);
         this.erroMessage = "login ou senha incorretos";
       }
+
     });
   }
 

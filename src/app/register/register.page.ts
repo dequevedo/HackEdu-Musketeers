@@ -26,7 +26,6 @@ export class RegisterPage implements OnInit {
   conta: any = {
     pass: "",
     matricula: undefined,
-    img: "assets/icon/musketeersLOGO.png"
   };
 
 

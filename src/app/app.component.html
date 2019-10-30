@@ -3,13 +3,14 @@
     <ion-menu type="overlay">
       <ion-header>
         <ion-toolbar>
-          <ion-item >
+          <ion-item *ngIf="this.firebaseService?.conta?.type == 'Professor'">
             <!-- <ion-thumbnail slot="start">
               <img src="{{this.firebaseService?.conta?.img || async }}">
             </ion-thumbnail> -->
-            <ion-label *ngIf="this.firebaseService?.conta?.type == 'Professor'">
+            <ion-label>
               <h2>Prof. {{this.firebaseService?.conta?.attributes?.nome || async}}</h2>
-              <p color="medium" style="font-size: 10px;">Escola: {{this.databaseService.profLocal.attributes?.loc_descr || async}}</p>
+              <p color="medium" style="font-size: 10px;">
+                {{this.databaseService.profLocal?.attributes?.loc_descr || async}}</p>
               <!-- <p color="medium" style="font-size: 10px;">Serie: {{this.databaseService?.aluno?.attributes?.curso || async}} - {{this.databaseService?.aluno?.attributes?.turma || async}}</p> -->
             </ion-label>
           </ion-item>
@@ -19,8 +20,11 @@
             </ion-thumbnail> -->
             <ion-label>
               <h2>{{this.databaseService?.aluno?.attributes?.nome || async}}</h2>
-              <p color="medium" style="font-size: 10px;">Escola: {{this.databaseService?.aluno?.attributes?.local || async}}</p>
-              <p color="medium" style="font-size: 10px;">Serie: {{this.databaseService?.aluno?.attributes?.curso || async}} - {{this.databaseService?.aluno?.attributes?.turma || async}}</p>
+              <p color="medium" style="font-size: 10px;">Escola:
+                {{this.databaseService?.aluno?.attributes?.local || async}}</p>
+              <p color="medium" style="font-size: 10px;">Serie:
+                {{this.databaseService?.aluno?.attributes?.curso || async}} -
+                {{this.databaseService?.aluno?.attributes?.turma || async}}</p>
             </ion-label>
           </ion-item>
         </ion-toolbar>

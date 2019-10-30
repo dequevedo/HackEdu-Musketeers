@@ -13,7 +13,6 @@ import { FirebaseService } from '../firebase.service';
 export class ReadBookPage implements OnInit {
 
   aluno: any;
-  conta: any
   search: Boolean = false
 
   terms: string;
@@ -35,17 +34,16 @@ export class ReadBookPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.menu.enable(true);
-    this.databaseService.getAlunoFromAPI(undefined).then(res => {
-      if (res.data[0] != undefined) {
-        this.aluno = res.data[0];
-      } else {
-        alert("Aluno não encontrado no ano atual")
-      }
-    });
-
-    console.log(this.firebaseService.getContaLocal());    
-    this.conta = this.firebaseService.getContaLocal();
+    if(this.firebaseService.conta.type != "Professor"){
+      this.menu.enable(true);
+      this.databaseService.getAlunoFromAPI(undefined).then(res => {
+        if (res.data[0] != undefined) {
+          this.aluno = res.data[0];
+        } else {
+          alert("Aluno não encontrado no ano atual")
+        }
+      });
+    }
   }
 
   addLivro(livro: any){

@@ -32,12 +32,22 @@
       <img style="height: 200px; width: auto" src="{{book?.volumeInfo?.imageLinks?.smallThumbnail}}" alt="" />
     </ion-row>
     <ion-card-content>
-      <ion-card-subtitle><b>Autores: </b> {{book?.volumeInfo?.authors}} </ion-card-subtitle>
-      <ion-card-subtitle><b>Data Publicação: </b>{{book?.volumeInfo?.publishedDate}}</ion-card-subtitle>
-      <ion-card-subtitle><b>Categorias: </b> {{book?.volumeInfo?.categories}}</ion-card-subtitle>
-      <ion-card-subtitle><b>N° de Páginas: </b> {{book?.volumeInfo?.pageCount}}</ion-card-subtitle>
-      <ion-card-subtitle><b>Descrição: </b> {{book?.volumeInfo?.description}}</ion-card-subtitle>
-      <ion-row>        
+      <!-- <ion-card-subtitle><b>Descrição: </b> {{book?.volumeInfo?.description}}</ion-card-subtitle> -->
+      <ion-row color="light">
+        <ion-card-subtitle><b>Autores: </b> {{book?.volumeInfo?.authors}} </ion-card-subtitle>
+        <ion-card-subtitle><b>Data Publicação: </b>{{book?.volumeInfo?.publishedDate}}</ion-card-subtitle>
+        <ion-card-subtitle><b>Categorias: </b> {{book?.volumeInfo?.categories}}</ion-card-subtitle>
+        <ion-card-subtitle><b>N° de Páginas: </b> {{book?.volumeInfo?.pageCount}}</ion-card-subtitle>
+      </ion-row>
+      <ion-item>
+        <ion-label position="floating">Data de Início da leitura</ion-label>
+        <ion-input placeholder="1995-12-31" [(ngModel)]="dataInicio"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Data do Término da leitura</ion-label>
+        <ion-input placeholder="1995-12-31" [(ngModel)]="dataFim"></ion-input>
+      </ion-item>
+      <ion-row>
         <ion-button (click)="escolherArquivo()">Upload</ion-button>
         <ion-input readonly>{{name}}</ion-input>
       </ion-row>
@@ -47,9 +57,11 @@
       <br>
       <br>
       <ion-row justify-content-center align-items-center>
-        <ion-button color="success" fill="outline" [class.button-disabled]="butEnviar" (click)="enviarArquivo()">Enviar leitura
+        <ion-button color="success" fill="outline" [class.button-disabled]="butEnviar" (click)="enviarArquivo()">Enviar
+          leitura
         </ion-button>
-        <ion-button color="danger" fill="outline" [class.button-disabled]="butCancelar" (click) = "cancelarEnvio()">Cancelar</ion-button>
+        <ion-button color="danger" fill="outline" [class.button-disabled]="butCancelar" (click)="cancelarEnvio()">
+          Cancelar</ion-button>
       </ion-row>
       <br>
     </ion-card-content>

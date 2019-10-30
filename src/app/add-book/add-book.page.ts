@@ -30,7 +30,6 @@ export class AddBookPage implements OnInit {
     private firebaseService: FirebaseService,
     private fileChooser: FileChooser,
     private file: File,
-    private firebase: AngularFireStorage,
     private filePath: FilePath,
     private loadingController: LoadingController
   ) { }
@@ -39,6 +38,7 @@ export class AddBookPage implements OnInit {
   aluno: any;
   conta: any;
 
+  // ARQUIVOS
   nomeResumo = "Selecionar Resenha/Resumo";
   name: any;
   dirPath: any;
@@ -46,6 +46,12 @@ export class AddBookPage implements OnInit {
 
   butEnviar: any;
   butCancelar: any;
+  // ---------------------
+
+  // LEITURA
+  dataInicio: any = "1995-12-31";
+  dataFim: any = "1995-12-31";
+
 
   ngOnInit() {
     this.butEnviar = true;
@@ -90,7 +96,7 @@ export class AddBookPage implements OnInit {
               this.butCancelar = false;
 
             }).catch(err => alert(JSON.stringify(err)));
-            
+
         }).catch(e => alert(e));
       }).catch(e => alert(e));
 
@@ -101,10 +107,29 @@ export class AddBookPage implements OnInit {
       await this.firebaseService.uploadResumo(buffer, this.firebaseService.matricula
         + "/" + "nA" + "/" + (new Date().getDate()), this.tipoDocF); //nA de Não Avaliado - Arrumar o nome do arquivo
 
-    }).catch(e => alert(JSON.stringify(e))); 
+    }).catch(e => alert(JSON.stringify(e)));
 
     this.butCancelar = true;
     this.butEnviar = true;
+  }
+
+  enviarFirebase() {
+    var leitura = {
+      "book_info": {
+        "authors": this.book.volumeInfo.authors,
+        "publishedDate": this.book.volumeInfo.publishedDate,
+        "categories": this.book.volumeInfo.categories,
+        "pageCount": this.book.volumeInfo.pageCount
+      },
+      "nota": null,
+      "prof_matr": null,
+      "urlFile": "caminhoDoArquivoFirebase",
+      "aluno_matr": this.firebaseService.conta.matricula,
+      "data_inicio": this.dataInicio,
+      "data_fim": this.dataFim
+    }
+
+
   }
 
   cancelarEnvio() {

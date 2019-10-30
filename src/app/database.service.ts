@@ -73,8 +73,4 @@ export class DatabaseService {
     });
   }
 
-  getAluno() {
-    return this.aluno;
-  }
-
 }

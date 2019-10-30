@@ -26,11 +26,11 @@
   <ion-card class="welcome-card">
     <img src="{{this.firebaseService?.conta?.img}}" alt="" />
     <ion-card-header>
-      <ion-card-subtitle>999 Pontos de Leitura</ion-card-subtitle>
+      <ion-card-subtitle>Fez {{this.firebaseService?.conta?.attributes?.leituras?.length}} Leituras</ion-card-subtitle>
       <ion-card-title>{{aluno?.attributes?.nome}}</ion-card-title>
+      <ion-card-subtitle> <b>{{this.firebaseService?.conta?.attributes?.leit_pont}}</b> Pontos</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <p>Sua pontuação está acima da média. Você lê mais que 30% das pessoas.</p>
     </ion-card-content>
   </ion-card>
   <ion-card color="light" style="border: 1px solid lightgray">
@@ -62,7 +62,8 @@
 
 <ion-footer *ngIf="search">
   <ion-list>
-    <ion-item *ngFor="let item of this.data.items" detail (click)="this.search = false; addLivro(item); terms = ''; this.data.items = []">
+    <ion-item *ngFor="let item of this.data.items" detail
+      (click)="this.search = false; addLivro(item); terms = ''; this.data.items = []">
       <ion-col size="2">
         <ion-avatar style="height: 30px; width: 30px;" *ngIf="item != null">
           <img src="{{item?.volumeInfo?.imageLinks?.smallThumbnail}}">

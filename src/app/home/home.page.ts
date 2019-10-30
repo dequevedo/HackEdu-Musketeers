@@ -37,8 +37,6 @@ export class HomePage {
     { icon: "brush", msg: "Desenhar um personagem característico do folclore brasileiro para o aida 22/11/2019" }
   ];
 
-  conta: any;
-
 
 
   abrirAvisos() {

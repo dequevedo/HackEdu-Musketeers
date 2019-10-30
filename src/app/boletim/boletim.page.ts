@@ -31,39 +31,39 @@ export class BoletimPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    if (this.databaseService.materiaArray != undefined) {
-      this.materiaArray = this.databaseService.materiaArray
-    } else {
-      this.materiaArray = undefined;
-      this.databaseService.getNotas().then(res => {
-        if (res.data[0] != undefined) {
-          res.data.forEach(element => {
-            if(this.materiaArray == undefined){
-              this.materiaArray = [];
+    if(this.firebaseService.conta.type != "Professor"){
+      if (this.databaseService.materiaArray != undefined) {
+        this.materiaArray = this.databaseService.materiaArray
+      } else {
+        this.materiaArray = undefined;
+        this.databaseService.getNotas().then(res => {
+          if (res.data[0] != undefined) {
+            res.data.forEach(element => {
+              if(this.materiaArray == undefined){
+                this.materiaArray = [];
+              }
+              var elem = this.materiaArray.find(x => x.materia == element.attributes.an_discipl)
+              if (elem) {
+                elem.notas.push(element);
+              } else {
+                this.materiaArray.push({
+                  "materia": element.attributes.an_discipl,
+                  "notas": [element],
+                  "statusCheck": ''
+                });
+              }
             }
-            var elem = this.materiaArray.find(x => x.materia == element.attributes.an_discipl)
-            if (elem) {
-              elem.notas.push(element);
-            } else {
-              this.materiaArray.push({
-                "materia": element.attributes.an_discipl,
-                "notas": [element],
-                "statusCheck": ''
-              });
-            }
+            );
+            this.databaseService.materiaArray = this.materiaArray
+            console.log(this.materiaArray)
+          } else {
+            this.materiaArray = undefined
+            this.databaseService.materiaArray = this.materiaArray
+            alert("Não foram encontradas notas do aluno no ano atual")
           }
-          );
-          this.databaseService.materiaArray = this.materiaArray
-          console.log(this.materiaArray)
-        } else {
-          this.materiaArray = undefined
-          this.databaseService.materiaArray = this.materiaArray
-          alert("Não foram encontradas notas do aluno no ano atual")
-        }
-      });
+        });
+      }
     }
-
-    this.conta = this.firebaseService.getContaLocal()
 
     this.menu.enable(true);
   }
