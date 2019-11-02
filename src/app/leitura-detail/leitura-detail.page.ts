@@ -21,27 +21,7 @@ export class LeituraDetailPage implements OnInit {
 
   ionViewDidEnter() {
     this.menu.enable(true);
-    if(this.firebaseService.conta.type != "Professor"){
-      this.menu.enable(true);
-      this.databaseService.getAlunoFromAPI(undefined).then(res => {
-        if (res.data[0] != undefined) {
-          this.aluno = res.data[0];
-        } else {
-          alert("Aluno não encontrado no ano atual")
-        }
-      });
-      //pega as leituras do aluno
-      this.firebaseService.getAlunoLeituras().then(res => {
-        this.firebaseService.leituras = res;
-      })
-      this.firebaseService.getAlunoLeiturasCorrigidas().then(res => {
-        this.firebaseService.alunoLeiturasCorrigidas = res;
-      })
-    }else{
-      this.firebaseService.getLeiturasAguardando().then(res => {
-        this.firebaseService.leituras = res;
-      })
-    }
+
 
     
   }
