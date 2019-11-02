@@ -66,7 +66,7 @@ export class RegisterPage implements OnInit {
       if (response == undefined) {
         //busca a matricula digitada na API da IMA
         this.databaseService.getAlunoFromAPI(this.matricula).then(res => {
-          if(res.data[0]!=undefined){
+          if(res.data[0]!=undefined){ 
             console.log(res);
             this.alunoTemp = res.data[0];
           }else{

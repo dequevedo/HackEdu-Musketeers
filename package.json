@@ -25,7 +25,7 @@
     "@ionic-native/android-permissions": "^5.15.1",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/downloader": "^5.15.1",
-    "@ionic-native/email-composer": "^5.15.1",
+    "@ionic-native/email-composer": "^5.16.0",
     "@ionic-native/file": "^5.15.1",
     "@ionic-native/file-chooser": "^5.15.1",
     "@ionic-native/file-path": "^5.15.1",

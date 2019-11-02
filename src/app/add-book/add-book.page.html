@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="light">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -22,48 +22,90 @@
 </ion-header>
 
 <ion-content>
+  <ion-item color="light" *ngIf="search">
+    <ion-searchbar placeholder="Digite o nome do Livro..." [(ngModel)]="terms" (ionInput)="digitEvent($event)"
+      clearInput>
+    </ion-searchbar>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let item of this.data.items" detail
+      (click)="this.search = false; this.book = item; terms = ''; this.data.items = []">
+      <ion-col size="2">
+        <ion-avatar style="height: 30px; width: 30px;" *ngIf="item != null">
+          <img src="{{item?.volumeInfo?.imageLinks?.smallThumbnail}}">
+        </ion-avatar>
+      </ion-col>
+      <ion-col size="10">
+        <ion-label> {{item.volumeInfo.title}}</ion-label>
+      </ion-col>
+    </ion-item>
+  </ion-list>
+
   <!-- FORMULÁRIO -->
-  <ion-card class="welcome-card" style="border: 1px solid lightgray; border-radius: 25px;">
-    <ion-card-header>
+  <ion-card color="light" *ngIf="this.book != null && this.book != undefined" class="welcome-card"
+    style="border: 1px solid lightgray; border-radius: 25px;">
+    <ion-card-header color="light">
       <ion-card-subtitle>Cadastre sua leitura</ion-card-subtitle>
-      <ion-card-title>{{book?.volumeInfo?.title}}</ion-card-title>
-    </ion-card-header>
-    <ion-row justify-content-center align-items-center>
-      <img style="height: 200px; width: auto" src="{{book?.volumeInfo?.imageLinks?.smallThumbnail}}" alt="" />
-    </ion-row>
-    <ion-card-content>
+      <br>
+      <ion-row justify-content-center align-items-center>
+        <ion-card-title><b>{{book?.volumeInfo?.title}}</b></ion-card-title>
+      </ion-row>
+
+      <br>
+      <ion-row justify-content-center align-items-center>
+        <img style="height: 150px; width: auto" src="{{book?.volumeInfo?.imageLinks?.smallThumbnail}}" alt="" />
+      </ion-row>
+
       <!-- <ion-card-subtitle><b>Descrição: </b> {{book?.volumeInfo?.description}}</ion-card-subtitle> -->
-      <ion-row color="light">
-        <ion-card-subtitle><b>Autores: </b> {{book?.volumeInfo?.authors}} </ion-card-subtitle>
-        <ion-card-subtitle><b>Data Publicação: </b>{{book?.volumeInfo?.publishedDate}}</ion-card-subtitle>
-        <ion-card-subtitle><b>Categorias: </b> {{book?.volumeInfo?.categories}}</ion-card-subtitle>
-        <ion-card-subtitle><b>N° de Páginas: </b> {{book?.volumeInfo?.pageCount}}</ion-card-subtitle>
+      <br>
+      <ion-row wrap>
+        <ion-label>
+          <ion-card-subtitle><b>Autores: </b> {{book?.volumeInfo?.authors}} </ion-card-subtitle>
+          <ion-card-subtitle><b>Data Publicação: </b>{{book?.volumeInfo?.publishedDate}}</ion-card-subtitle>
+          <ion-card-subtitle><b>Categorias: </b> {{book?.volumeInfo?.categories}}</ion-card-subtitle>
+          <ion-card-subtitle><b>N° de Páginas: </b> {{book?.volumeInfo?.pageCount}}</ion-card-subtitle>
+        </ion-label>
+        <!--          
+        </ion-row>
+        <ion-row>
+          
+        </ion-row>
+        <ion-row>
+          
+        </ion-row>
+        <ion-row>
+         
+        </ion-row> -->
       </ion-row>
-      <ion-item>
-        <ion-label position="floating">Data de Início da leitura</ion-label>
-        <ion-input placeholder="1995-12-31" [(ngModel)]="dataInicio"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Data do Término da leitura</ion-label>
-        <ion-input placeholder="1995-12-31" [(ngModel)]="dataFim"></ion-input>
-      </ion-item>
-      <ion-row>
-        <ion-button (click)="escolherArquivo()">Upload</ion-button>
-        <ion-input readonly>{{name}}</ion-input>
-      </ion-row>
+    </ion-card-header>
+    <ion-item>
+      <ion-label position="floating">Data de Início da leitura</ion-label>
+      <ion-datetime [(ngModel)]="dataInicio" min="2019" max="2019" dayShortNames="dom, seg, ter, qua, qui, sex, sab"
+        displayFormat="DDD. DD MMM, YYYY" monthShortNames="jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez">
+      </ion-datetime>
+    </ion-item>
+    <!-- <ion-item>
+      <ion-label position="floating">Data de Início da leitura</ion-label>
+      <ion-input placeholder="1995-12-31" [(ngModel)]="dataInicio"></ion-input>
+    </ion-item> -->
+    <ion-item>
+      <ion-input color="medium" readonly>{{this.nomeResumo}}</ion-input>
+      <ion-button (click)="escolherArquivo()">Upload</ion-button>
+    </ion-item>
+    <ion-card-content>
+
       <!-- <ion-row>
             <ion-label color="danger">{{this.formResponse}}</ion-label>
           </ion-row> -->
-      <br>
-      <br>
+
       <ion-row justify-content-center align-items-center>
-        <ion-button color="success" fill="outline" [class.button-disabled]="butEnviar" (click)="enviarArquivo()">Enviar
+        <ion-button color="success" fill="outline" [class.button-enabled]="butEnviar" (click)="enviarFirebase()">Enviar
           leitura
         </ion-button>
-        <ion-button color="danger" fill="outline" [class.button-disabled]="butCancelar" (click)="cancelarEnvio()">
+        <ion-button color="danger" fill="outline" (click)="cancelarEnvio()">
           Cancelar</ion-button>
       </ion-row>
-      <br>
     </ion-card-content>
   </ion-card>
 </ion-content>

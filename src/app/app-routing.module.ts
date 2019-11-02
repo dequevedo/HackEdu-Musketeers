@@ -15,7 +15,8 @@ const routes: Routes = [
   { path: 'boletim', loadChildren: './boletim/boletim.module#BoletimPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },  { path: 'add-book', loadChildren: './add-book/add-book.module#AddBookPageModule' },
-  { path: 'register-prof', loadChildren: './register-prof/register-prof.module#RegisterProfPageModule' }
+  { path: 'register-prof', loadChildren: './register-prof/register-prof.module#RegisterProfPageModule' },
+  { path: 'leitura-detail', loadChildren: './leitura-detail/leitura-detail.module#LeituraDetailPageModule' }
 
 
 

@@ -28,16 +28,76 @@ export class FirebaseService {
 
 
 
-  matricula: "459102";
+  matricula: 474584;
   conta: any;
+
+  alunoLeiturasCorrigidas: any;
+
+  leituras: any;
+
+  leituraDetail: any;
+
 
   //COMO USAR QUERY NO ANGULARFIREDATABASE
   // this.db.list('/items', ref => ref.orderByChild('size').equalTo('large')) 
 
+  getLeiturasAguardando() {
+    return new Promise((resolve) => {
+      this.db.list("SeileDB/leituras", ref => ref.orderByChild('aluno_local').equalTo('none4')).valueChanges().subscribe(response => {
+        var resp: any = response;
+
+        console.log("leituras filtradas: " + JSON.stringify(resp));
+        //se encontrar o user, retorna a conta, senão retorna undefined
+
+        if (resp != undefined && resp != null) {
+          resolve(resp);
+        } else {
+          resolve(undefined);
+        }
+      });
+    });
+  }
+
+
+  getAlunoLeituras() {
+    return new Promise((resolve) => {
+      this.db.list("SeileDB/leituras", ref => ref.orderByChild('aluno_matr').equalTo(this.matricula)).valueChanges().subscribe(response => {
+        var resp: any = response;
+
+        console.log("leituras do aluno filtradas: " + JSON.stringify(resp));
+        //se encontrar o user, retorna a conta, senão retorna undefined
+
+        if (resp != undefined && resp != null) {
+          resolve(resp);
+        } else {
+          resolve(undefined);
+        }
+      });
+    });
+  }
+
+  getAlunoLeiturasCorrigidas() {
+    return new Promise((resolve) => {
+      this.db.list("SeileDB/leituras", ref => ref.orderByChild('aluno_matr').equalTo(this.matricula)).valueChanges().subscribe(response => {
+        var resp: any[] = response;
+
+        var arrayFiltered = resp.filter(leitura => leitura.prof_matr != "-");
+        console.log("leituras do aluno filtradas: " + JSON.stringify(resp));
+        //se encontrar o user, retorna a conta, senão retorna undefined
+
+        if (arrayFiltered != undefined && arrayFiltered != null) {
+          resolve(arrayFiltered);
+        } else {
+          resolve(undefined);
+        }
+      });
+    });
+  }
+
   verifyUser(user: any) {
     return new Promise((resolve) => {
       this.db.object("SeileDB/contas/" + user).valueChanges().subscribe(response => {
-        console.log("verify: "+resp);
+        console.log("verify: " + resp);
         //se encontrar o user, retorna a conta, senão retorna undefined
         var resp: any = response;
         if (resp != undefined && resp != null) {
@@ -55,6 +115,18 @@ export class FirebaseService {
     this.db.object(url).update(conta);
   }
 
+  newLeitura(leitura: any) {
+    const url = "SeileDB/leituras/"
+    return new Promise((resolve) => {
+      this.db.list(url).push(leitura).then(resp => {
+        console.log("new leitura: " + JSON.stringify(resp.toString()));
+        resolve(resp.toString());
+      }
+      );
+    })
+    
+  }
+
   getContaLocal() {
     this.conta = this.db.object("SeileDB/contas/" + this.matricula).valueChanges().subscribe(resp => {
       this.conta = resp;
@@ -66,7 +138,7 @@ export class FirebaseService {
   setConta(user: string) {
     this.db.object("SeileDB/contas/" + user).valueChanges().subscribe(resp => {
       this.conta = resp;
-      console.log("this.conta: "+this.conta);
+      console.log("this.conta: " + this.conta);
       this.matricula = this.conta.matricula
     });
   }
@@ -117,7 +189,7 @@ export class FirebaseService {
         },
         //destinationUri: '/storage/emulated/0/Resumos/1572225922444.pdf'
       };
-      
+
 
 
       this.downloader.download(request)

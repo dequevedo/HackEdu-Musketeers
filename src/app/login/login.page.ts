@@ -11,7 +11,7 @@ import { FirebaseService } from '../firebase.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  user: string = "459102";
+  user: string = "474584";
   protected password: string = "testinho";
 
   erroMessage: string = undefined;
@@ -53,7 +53,7 @@ export class LoginPage implements OnInit {
 
       if (response != undefined && response != null) {
         var hashPass = this.md5.toMD5(this.password).toString(); //transforma a senha digitada em hash com md5
-        console.log(hashPass + "hpass | rpass"+response.pass)
+        console.log(hashPass + " - hpass | rpass - "+response.pass)
         if (hashPass == response.pass) {
           this.firebaseService.setConta(this.user);
           this.erroMessage = undefined;

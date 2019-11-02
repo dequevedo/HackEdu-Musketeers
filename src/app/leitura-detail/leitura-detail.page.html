@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-row nowrap justify-content-center align-items-center>
+      <ion-col>
+        <ion-title>
+          Detalhes da leitura
+        </ion-title>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card color="light" class="welcome-card" style="border: 1px solid lightgray; border-radius: 25px;">
+
+    <ion-card-header color="light">
+      <ion-card-subtitle>Aluno</ion-card-subtitle>
+      <ion-row justify-content-center align-items-center>
+        <ion-card-title><b>{{this.databaseService?.aluno?.attributes?.nome}}</b></ion-card-title>
+      </ion-row>
+      <ion-card-subtitle>Avaliação</ion-card-subtitle>
+      <ion-card-title><b>Prof.: {{this.firebaseService?.leituraDetail?.prof_matr}}</b></ion-card-title>
+      <ion-card-title><b>Nota: {{this.firebaseService?.leituraDetail?.nota}}</b></ion-card-title>
+
+      <ion-card-subtitle>Resumo/Resenha</ion-card-subtitle>
+      <ion-row wrap>
+        <ion-label>
+          <ion-card-subtitle><b>Início da Leitura: </b> {{this.firebaseService?.leituraDetail?.dataInicio}}
+          </ion-card-subtitle>
+          <ion-card-subtitle><b>Envio do Resumo/Resenha: </b> {{this.firebaseService?.leituraDetail?.createDate}}
+          </ion-card-subtitle>
+        </ion-label>
+      </ion-row>
+      <br>
+      <ion-row justify-content-center align-items-center>
+        <ion-label color="medium">
+          <h4>Baixar Resumo/Resenha</h4>
+        </ion-label>
+      </ion-row>
+      <ion-row justify-content-center align-items-center>
+        <ion-button color="primary" expand="block" (click)="downloadArquivoLeitura()">
+          <ion-icon slot="icon-only" color="light" name="download"></ion-icon>
+        </ion-button>
+      </ion-row>
+      <!-- <ion-card-subtitle><b>Descrição: </b> {{book?.volumeInfo?.description}}</ion-card-subtitle> -->
+      <br>
+
+      <ion-card-subtitle>Sobre o Livro</ion-card-subtitle>
+      <ion-row wrap>
+        <ion-label>
+          <ion-card-subtitle><b>Titulo: </b> {{this.firebaseService?.leituraDetail?.book?.title}} </ion-card-subtitle>
+          <ion-card-subtitle><b>Autores: </b> {{this.firebaseService?.leituraDetail?.book?.authors[0]}}
+          </ion-card-subtitle>
+          <ion-card-subtitle><b>Data Publicação: </b>{{this.firebaseService?.leituraDetail?.book?.publishedDate}}
+          </ion-card-subtitle>
+          <ion-card-subtitle><b>Categorias: </b> {{this.firebaseService?.leituraDetail?.book?.categories[0]}}
+          </ion-card-subtitle>
+          <ion-card-subtitle><b>N° de Páginas: </b> {{this.firebaseService?.leituraDetail?.book?.pageCount}}
+          </ion-card-subtitle>
+        </ion-label>
+      </ion-row>
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-row justify-content-center align-items-center *ngIf="this.firebaseService?.conta?.type == 'Professor'">
+        <ion-button color="success" fill="outline" [class.button-enabled]="butEnviar" (click)="avaliarLeitura()">Avaliar
+        </ion-button>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

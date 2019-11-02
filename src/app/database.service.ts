@@ -28,10 +28,7 @@ export class DatabaseService {
 
     const url: string = this.imabaseUrl + "/alunos?filter%5Bmatricula%5D=" + matricula + "&filter%5Bano%5D=2019&apikey=" + this.imaDBkey;
 
-    console.log("getting aluno from: " + this.firebaseService.matricula)
-
     return new Promise((resolve) => {
-      console.log(url);
       this.httpClient.get(url).subscribe(res => {
         resolve(res);
       });

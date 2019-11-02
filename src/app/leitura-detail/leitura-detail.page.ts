@@ -1,39 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { BookServiceService } from 'src/app/book-service.service';
-import { DatabaseService } from 'src/app/database.service';
-import { MenuController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { BookServiceService } from '../book-service.service';
+import { DatabaseService } from '../database.service';
 import { FirebaseService } from '../firebase.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-read-book',
-  templateUrl: './read-book.page.html',
-  styleUrls: ['./read-book.page.scss'],
+  selector: 'app-leitura-detail',
+  templateUrl: './leitura-detail.page.html',
+  styleUrls: ['./leitura-detail.page.scss'],
 })
-export class ReadBookPage implements OnInit {
+export class LeituraDetailPage implements OnInit {
 
-  aluno: any;
-  search: Boolean = false
-
-  terms: string;
-
-  data: any = {
-    items: []
-  };
-
-  constructor(
-    private bookService: BookServiceService,
+  constructor(    private bookService: BookServiceService,
     private databaseService: DatabaseService,
     private firebaseService: FirebaseService,
-    private menu: MenuController,
-    private router: Router
-  ) { }
+    private menu: MenuController,) { }
 
   ngOnInit() {
-
   }
 
   ionViewDidEnter() {
+    this.menu.enable(true);
     if(this.firebaseService.conta.type != "Professor"){
       this.menu.enable(true);
       this.databaseService.getAlunoFromAPI(undefined).then(res => {
@@ -54,20 +41,9 @@ export class ReadBookPage implements OnInit {
       this.firebaseService.getLeiturasAguardando().then(res => {
         this.firebaseService.leituras = res;
       })
-
     }
 
     
   }
-
-  addLeitura(){
-    this.router.navigate(['/add-book/']);
-  }
-
-  leituraDetail(leitura){
-    this.firebaseService.leituraDetail = leitura;
-    this.router.navigate(['/leitura-detail/']);
-  }
- 
 
 }

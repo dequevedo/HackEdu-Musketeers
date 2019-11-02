@@ -34,7 +34,14 @@ export class AddBookPage implements OnInit {
     private loadingController: LoadingController
   ) { }
 
-  book: any;
+  book: any = undefined;
+  data: any = {
+    items: []
+  };
+  search: boolean = true;
+
+
+
   aluno: any;
   conta: any;
 
@@ -44,18 +51,15 @@ export class AddBookPage implements OnInit {
   dirPath: any;
   tipoDocF: any;
 
-  butEnviar: any;
-  butCancelar: any;
+  butEnviar: any = true;
   // ---------------------
 
   // LEITURA
-  dataInicio: any = "1995-12-31";
-  dataFim: any = "1995-12-31";
+  dataInicio: any = new Date().toISOString();
 
 
   ngOnInit() {
     this.butEnviar = true;
-    this.butCancelar = true;
   }
 
   ionViewDidEnter() {
@@ -93,7 +97,6 @@ export class AddBookPage implements OnInit {
 
               this.nomeResumo = name; //Não está mostrando o nome do arquivo selecionado????
               this.butEnviar = false;
-              this.butCancelar = false;
 
             }).catch(err => alert(JSON.stringify(err)));
 
@@ -109,33 +112,52 @@ export class AddBookPage implements OnInit {
 
     }).catch(e => alert(JSON.stringify(e)));
 
-    this.butCancelar = true;
     this.butEnviar = true;
   }
 
   enviarFirebase() {
+
     var leitura = {
-      "book_info": {
-        "authors": this.book.volumeInfo.authors,
-        "publishedDate": this.book.volumeInfo.publishedDate,
+      "aluno_local" : this.databaseService.aluno.attributes.local_cod,
+      "aluno_matr" : this.firebaseService.conta.matricula,
+      "dataInicio": this.dataInicio,
+      "createDate": new Date().toISOString(),
+      "book" : {
+        "authors" : this.book.volumeInfo.authors,
+        "publishedDate" : this.book.volumeInfo.publishedDate,
+        "title" :  this.book.volumeInfo.title,
         "categories": this.book.volumeInfo.categories,
         "pageCount": this.book.volumeInfo.pageCount
       },
-      "nota": null,
-      "prof_matr": null,
-      "urlFile": "caminhoDoArquivoFirebase",
-      "aluno_matr": this.firebaseService.conta.matricula,
-      "data_inicio": this.dataInicio,
-      "data_fim": this.dataFim
+      "file" : "https://firebasestorage.googleapis.com/v0/b/portalseile.appspot.com/o/Resumos%2F5229.pdf?alt=media&token=12e551bf-82ce-47d7-8d6c-1c9d438b00ad",
+      "nota" : "-",
+      "prof_matr" : "-"
     }
 
+    this.firebaseService.newLeitura(leitura).then(resp => {
+      alert(resp);
+    });
 
   }
 
   cancelarEnvio() {
-    this.butEnviar = true;
-    this.butCancelar = true;
+    // this.butEnviar = true;
+    // this.butCancelar = true;
     this.nomeResumo = "Selecionar Resenha/Resumo";
+    this.search = true;
+    this.book = undefined;
+  }
+
+
+  digitEvent(cid: any) {
+    if (cid.target.value != '') {
+      this.data = {
+        items: []
+      };
+      this.bookService.load(cid.target.value).then(response => {
+        this.data = response;
+      });
+    }
   }
 
 }
