@@ -25,8 +25,16 @@ export class RegisterPage implements OnInit {
 
   conta: any = {
     pass: "",
-    matricula: undefined,
+    matricula: undefined
   };
+
+  usuarioAluno: any = {
+    matricula: undefined,
+    type: "Aluno",
+    attributes: {
+      leit_pont: 0
+    }
+  }
 
 
   constructor(private databaseService: DatabaseService,
@@ -95,13 +103,19 @@ export class RegisterPage implements OnInit {
       this.formResponse = "A senha deve ter ao menos 8 digitos";
     }
     else {
-      this.conta.matricula = this.aluno.attributes.matricula;
+      this.conta.matricula = this.matricula;
       this.conta.pass = this.md5.toMD5(this.formSenha).toString();
 
-      this.firebaseService.setConta(this.matricula);
-      console.log("Formulário correto");
-      this.firebaseService.newConta(this.conta, this.matricula);
-      this.router.navigate(['/home/']);
+      this.usuarioAluno.matricula = this.matricula;
+
+      this.firebaseService.newConta(this.conta, this.usuarioAluno, this.matricula).then(resp => {
+        console.log("resp of Promise.then: "+resp);
+        if (resp) {
+          alert("Bem vindo ao Portal SEILE!")
+          this.firebaseService.setUsuario(this.matricula);
+          this.router.navigate(['/home/']);
+        }
+      });
     }
   }
 

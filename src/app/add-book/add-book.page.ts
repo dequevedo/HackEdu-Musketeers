@@ -121,7 +121,7 @@ export class AddBookPage implements OnInit {
 
     var leitura = {
       "aluno_local" : this.databaseService.aluno.attributes.local_cod,
-      "aluno_matr" : this.firebaseService.conta.matricula,
+      "aluno_matr" : this.firebaseService.usuario.matricula,
       "dataInicio": this.dataInicio,
       "createDate": new Date().toISOString(),
       "book" : {

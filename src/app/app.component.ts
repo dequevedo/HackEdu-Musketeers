@@ -90,7 +90,7 @@ export class AppComponent {
   // }
 
   desconectar() {
-    this.firebaseService.conta = undefined;
+    this.firebaseService.usuario = undefined;
     this.firebaseService.matricula = undefined;
     this.databaseService.aluno = undefined;
     this.databaseService.materiaArray = undefined;

@@ -36,7 +36,7 @@ export class ReadBookPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    if (this.firebaseService.conta.type != "Professor") {
+    if (this.firebaseService.usuario.type != "Professor") {
       this.menu.enable(true);
       this.databaseService.getAlunoFromAPI(undefined).then(res => {
         if (res.data[0] != undefined) {

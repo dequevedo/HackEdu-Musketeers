@@ -9,6 +9,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
 import { NavController, LoadingController } from '@ionic/angular';
+import { resolve } from 'q';
 
 
 @Injectable({
@@ -29,7 +30,7 @@ export class FirebaseService {
 
 
   matricula: 905001587;
-  conta: any;
+  usuario: any;
 
   alunoLeiturasCorrigidas: any;
 
@@ -124,7 +125,7 @@ export class FirebaseService {
   verifyUser(user: any) {
     return new Promise((resolve) => {
       this.db.object("SeileDB/contas/" + user).valueChanges().subscribe(response => {
-        console.log("verify: " + resp);
+        console.log("(SeileDB/contas/" + user+") verifyied: " + response);
         //se encontrar o user, retorna a conta, senão retorna undefined
         var resp: any = response;
         if (resp != undefined && resp != null) {
@@ -136,11 +137,20 @@ export class FirebaseService {
     });
   }
 
-  newConta(conta: any, matricula: string) {
-    console.log("new conta: " + matricula);
-    const url = "SeileDB/contas/" + matricula
-    this.db.object(url).update(conta);
+  newConta(conta: any, usuario: any, matricula: string) {
+    return new Promise((resolve) => {
+      const urlConta = "SeileDB/contas/" + matricula
+      this.db.object(urlConta).update(conta).then(resp =>{
+        console.log("urlConta criada: "+JSON.stringify(resp));
+        const urlUsuario = "SeileDB/usuarios/" + matricula
+        this.db.object(urlUsuario).update(usuario).then(resp =>{
+          console.log("urlUsuario criada: "+JSON.stringify(resp));
+          resolve(true);
+        });
+      });
+    });
   }
+
 
   newLeitura(leitura: any) {
     const url = "SeileDB/leituras/"
@@ -159,18 +169,19 @@ export class FirebaseService {
   }
 
   getContaLocal() {
-    this.conta = this.db.object("SeileDB/contas/" + this.matricula).valueChanges().subscribe(resp => {
-      this.conta = resp;
-      return this.conta;
+    this.usuario = this.db.object("SeileDB/contas/" + this.matricula).valueChanges().subscribe(resp => {
+      this.usuario = resp;
+      return this.usuario;
     });
   }
 
 
-  setConta(user: string) {
-    this.db.object("SeileDB/contas/" + user).valueChanges().subscribe(resp => {
-      this.conta = resp;
-      console.log("this.conta: " + this.conta);
-      this.matricula = this.conta.matricula
+  setUsuario(user: string) {
+    this.db.object("SeileDB/usuarios/" + user).valueChanges().subscribe(resp => {
+      console.log("SeileDB/usuarios/" + user+" finded: "+resp);
+      this.usuario = resp;
+      console.log("this.usuario: " + this.usuario);
+      this.matricula = this.usuario.matricula
     });
   }
 

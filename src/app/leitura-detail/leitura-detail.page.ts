@@ -3,6 +3,7 @@ import { BookServiceService } from '../book-service.service';
 import { DatabaseService } from '../database.service';
 import { FirebaseService } from '../firebase.service';
 import { MenuController } from '@ionic/angular';
+import { getLocaleMonthNames } from '@angular/common';
 
 @Component({
   selector: 'app-leitura-detail',
@@ -27,11 +28,16 @@ export class LeituraDetailPage implements OnInit {
   }
 
   avaliarLeitura() {
-    this.firebaseService.leituraDetail.prof_matr = this.firebaseService.conta.matricula
+    //cria nova leitura
+    this.firebaseService.leituraDetail.prof_matr = this.firebaseService.usuario.matricula
     this.firebaseService.leituraDetail.nota = this.notaForm
     this.firebaseService.leituraDetail.comment = this.commentForm
 
     this.firebaseService.avaliarLeitura(this.firebaseService.leituraDetail);
+
+    //soma a nova nota nos pontos do aluno
+
+
   }
 
 }

@@ -25,13 +25,17 @@ export class RegisterProfPage implements OnInit {
 
   conta: any = {
     pass: "",
+    matricula: undefined
+  };
+
+  usuarioProf: any = {
+    matricula: undefined,
     type: "Professor",
     attributes: {
       nome: "",
       local_list: []
-    },
-    matricula: undefined
-  };
+    }
+  }
 
 
   constructor(private databaseService: DatabaseService,
@@ -59,7 +63,7 @@ export class RegisterProfPage implements OnInit {
       if (response == undefined) {
         this.databaseService.verifyProfessorMatricula(this.matricula).then(response => {
           var rasp: any = response;
-          
+
           if (rasp != false) {
             rasp.data.forEach(element => {
               this.localArray.push(element.attributes.aloca_local)
@@ -80,7 +84,6 @@ export class RegisterProfPage implements OnInit {
 
 
   cadastrar() {
-
     if (this.formReSenha != this.formSenha) {
       console.log(this.formReSenha + " != " + this.formSenha)
       this.formResponse = "As senhas não coincidem";
@@ -90,14 +93,19 @@ export class RegisterProfPage implements OnInit {
     }
     else {
       this.conta.matricula = this.matricula;
-      this.conta.attributes.nome = this.formNome;
       this.conta.pass = this.md5.toMD5(this.formSenha).toString();
-      this.conta.attributes.local_list = this.localArray;
 
-      this.firebaseService.setConta(this.matricula);
-      console.log("Formulário correto");
-      this.firebaseService.newConta(this.conta, this.matricula);
-      this.router.navigate(['/home/']);
+      this.usuarioProf.matricula = this.matricula;
+      this.usuarioProf.attributes.nome = this.formNome;
+      this.usuarioProf.attributes.local_list = this.localArray;
+
+      this.firebaseService.newConta(this.conta, this.usuarioProf, this.matricula).then(resp => {
+        if (resp) {
+          this.firebaseService.setUsuario(this.matricula);
+          this.router.navigate(['/home/']);
+        }
+      });
+
     }
   }
 }

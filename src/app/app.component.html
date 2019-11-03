@@ -3,20 +3,20 @@
     <ion-menu type="overlay">
       <ion-header>
         <ion-toolbar>
-          <ion-item *ngIf="this.firebaseService?.conta?.type == 'Professor'">
+          <ion-item *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
             <!-- <ion-thumbnail slot="start">
-              <img src="{{this.firebaseService?.conta?.img || async }}">
+              <img src="{{this.firebaseService?.usuario?.img || async }}">
             </ion-thumbnail> -->
             <ion-label>
-              <h2>Prof. {{this.firebaseService?.conta?.attributes?.nome || async}}</h2>
+              <h2>Prof. {{this.firebaseService?.usuario?.attributes?.nome || async}}</h2>
               <p color="medium" style="font-size: 10px;">
                 {{this.databaseService.profLocal?.attributes?.loc_descr || async}}</p>
               <!-- <p color="medium" style="font-size: 10px;">Serie: {{this.databaseService?.aluno?.attributes?.curso || async}} - {{this.databaseService?.aluno?.attributes?.turma || async}}</p> -->
             </ion-label>
           </ion-item>
-          <ion-item *ngIf="this.firebaseService?.conta?.type != 'Professor'" lines="none">
+          <ion-item *ngIf="this.firebaseService?.usuario?.type != 'Professor'" lines="none">
             <!-- <ion-thumbnail slot="start">
-              <img src="{{this.firebaseService?.conta?.img || async }}">
+              <img src="{{this.firebaseService?.usuario?.img || async }}">
             </ion-thumbnail> -->
             <ion-label>
               <h2><b>{{this.databaseService?.aluno?.attributes?.nome || async}}</b></h2>
@@ -29,7 +29,7 @@
 
       </ion-header>
       <ion-content>
-        <ion-list *ngIf="this.firebaseService?.conta?.type == 'Professor'">
+        <ion-list *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPagesProf">
             <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
@@ -39,7 +39,7 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
-        <ion-list *ngIf="this.firebaseService?.conta?.type != 'Professor'">
+        <ion-list *ngIf="this.firebaseService?.usuario?.type != 'Professor'">
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPagesAluno">
             <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>

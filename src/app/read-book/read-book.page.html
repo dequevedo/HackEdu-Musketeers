@@ -15,11 +15,11 @@
 
 <ion-content>
   <!-- PROFESSOR -->
-  <div color="light" style="border: 1px solid lightgray" *ngIf="this.firebaseService?.conta?.type =='Professor'">
+  <div color="light" style="border: 1px solid lightgray" *ngIf="this.firebaseService?.usuario?.type =='Professor'">
     <ion-item color="light">
       <ion-label>Leituras Pendentes</ion-label>
       <ion-select [(ngModel)]="profLocalSelected" (ionChange)="profLocalChange()">
-        <ion-select-option *ngFor="let local of this.firebaseService?.conta?.attributes?.local_list">{{local}}</ion-select-option>
+        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}</ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -34,7 +34,7 @@
   </div>
 
   <!-- ALUNOS -->
-  <div *ngIf="this.firebaseService?.conta?.type!='Professor'" style="border: 1px solid lightgray">
+  <div *ngIf="this.firebaseService?.usuario?.type!='Professor'" style="border: 1px solid lightgray">
     <ion-card-header color="light">
       <ion-card-title>{{this.databaseService?.aluno?.attributes?.nome}}</ion-card-title>
     </ion-card-header>
@@ -44,14 +44,14 @@
           <b>{{this.firebaseService?.alunoLeiturasCorrigidas?.length}}</b>/<b>{{this.firebaseService?.leituras?.length}}</b>
           Leituras validadas
         </ion-card-subtitle>
-        <ion-card-subtitle slot="end"> <b>{{this.firebaseService?.conta?.attributes?.leit_pont}}</b> Pontos
+        <ion-card-subtitle slot="end"> <b>{{this.firebaseService?.usuario?.attributes?.leit_pont}}</b> Pontos
         </ion-card-subtitle>
       </ion-item>
     </ion-card-content>
   </div>
   <br>
   <br>
-  <div style="border: 1px solid lightgray" *ngIf="this.firebaseService?.conta?.type!='Professor'">
+  <div style="border: 1px solid lightgray" *ngIf="this.firebaseService?.usuario?.type!='Professor'">
     <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
       <ion-card-subtitle><b>Minhas Leituras</b></ion-card-subtitle>
     </ion-card-header>

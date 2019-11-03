@@ -31,7 +31,7 @@ export class BoletimPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    if(this.firebaseService.conta.type != "Professor"){
+    if(this.firebaseService.usuario.type != "Professor"){
       if (this.databaseService.materiaArray != undefined) {
         this.materiaArray = this.databaseService.materiaArray
       } else {

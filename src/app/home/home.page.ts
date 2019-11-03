@@ -52,7 +52,7 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    if(this.firebaseService.conta.type != "Professor"){
+    if(this.firebaseService.usuario.type != "Professor"){
       this.databaseService.getAlunoFromAPI(undefined).then(res => {
         if (res.data[0] != undefined) {
           this.aluno = res.data[0];
@@ -62,7 +62,7 @@ export class HomePage {
         }
       });
     }else if(this.databaseService.profLocal == undefined){
-      this.databaseService.getLocal(this.firebaseService.conta.attributes.local_list[0]).then(res => {
+      this.databaseService.getLocal(this.firebaseService.usuario.attributes.local_list[0]).then(res => {
         if (res.data[0] != undefined) {
           this.databaseService.profLocal = res.data[0];
         } else {
