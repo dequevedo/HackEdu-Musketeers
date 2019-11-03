@@ -17,6 +17,8 @@ export class ReadBookPage implements OnInit {
 
   terms: string;
 
+  profLocalSelected: any;
+
   data: any = {
     items: []
   };
@@ -34,7 +36,7 @@ export class ReadBookPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    if(this.firebaseService.conta.type != "Professor"){
+    if (this.firebaseService.conta.type != "Professor") {
       this.menu.enable(true);
       this.databaseService.getAlunoFromAPI(undefined).then(res => {
         if (res.data[0] != undefined) {
@@ -50,24 +52,24 @@ export class ReadBookPage implements OnInit {
       this.firebaseService.getAlunoLeiturasCorrigidas().then(res => {
         this.firebaseService.alunoLeiturasCorrigidas = res;
       })
-    }else{
-      this.firebaseService.getLeiturasAguardando().then(res => {
-        this.firebaseService.leituras = res;
-      })
-
     }
-
-    
   }
 
-  addLeitura(){
+  addLeitura() {
     this.router.navigate(['/add-book/']);
   }
 
-  leituraDetail(leitura){
+  profLocalChange() {
+    console.log("localChanged");
+    this.firebaseService.getLeiturasAguardando(this.profLocalSelected).then(res => {
+      this.firebaseService.leituras = res;
+    })
+  }
+
+  leituraDetail(leitura) {
     this.firebaseService.leituraDetail = leitura;
     this.router.navigate(['/leitura-detail/']);
   }
- 
+
 
 }

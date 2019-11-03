@@ -11,7 +11,7 @@ import { FirebaseService } from '../firebase.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  user: string = "474584";
+  user: string = "905001587";
   protected password: string = "testinho";
 
   erroMessage: string = undefined;

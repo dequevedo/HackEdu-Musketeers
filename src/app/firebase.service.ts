@@ -28,7 +28,7 @@ export class FirebaseService {
 
 
 
-  matricula: 474584;
+  matricula: 905001587;
   conta: any;
 
   alunoLeiturasCorrigidas: any;
@@ -41,16 +41,15 @@ export class FirebaseService {
   //COMO USAR QUERY NO ANGULARFIREDATABASE
   // this.db.list('/items', ref => ref.orderByChild('size').equalTo('large')) 
 
-  getLeiturasAguardando() {
+  getLeiturasAguardando(local: any) {
     return new Promise((resolve) => {
-      this.db.list("SeileDB/leituras", ref => ref.orderByChild('aluno_local').equalTo('none4')).valueChanges().subscribe(response => {
-        var resp: any = response;
+      this.db.list("SeileDB/leituras", ref => ref.orderByChild('prof_matr').equalTo("-")).valueChanges().subscribe(response => {
+        var resp: any[] = response;
+        var arrayFiltered = resp.filter(leitura => leitura.aluno_local == local);
 
-        console.log("leituras filtradas: " + JSON.stringify(resp));
-        //se encontrar o user, retorna a conta, senão retorna undefined
-
-        if (resp != undefined && resp != null) {
-          resolve(resp);
+        //se encontrar o leituras, retorna a leituras, senão retorna undefined
+        if (arrayFiltered != undefined && arrayFiltered != null) {
+          resolve(arrayFiltered);
         } else {
           resolve(undefined);
         }

@@ -56,8 +56,6 @@
       <ion-row justify-content-center align-items-center>
         <img style="height: 150px; width: auto" src="{{book?.volumeInfo?.imageLinks?.smallThumbnail}}" alt="" />
       </ion-row>
-
-      <!-- <ion-card-subtitle><b>Descrição: </b> {{book?.volumeInfo?.description}}</ion-card-subtitle> -->
       <br>
       <ion-row wrap>
         <ion-label>
@@ -66,17 +64,6 @@
           <ion-card-subtitle><b>Categorias: </b> {{book?.volumeInfo?.categories}}</ion-card-subtitle>
           <ion-card-subtitle><b>N° de Páginas: </b> {{book?.volumeInfo?.pageCount}}</ion-card-subtitle>
         </ion-label>
-        <!--          
-        </ion-row>
-        <ion-row>
-          
-        </ion-row>
-        <ion-row>
-          
-        </ion-row>
-        <ion-row>
-         
-        </ion-row> -->
       </ion-row>
     </ion-card-header>
     <ion-item>
@@ -85,19 +72,11 @@
         displayFormat="DDD. DD MMM, YYYY" monthShortNames="jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez">
       </ion-datetime>
     </ion-item>
-    <!-- <ion-item>
-      <ion-label position="floating">Data de Início da leitura</ion-label>
-      <ion-input placeholder="1995-12-31" [(ngModel)]="dataInicio"></ion-input>
-    </ion-item> -->
     <ion-item>
       <ion-input color="medium" readonly>{{this.nomeResumo}}</ion-input>
       <ion-button (click)="escolherArquivo()">Upload</ion-button>
     </ion-item>
     <ion-card-content>
-
-      <!-- <ion-row>
-            <ion-label color="danger">{{this.formResponse}}</ion-label>
-          </ion-row> -->
 
       <ion-row justify-content-center align-items-center>
         <ion-button color="success" fill="outline" [class.button-enabled]="butEnviar" (click)="enviarFirebase()">Enviar
