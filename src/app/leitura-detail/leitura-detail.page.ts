@@ -11,19 +11,25 @@ import { MenuController } from '@ionic/angular';
 })
 export class LeituraDetailPage implements OnInit {
 
-  constructor(    private bookService: BookServiceService,
+  constructor(private bookService: BookServiceService,
     private databaseService: DatabaseService,
     private firebaseService: FirebaseService,
-    private menu: MenuController,) { }
+    private menu: MenuController, ) { }
+
+  notaForm: number = 0;
+  commentForm: string = "";
 
   ngOnInit() {
   }
 
   ionViewDidEnter() {
     this.menu.enable(true);
+  }
 
-
-    
+  avaliarLeitura() {
+    this.firebaseService.leituraDetail.prof_matr = this.firebaseService.conta.matricula
+    this.firebaseService.leituraDetail.nota = this.notaForm
+    this.firebaseService.leituraDetail.comment = this.commentForm
   }
 
 }

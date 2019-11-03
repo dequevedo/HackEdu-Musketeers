@@ -18,37 +18,12 @@
   <ion-card color="light" class="welcome-card" style="border: 1px solid lightgray; border-radius: 25px;">
 
     <ion-card-header color="light">
-      <ion-card-subtitle>Aluno</ion-card-subtitle>
-      <ion-row justify-content-center align-items-center>
-        <ion-card-title><b>{{this.databaseService?.aluno?.attributes?.nome}}</b></ion-card-title>
-      </ion-row>
-      <ion-card-subtitle>Avaliação</ion-card-subtitle>
-      <ion-card-title><b>Prof.: {{this.firebaseService?.leituraDetail?.prof_matr}}</b></ion-card-title>
-      <ion-card-title><b>Nota: {{this.firebaseService?.leituraDetail?.nota}}</b></ion-card-title>
 
-      <ion-card-subtitle>Resumo/Resenha</ion-card-subtitle>
-      <ion-row wrap>
+      <ion-row justify-content-center align-items-center>
         <ion-label>
-          <ion-card-subtitle><b>Início da Leitura: </b> {{this.firebaseService?.leituraDetail?.dataInicio}}
-          </ion-card-subtitle>
-          <ion-card-subtitle><b>Envio do Resumo/Resenha: </b> {{this.firebaseService?.leituraDetail?.createDate}}
-          </ion-card-subtitle>
+          <h2>SOBRE O LIVRO</h2>
         </ion-label>
       </ion-row>
-      <br>
-      <ion-row justify-content-center align-items-center>
-        <ion-label color="medium">
-          <h4>Baixar Resumo/Resenha</h4>
-        </ion-label>
-      </ion-row>
-      <ion-row justify-content-center align-items-center>
-        <ion-button color="primary" expand="block" (click)="downloadArquivoLeitura()">
-          <ion-icon slot="icon-only" color="light" name="download"></ion-icon>
-        </ion-button>
-      </ion-row>
-      <br>
-
-      <ion-card-subtitle>Sobre o Livro</ion-card-subtitle>
       <ion-row wrap>
         <ion-label>
           <ion-card-subtitle><b>Titulo: </b> {{this.firebaseService?.leituraDetail?.book?.title}} </ion-card-subtitle>
@@ -62,13 +37,123 @@
           </ion-card-subtitle>
         </ion-label>
       </ion-row>
-    </ion-card-header>
-    <ion-card-content>
+      <br>
 
-      <ion-row justify-content-center align-items-center *ngIf="this.firebaseService?.conta?.type == 'Professor'">
-        <ion-button color="success" fill="outline" [class.button-enabled]="butEnviar" (click)="avaliarLeitura()">Avaliar
+      <ion-row justify-content-center align-items-center>
+        <ion-label>
+          <h2>ALUNO AUTOR</h2>
+        </ion-label>
+      </ion-row>
+      <ion-row justify-content-center align-items-center>
+        <ion-card-title><b>{{this.firebaseService?.leituraDetail?.aluno_matr}}</b></ion-card-title>
+      </ion-row>
+      <br>
+
+      <ion-row justify-content-center align-items-center>
+        <ion-label>
+          <h2>RESUMO/RESENHA</h2>
+        </ion-label>
+      </ion-row>
+      <ion-row wrap>
+        <ion-label>
+          <ion-card-subtitle><b>Início da Leitura: </b> {{this.firebaseService?.leituraDetail?.dataInicio}}
+          </ion-card-subtitle>
+          <ion-card-subtitle><b>Envio do Resumo/Resenha: </b> {{this.firebaseService?.leituraDetail?.createDate}}
+          </ion-card-subtitle>
+        </ion-label>
+      </ion-row>
+      <br>
+
+      <ion-row justify-content-center align-items-center>
+        <ion-label color="medium">
+          <h4>Baixar Resumo/Resenha</h4>
+        </ion-label>
+      </ion-row>
+      <ion-row justify-content-center align-items-center>
+        <ion-button color="primary" expand="block" (click)="downloadArquivoLeitura()">
+          <ion-icon slot="icon-only" color="light" name="download"></ion-icon>
         </ion-button>
       </ion-row>
+      <br>
+
+      <ion-row justify-content-center align-items-center>
+        <ion-label>
+          <h2>AVALIAÇÃO DO RESUMO/RESENHA</h2>
+        </ion-label>
+      </ion-row>
+
+      <ion-item color="light">
+        <ion-label>
+          <h2><b>Prof.: {{this.firebaseService?.leituraDetail?.prof_matr}}</b></h2>
+          <h2><b>Nota: {{this.firebaseService?.leituraDetail?.nota}}</b></h2>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" color="light">
+        <ion-label position="stacked">Comentário</ion-label>
+        <ion-textarea color="medium" rows="1" readonly>
+          {{this.firebaseService?.leituraDetail?.comment}}</ion-textarea>
+      </ion-item>
+
+      <!-- <ion-card *ngIf="this.aluno != undefined" class="welcome-card"
+    style="border: 1px solid lightgray; border-radius: 25px;">
+    <ion-card-header>
+      <ion-card-subtitle>Cadastre seus dados</ion-card-subtitle>
+      <ion-card-title>{{this.aluno?.attributes?.nome}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item color="light">
+        <ion-label position="floating">A Matrícula será o seu login de acesso</ion-label>
+        <ion-input value="{{this.aluno?.attributes?.matricula}}" readonly></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Data de Nascimento</ion-label>
+        <ion-input placeholder="1995-12-31" [(ngModel)]="formNascimento"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Crie uma senha</ion-label>
+        <ion-input type="password" [(ngModel)]="formSenha"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Repita a senha</ion-label>
+        <ion-input type="password" [(ngModel)]="formReSenha"></ion-input>
+      </ion-item>
+      <br>
+      <ion-row>
+        <ion-label color="danger">{{this.formResponse}}</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-button color="success" fill="outline" (click)="cadastrar()">Cadastrar</ion-button>
+        <ion-button color="danger" fill="outline" (click)="this.aluno = undefined">Cancelar</ion-button>
+      </ion-row>
+    </ion-card-content>
+  </ion-card> -->
+    </ion-card-header>
+
+    <ion-card-content style="background-color: white;">
+      <ion-row justify-content-center align-items-center>
+        <ion-label>
+          <h2>AVALIAR LEITURA</h2>
+        </ion-label>
+      </ion-row>
+      <ion-item>
+        <ion-label position="floating">Professor</ion-label>
+        <ion-input value="{{this.firebaseService?.conta?.attributes?.nome}}" readonly></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Nota Atribuída(0-10)</ion-label>
+        <ion-input type="number" placeholder="5.5" [(ngModel)]="notaForm"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="floating">Comentário</ion-label>
+        <ion-textarea [(ngModel)]="commentForm"></ion-textarea>
+      </ion-item>
+      <ion-row justify-content-center align-items-center>
+        <ion-button color="success" fill="outline" [class.button-enabled]="butEnviar" (click)="avaliarLeitura()">
+          Avaliar
+        </ion-button>
+      </ion-row>
+
     </ion-card-content>
   </ion-card>
 
