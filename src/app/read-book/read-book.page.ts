@@ -46,10 +46,10 @@ export class ReadBookPage implements OnInit {
         }
       });
       //pega as leituras do aluno
-      this.firebaseService.getAlunoLeituras().then(res => {
+      this.firebaseService.getAlunoLeituras(undefined).then(res => {
         this.firebaseService.leituras = res;
       })
-      this.firebaseService.getAlunoLeiturasCorrigidas().then(res => {
+      this.firebaseService.getAlunoLeiturasCorrigidas(undefined).then(res => {
         this.firebaseService.alunoLeiturasCorrigidas = res;
       })
     }

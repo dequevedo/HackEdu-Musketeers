@@ -34,10 +34,6 @@ export class LeituraDetailPage implements OnInit {
     this.firebaseService.leituraDetail.comment = this.commentForm
 
     this.firebaseService.avaliarLeitura(this.firebaseService.leituraDetail);
-
-    //soma a nova nota nos pontos do aluno
-
-
   }
 
 }

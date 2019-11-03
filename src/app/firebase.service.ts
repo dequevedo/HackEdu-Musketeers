@@ -6,10 +6,8 @@ import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ng
 import { Downloader } from '@ionic-native/downloader/ngx';
 
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-
-
 import { NavController, LoadingController } from '@ionic/angular';
-import { resolve } from 'q';
+
 
 
 @Injectable({
@@ -59,9 +57,12 @@ export class FirebaseService {
   }
 
 
-  getAlunoLeituras() {
+  getAlunoLeituras(matricula: any) {
+    if (matricula == null && matricula == undefined) {
+      matricula = this.matricula;
+    }
     return new Promise((resolve) => {
-      this.db.list("SeileDB/leituras", ref => ref.orderByChild('aluno_matr').equalTo(this.matricula)).valueChanges().subscribe(response => {
+      this.db.list("SeileDB/leituras", ref => ref.orderByChild('aluno_matr').equalTo(matricula)).valueChanges().subscribe(response => {
         var resp: any[] = response;
 
         var arraySorted = resp.sort((a, b) => (a.nota > b.nota) ? -1 : 1)
@@ -78,35 +79,52 @@ export class FirebaseService {
     });
   }
 
-  avaliarLeitura(leitura: any){
-
-    const url = "SeileDB/leituras/"+leitura.key
+  avaliarLeitura(leitura: any) {
+    const url = "SeileDB/leituras/" + leitura.key
     return new Promise((resolve) => {
-      this.db.object(url).update(leitura).then(resp => {
-        console.log("new leitura: " + JSON.stringify(resp));
+      this.db.object(url).update(leitura).then(response => {
+        var resp: any = response;
+        console.log("leitura avaliada: " + JSON.stringify(resp));
+        this.somarAlunoLeiturasCorrigidas(leitura.aluno_matr);
         resolve(resp);
       }
       );
     })
-
-    // this.db.object(url).set().
-    // var myRef = this.db.database.ref.apply;
-    // var key = myRef.key();
-
-    // var newData = {
-    //   id: key,
-    //   Website_Name: this.web_name.value,
-    //   Username: this.username.value,
-    //   Password: this.password.value,
-    //   website_link: this.web_link.value
-    // }
-
-    // myRef.push(newData);
   }
 
-  getAlunoLeiturasCorrigidas() {
+  somarAlunoLeiturasCorrigidas(matricula: any) {
+    var leit_pont: any;
+    this.getAlunoLeiturasCorrigidas(matricula).then(response => {
+      var resp: any = response;
+      var array: any[] = resp;
+
+      leit_pont = array.reduce((a, b) => {
+        return { nota: a.nota.toString() + b.nota.toString() }
+      })
+
+      console.log(leit_pont);
+    }
+    )
+
+
+    // this.db.object("SeileDB/usuarios/" + matricula).valueChanges().subscribe(resp => {
+    //   resp.attributes.leit_pont
+    //   this.db.object("SeileDB/usuarios/" + matricula).update(usuario).then(resp => {
+    //     console.log("urlUsuario criada: " + JSON.stringify(resp));
+    //     resolve(true);
+    //   });
+    // });
+
+
+  }
+
+  getAlunoLeiturasCorrigidas(matricula: any) {
+    if (matricula == null && matricula == undefined) {
+      matricula = this.matricula;
+    }
     return new Promise((resolve) => {
-      this.db.list("SeileDB/leituras", ref => ref.orderByChild('aluno_matr').equalTo(this.matricula)).valueChanges().subscribe(response => {
+
+      this.db.list("SeileDB/leituras", ref => ref.orderByChild('aluno_matr').equalTo(matricula)).valueChanges().subscribe(response => {
         var resp: any[] = response;
 
         var arrayFiltered = resp.filter(leitura => leitura.prof_matr != "-");
@@ -125,7 +143,7 @@ export class FirebaseService {
   verifyUser(user: any) {
     return new Promise((resolve) => {
       this.db.object("SeileDB/contas/" + user).valueChanges().subscribe(response => {
-        console.log("(SeileDB/contas/" + user+") verifyied: " + response);
+        console.log("(SeileDB/contas/" + user + ") verifyied: " + response);
         //se encontrar o user, retorna a conta, senão retorna undefined
         var resp: any = response;
         if (resp != undefined && resp != null) {
@@ -140,11 +158,13 @@ export class FirebaseService {
   newConta(conta: any, usuario: any, matricula: string) {
     return new Promise((resolve) => {
       const urlConta = "SeileDB/contas/" + matricula
-      this.db.object(urlConta).update(conta).then(resp =>{
-        console.log("urlConta criada: "+JSON.stringify(resp));
+      this.db.object(urlConta).update(conta).then(response => {
+        var resp: any = response;
+        console.log("urlConta criada: " + JSON.stringify(resp));
         const urlUsuario = "SeileDB/usuarios/" + matricula
-        this.db.object(urlUsuario).update(usuario).then(resp =>{
-          console.log("urlUsuario criada: "+JSON.stringify(resp));
+        this.db.object(urlUsuario).update(usuario).then(response2 => {
+          var resp2: any = response2;
+          console.log("urlUsuario criada: " + JSON.stringify(resp2));
           resolve(true);
         });
       });
@@ -155,17 +175,19 @@ export class FirebaseService {
   newLeitura(leitura: any) {
     const url = "SeileDB/leituras/"
     return new Promise((resolve) => {
-      this.db.list(url).push(leitura).then(resp => {
+      this.db.list(url).push(leitura).then(response => {
+        var resp: any = response;
         leitura.key = resp.key;
         const url = "SeileDB/leituras/" + leitura.key
-        this.db.object(url).update(leitura).then(resp => {
-          console.log("new leitura: " + JSON.stringify(resp));
-          resolve(resp);
+        this.db.object(url).update(leitura).then(response2 => {
+          var resp2: any = response2;
+          console.log("new leitura: " + JSON.stringify(resp2));
+          resolve(resp2);
         });
       }
       );
     })
-    
+
   }
 
   getContaLocal() {
@@ -178,7 +200,7 @@ export class FirebaseService {
 
   setUsuario(user: string) {
     this.db.object("SeileDB/usuarios/" + user).valueChanges().subscribe(resp => {
-      console.log("SeileDB/usuarios/" + user+" finded: "+resp);
+      console.log("SeileDB/usuarios/" + user + " finded: " + resp);
       this.usuario = resp;
       console.log("this.usuario: " + this.usuario);
       this.matricula = this.usuario.matricula
