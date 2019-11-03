@@ -16,6 +16,7 @@ import { NavController, LoadingController } from '@ionic/angular';
 //import firebase from '@angular/fire/firebase-node'
 import { from } from 'rxjs';
 import { async } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-book',
@@ -31,6 +32,7 @@ export class AddBookPage implements OnInit {
     private fileChooser: FileChooser,
     private file: File,
     private filePath: FilePath,
+    private router: Router,
     private loadingController: LoadingController
   ) { }
 
@@ -135,9 +137,9 @@ export class AddBookPage implements OnInit {
     }
 
     this.firebaseService.newLeitura(leitura).then(resp => {
-      alert(resp);
+      alert("Leitura enviada com sucesso! Aguarte até que ela seja avaliada.");
+      this.router.navigate(['/read-book/']);
     });
-
   }
 
   cancelarEnvio() {

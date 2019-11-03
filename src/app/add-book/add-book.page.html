@@ -22,29 +22,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-item color="light" *ngIf="search">
-    <ion-searchbar placeholder="Digite o nome do Livro..." [(ngModel)]="terms" (ionInput)="digitEvent($event)"
-      clearInput>
-    </ion-searchbar>
-  </ion-item>
-
-  <ion-list>
-    <ion-item *ngFor="let item of this.data.items" detail
-      (click)="this.search = false; this.book = item; terms = ''; this.data.items = []">
-      <ion-col size="2">
-        <ion-avatar style="height: 30px; width: 30px;" *ngIf="item != null">
-          <img src="{{item?.volumeInfo?.imageLinks?.smallThumbnail}}">
-        </ion-avatar>
-      </ion-col>
-      <ion-col size="10">
-        <ion-label> {{item.volumeInfo.title}}</ion-label>
-      </ion-col>
-    </ion-item>
-  </ion-list>
-
   <!-- FORMULÁRIO -->
-  <ion-card color="light" *ngIf="this.book != null && this.book != undefined" class="welcome-card"
-    style="border: 1px solid lightgray; border-radius: 25px;">
+  <div color="light" *ngIf="this.book != null && this.book != undefined" class="welcome-card">
     <ion-card-header color="light">
       <ion-card-subtitle>Cadastre sua leitura</ion-card-subtitle>
       <br>
@@ -86,5 +65,27 @@
           Cancelar</ion-button>
       </ion-row>
     </ion-card-content>
-  </ion-card>
+  </div>
+
+  <ion-item color="light" *ngIf="search">
+    <ion-searchbar placeholder="Digite o nome do Livro..." [(ngModel)]="terms" (ionInput)="digitEvent($event)"
+      clearInput>
+    </ion-searchbar>
+  </ion-item>
+
+  <!-- ITEMS DA PESQUISA DE LIVROS -->
+  <ion-list>
+    <ion-item *ngFor="let item of this.data.items" detail
+      (click)="this.search = false; this.book = item; terms = ''; this.data.items = []">
+      <ion-col size="2">
+        <ion-avatar style="height: 30px; width: 30px;" *ngIf="item != null">
+          <img src="{{item?.volumeInfo?.imageLinks?.smallThumbnail}}">
+        </ion-avatar>
+      </ion-col>
+      <ion-col size="10">
+        <ion-label> {{item.volumeInfo.title}}</ion-label>
+      </ion-col>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

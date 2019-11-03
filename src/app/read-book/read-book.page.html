@@ -14,7 +14,27 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngIf="this.firebaseService?.conta?.type!='Professor'">
+  <!-- PROFESSOR -->
+  <div color="light" style="border: 1px solid lightgray" *ngIf="this.firebaseService?.conta?.type =='Professor'">
+    <ion-item color="light">
+      <ion-label>Leituras Pendentes</ion-label>
+      <ion-select [(ngModel)]="profLocalSelected" (ionChange)="profLocalChange()">
+        <ion-select-option *ngFor="let local of this.firebaseService?.conta?.attributes?.local_list">{{local}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div no-margin no-padding>
+      <ion-list lines="none" color="light">
+        <ion-item *ngFor="let leitura of this.firebaseService.leituras" detail (click)="leituraDetail(leitura)">
+          <ion-label slot="start">{{leitura?.book?.title}}</ion-label>
+          <ion-label slot="end"><b>{{leitura?.nota}}</b></ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <!-- ALUNOS -->
+  <div *ngIf="this.firebaseService?.conta?.type!='Professor'" style="border: 1px solid lightgray">
     <ion-card-header color="light">
       <ion-card-title>{{this.databaseService?.aluno?.attributes?.nome}}</ion-card-title>
     </ion-card-header>
@@ -28,9 +48,11 @@
         </ion-card-subtitle>
       </ion-item>
     </ion-card-content>
-  </ion-card>
-  <ion-card color="light" style="border: 1px solid lightgray" *ngIf="this.firebaseService?.conta?.type!='Professor'">
-    <ion-card-header style="border-bottom: 1px solid lightgray">
+  </div>
+  <br>
+  <br>
+  <div style="border: 1px solid lightgray" *ngIf="this.firebaseService?.conta?.type!='Professor'">
+    <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
       <ion-card-subtitle><b>Minhas Leituras</b></ion-card-subtitle>
     </ion-card-header>
 
@@ -47,23 +69,7 @@
         <ion-label slot="start">Nova leitura</ion-label>
       </ion-item>
     </ion-card-content>
-  </ion-card>
+  </div>
 
-  <ion-card color="light" style="border: 1px solid lightgray" *ngIf="this.firebaseService?.conta?.type =='Professor'">
-    <ion-item color="light">
-      <ion-label>Leituras Pendentes</ion-label>
-      <ion-select [(ngModel)]="profLocalSelected" (ionChange)="profLocalChange()">
-        <ion-select-option *ngFor="let local of this.firebaseService?.conta?.attributes?.local_list">{{local}}</ion-select-option>
-      </ion-select>
-    </ion-item>
 
-    <ion-card-content no-margin no-padding>
-      <ion-list lines="none" color="light">
-        <ion-item *ngFor="let leitura of this.firebaseService.leituras" detail (click)="leituraDetail(leitura)">
-          <ion-label slot="start">{{leitura?.book?.title}}</ion-label>
-          <ion-label slot="end"><b>{{leitura?.nota}}</b></ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
 </ion-content>
