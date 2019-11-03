@@ -30,6 +30,8 @@ export class LeituraDetailPage implements OnInit {
     this.firebaseService.leituraDetail.prof_matr = this.firebaseService.conta.matricula
     this.firebaseService.leituraDetail.nota = this.notaForm
     this.firebaseService.leituraDetail.comment = this.commentForm
+
+    this.firebaseService.avaliarLeitura(this.firebaseService.leituraDetail);
   }
 
 }

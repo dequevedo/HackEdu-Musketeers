@@ -61,18 +61,46 @@ export class FirebaseService {
   getAlunoLeituras() {
     return new Promise((resolve) => {
       this.db.list("SeileDB/leituras", ref => ref.orderByChild('aluno_matr').equalTo(this.matricula)).valueChanges().subscribe(response => {
-        var resp: any = response;
+        var resp: any[] = response;
+
+        var arraySorted = resp.sort((a, b) => (a.nota > b.nota) ? -1 : 1)
 
         console.log("leituras do aluno filtradas: " + JSON.stringify(resp));
         //se encontrar o user, retorna a conta, senão retorna undefined
 
-        if (resp != undefined && resp != null) {
-          resolve(resp);
+        if (arraySorted != undefined && arraySorted != null) {
+          resolve(arraySorted);
         } else {
           resolve(undefined);
         }
       });
     });
+  }
+
+  avaliarLeitura(leitura: any){
+
+    const url = "SeileDB/leituras/"+leitura.key
+    return new Promise((resolve) => {
+      this.db.object(url).update(leitura).then(resp => {
+        console.log("new leitura: " + JSON.stringify(resp));
+        resolve(resp);
+      }
+      );
+    })
+
+    // this.db.object(url).set().
+    // var myRef = this.db.database.ref.apply;
+    // var key = myRef.key();
+
+    // var newData = {
+    //   id: key,
+    //   Website_Name: this.web_name.value,
+    //   Username: this.username.value,
+    //   Password: this.password.value,
+    //   website_link: this.web_link.value
+    // }
+
+    // myRef.push(newData);
   }
 
   getAlunoLeiturasCorrigidas() {
@@ -118,8 +146,12 @@ export class FirebaseService {
     const url = "SeileDB/leituras/"
     return new Promise((resolve) => {
       this.db.list(url).push(leitura).then(resp => {
-        console.log("new leitura: " + JSON.stringify(resp.toString()));
-        resolve(resp.toString());
+        leitura.key = resp.key;
+        const url = "SeileDB/leituras/" + leitura.key
+        this.db.object(url).update(leitura).then(resp => {
+          console.log("new leitura: " + JSON.stringify(resp));
+          resolve(resp);
+        });
       }
       );
     })
