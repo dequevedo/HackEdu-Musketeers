@@ -94,28 +94,28 @@ export class FirebaseService {
 
   somarAlunoLeiturasCorrigidas(matricula: any) {
     var leit_pont: any;
-    this.getAlunoLeiturasCorrigidas(matricula).then(response => {
-      var resp: any = response;
-      var array: any[] = resp;
+    return new Promise((resolve) => {
+      this.getAlunoLeiturasCorrigidas(matricula).then(response => {
+        var resp: any = response;
+        var array: any[] = resp;
 
-      leit_pont = array.reduce((a, b) => {
-        return { nota: a.nota.toString() + b.nota.toString() }
-      })
+        var leit_pont = array.reduce(function (prev, cur) {
+          return prev + cur.nota;
+        }, 0);
+        console.log(leit_pont);
 
-      console.log(leit_pont);
-    }
-    )
+        this.db.object("SeileDB/usuarios/" + matricula).valueChanges().subscribe(response => {
+          var resp: any = response;
 
-
-    // this.db.object("SeileDB/usuarios/" + matricula).valueChanges().subscribe(resp => {
-    //   resp.attributes.leit_pont
-    //   this.db.object("SeileDB/usuarios/" + matricula).update(usuario).then(resp => {
-    //     console.log("urlUsuario criada: " + JSON.stringify(resp));
-    //     resolve(true);
-    //   });
-    // });
-
-
+          resp.attributes.leit_pont = leit_pont
+          this.db.object("SeileDB/usuarios/" + matricula).update(response).then(resp => {
+            console.log("urlUsuario criada: " + JSON.stringify(resp));
+            resolve(true);
+          });
+        });
+      }
+      )
+    });
   }
 
   getAlunoLeiturasCorrigidas(matricula: any) {
