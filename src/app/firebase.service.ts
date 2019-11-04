@@ -295,7 +295,7 @@ export class FirebaseService {
     this.firebase.ref(path).put(blob).then((d) => {
 
       this.firebase.ref(path).getDownloadURL().toPromise().then((resp) => {
-        leitura.file = resp;
+        leitura.fileUrl = resp;
 
         //TEM UM ERRO AQUI QUE DÁ DE VEZ EM QUANDO
         this.newLeitura(leitura).then(resp => {
@@ -325,24 +325,24 @@ export class FirebaseService {
     });
     await loading.present();
 
-    var request = {
-      uri: fileUrl,
-      title: nameArquivo,
-      description: nameAluno,
-      mimeType: '',
-      visibleInDownloadsUi: true,
-      notificationVisibility: 1,
-      destinationInExternalPublicDir: {
-        dirType: '/Resumos/', //Arrumar
-        subPath: nameArquivo
-      },
+      var request = {
+        uri: fileUrl,
+        title: nameArquivo,
+        description: nameAluno,
+        mimeType: '',
+        visibleInDownloadsUi: true,
+        notificationVisibility: 1,
+        destinationInExternalPublicDir: {
+          dirType: '/Resumos/', //Arrumar
+          subPath: nameArquivo
+        },
 
-    };
-    this.downloader.download(request)
-      .then((location: string) => {
-        loading.dismiss();
-        alert('O arquivo foi baixado.')
-      }).catch((error: any) => alert(JSON.stringify(error)));
+      };
+      this.downloader.download(request)
+        .then((location: string) => {
+          loading.dismiss();
+          alert('O arquivo foi baixado.')          
+        }).catch((error: any) => alert(JSON.stringify(error)));
 
 
 
