@@ -78,6 +78,10 @@ export class HomePage {
             var resp: any = response;
             this.firebaseService.avisos = resp;
           });
+          this.firebaseService.getTarefas(this.firebaseService.usuario.attributes.local, this.firebaseService.usuario.attributes.serie, this.firebaseService.usuario.attributes.turma).then(response => {
+            var resp: any = response;
+            this.firebaseService.tarefas = resp;
+          });
         } else {
           alert("Aluno não encontrado no ano atual")
           
@@ -92,6 +96,11 @@ export class HomePage {
             var resp: any = response;
             this.firebaseService.avisosProf = resp;
           });
+          this.firebaseService.getTarefasProf(this.firebaseService.usuario.matricula).then(response => {
+            var resp: any = response;
+            this.firebaseService.tarefasProf = resp;
+          });
+
         } else {
           alert("Professor não encontrado")
         }
@@ -134,8 +143,8 @@ export class HomePage {
           cc: '',
           bcc: [],
           attachments: [],
-          subject: 'Aviso escola: ' + this.local,
-          body: this.msg + "/n "+ this.firebaseService.usuario.attributes.nome,
+          subject: 'Aviso escola: ' + this.firebaseService.usuario.attributes.local_list[0],
+          body: this.msg +" \t /t /n \n  "+ "/n "+ this.firebaseService.usuario.attributes.nome,
           isHtml: true
         }
     

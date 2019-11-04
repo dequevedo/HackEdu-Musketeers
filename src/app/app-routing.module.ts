@@ -16,7 +16,9 @@ const routes: Routes = [
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },  { path: 'add-book', loadChildren: './add-book/add-book.module#AddBookPageModule' },
   { path: 'register-prof', loadChildren: './register-prof/register-prof.module#RegisterProfPageModule' },
-  { path: 'leitura-detail', loadChildren: './leitura-detail/leitura-detail.module#LeituraDetailPageModule' }
+  { path: 'leitura-detail', loadChildren: './leitura-detail/leitura-detail.module#LeituraDetailPageModule' },
+  { path: 'criar-aviso', loadChildren: './criar-aviso/criar-aviso.module#CriarAvisoPageModule' },
+  { path: 'criar-tarefa', loadChildren: './criar-tarefa/criar-tarefa.module#CriarTarefaPageModule' }
 
 
 

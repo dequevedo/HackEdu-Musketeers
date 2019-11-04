@@ -37,6 +37,9 @@ export class FirebaseService {
   avisos: any;
   avisosProf: any;
 
+  tarefas: any;
+  tarefasProf: any;
+
   alunoLeiturasCorrigidas: any;
 
   leituras: any;
@@ -168,6 +171,20 @@ export class FirebaseService {
     });
   }
 
+  getTarefas(local: any, serie: any, turma: any) {
+    return new Promise((resolve) => {
+      this.db.list("SeileDB/tarefas/", ref => ref.orderByChild('local').equalTo(local)).valueChanges().subscribe(response => {
+        var resp: any[] = response;
+
+        resp = resp.filter(tarefa => tarefa.serie == "" || tarefa.serie == serie);
+
+        resp = resp.filter(tarefa => tarefa.turma == "" || tarefa.turma == turma);
+        
+        resolve(resp);
+      });
+    });
+  }
+
   getUsers(local: any, serie: any, turma: any) {
     return new Promise((resolve) => {
       this.db.list("SeileDB/usuarios/", ref => ref.orderByChild('attributes/local').equalTo(local)).valueChanges().subscribe(response => {
@@ -193,6 +210,16 @@ export class FirebaseService {
   getAvisosProf(prof_matr: any){
     return new Promise((resolve) => {
       this.db.list("SeileDB/avisos/", ref => ref.orderByChild('prof_matr').equalTo(prof_matr)).valueChanges().subscribe(response => {
+        var resp: any = response;
+        //console.log("resp getAvisosProf: "+JSON.stringify(resp));
+         resolve(resp);
+      });
+    });
+  } 
+
+  getTarefasProf(prof_matr: any){
+    return new Promise((resolve) => {
+      this.db.list("SeileDB/tarefas/", ref => ref.orderByChild('prof_matr').equalTo(prof_matr)).valueChanges().subscribe(response => {
         var resp: any = response;
         //console.log("resp getAvisosProf: "+JSON.stringify(resp));
          resolve(resp);
@@ -271,6 +298,28 @@ export class FirebaseService {
           resolve(resp2);
           loading.dismiss();
           alert("Aviso criado")
+        });
+      });
+    });
+  }
+
+  async newTarefa(tarefa:any) {
+    const loading = await this.loadingController.create({
+      message: 'Criando aviso..'
+    });
+    await loading.present();
+
+    return new Promise((resolve) => {
+      const url = "SeileDB/tarefas/"
+      this.db.list(url).push(tarefa).then(response => {
+        var resp: any = response;
+        tarefa.key = resp.key;
+        const url = "SeileDB/tarefas/" + tarefa.key
+        this.db.object(url).update(tarefa).then(response2 => {
+          var resp2: any = response2;
+          resolve(resp2);
+          loading.dismiss();
+          alert("Tarefa criada")
         });
       });
     });

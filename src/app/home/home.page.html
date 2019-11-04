@@ -14,83 +14,103 @@
 </ion-header>
 
 <ion-content>
-  <!-- AVISOS FEITOS PELO PROFESSOR -->
-  <ion-card style="border: 1px solid lightgray" (click)="abrirAvisos()"
+  <!-- AVISOS E TAREFAS FEITOS PELO PROFESSOR -->
+  <ion-card style="border: 1px solid lightgray; height: 40%" 
     *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
     <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
       <ion-label>Meus Avisos</ion-label>
     </ion-card-header>
-    <ion-item *ngFor="let aviso of this.firebaseService?.avisosProf">
-      <ion-icon slot="start" color="medium" name="{{aviso.icon}}"></ion-icon>
-      <ion-label class="ion-text-wrap">
-        <h3>Prof.:{{aviso.prof_matr}} Escola:{{aviso.local}} Serie:{{aviso.serie}} Turma:{{aviso.turma}}</h3>
-        <p>{{aviso.msg}}</p>
-      </ion-label>
-    </ion-item>
+
+    <ion-content scroll-y='true'>
+      <ion-item *ngFor="let aviso of this.firebaseService?.avisosProf" (click)="abrirAvisos()">
+        <ion-icon slot="start" color="medium" name="{{aviso.icon}}"></ion-icon>
+        <ion-label class="ion-text-wrap">
+          <h3>Prof.:{{aviso.prof_matr}} Escola:{{aviso.local}} Serie:{{aviso.serie}} Turma:{{aviso.turma}}</h3>
+          <p>{{aviso.msg}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-content>
   </ion-card>
 
-  <!-- CRIAÇÃO DE AVISOS PROFESSOR -->
-  <ion-card style="border: 1px solid lightgray" *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
+  <ion-card style="border: 1px solid lightgray; height: 55%;" 
+    *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
     <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
-      <ion-label>Criar novo aviso</ion-label>
+      <ion-label>Tarefas</ion-label>
     </ion-card-header>
-    <ion-card-content>
-      <ion-list lines="none">
-        <ion-item>
-          <ion-label position="floating">Local</ion-label>
-          <ion-input [(ngModel)]="local" placeholder="{{this.firebaseService?.usuario?.attributes?.local_list[0]}}">
-          </ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Serie</ion-label>
-          <ion-input [(ngModel)]="serie"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Turma</ion-label>
-          <ion-input [(ngModel)]="turma"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">icone ('alert' ou 'information')</ion-label>
-          <ion-input [(ngModel)]="icon"></ion-input>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-label position="floating">Mensagem</ion-label>
-          <ion-textarea [(ngModel)]="msg"></ion-textarea>
-        </ion-item>
-      </ion-list>
-      <ion-row>
-        <ion-button color="success" fill="outline" (click)="newAviso()">Criar aviso</ion-button>
-      </ion-row>
-    </ion-card-content>
+
+    <ion-content scroll-y='true'>
+      <ion-item *ngFor="let tarefa of this.firebaseService?.tarefasProf" (click)="abrirTarefas()">
+        <ion-icon slot="start" color="medium" name="{{tarefa.icon}}"></ion-icon>
+        <ion-label class="ion-text-wrap">
+          <h3>Prof.:{{tarefa.prof_matr}} Escola:{{tarefa.local}} Serie:{{tarefa.serie}} Turma:{{tarefa.turma}} Data de Entrega:{{tarefa.dataEntrega}}</h3>
+          <p>{{tarefa.msg}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-content>
   </ion-card>
 
-  <!-- AVISOS DO ALUNO -->
-  <ion-card style="border: 1px solid lightgray" (click)="abrirAvisos()"
+  <!-- AVISOS E TAREFAS DO ALUNO -->
+  <ion-card style="border: 1px solid lightgray; height: 40%; scroll-margin-block-end: unset;" 
     *ngIf="this.firebaseService?.usuario?.type != 'Professor'">
     <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
       <ion-label>Avisos</ion-label>
     </ion-card-header>
-    <ion-item *ngFor="let aviso of this.firebaseService?.avisos">
-      <ion-icon slot="start" color="medium" name="{{aviso.icon}}"></ion-icon>
-      <ion-label class="ion-text-wrap">
-        <h3>Prof.:{{aviso.prof_matr}} Escola:{{aviso.local}} Serie:{{aviso.serie}} Turma:{{aviso.turma}}</h3>
-        <p>{{aviso.msg}}</p>
-      </ion-label>
-    </ion-item>
+
+    <ion-content scroll-y='true'>
+      <ion-item *ngFor="let aviso of this.firebaseService?.avisos" (click)="abrirAvisos()">
+        <ion-icon slot="start" color="medium" name="{{aviso.icon}}"></ion-icon>
+        <ion-label class="ion-text-wrap">
+          <h3>Prof.:{{aviso.prof_matr}} Escola:{{aviso.local}} Serie:{{aviso.serie}} Turma:{{aviso.turma}}</h3>
+          <p>{{aviso.msg}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-content>
   </ion-card>
 
-  <!-- <ion-card style="border: 1px solid lightgray" (click)="abrirTarefas()">
+  <ion-card style="border: 1px solid lightgray; height: 55%;" 
+    *ngIf="this.firebaseService?.usuario?.type != 'Professor'">
     <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
-      <ion-card-subtitle>Tarefas de Casa</ion-card-subtitle>
+      <ion-label>Tarefas</ion-label>
     </ion-card-header>
-    <ion-card-content>
-      <ion-list lines="none">
-        <ion-item *ngFor="let tarefa of tarefas" lines="inset">
-          <ion-icon slot="start" color="medium" name="{{tarefa.icon}}"></ion-icon>
-          <ion-label>{{tarefa.msg}}</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card> -->
-  <!-- <ion-button (click)="test()">teste</ion-button> -->
+
+    <ion-content scroll-y='true'>
+      <ion-item *ngFor="let tarefa of this.firebaseService?.tarefas" (click)="abrirTarefas()">
+        <ion-icon slot="start" color="medium" name="{{tarefa.icon}}"></ion-icon>
+        <ion-label class="ion-text-wrap">
+          <h3>Prof.:{{tarefa.prof_matr}} Escola:{{tarefa.local}} Serie:{{tarefa.serie}} Turma:{{tarefa.turma}}</h3>
+          <p>{{tarefa.msg}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-content>
+  </ion-card>
+
+ 
+  <div *ngIf="this.firebaseService?.usuario?.type != 'Aluno'">
+    <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button class="fab">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-fab-button routerLink="/criar-tarefa/" routerDirection="forward"  data-desc="Criar Tarefa">
+          <ion-icon name="bookmark"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button routerLink="/criar-aviso/" routerDirection="forward" data-desc="Criar Aviso">
+          <ion-icon name="alert"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+  </div>
+
+  <div *ngIf="this.firebaseService?.usuario?.type != 'Professor'">
+    <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button class="fab">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-fab-button routerLink="/add-book/" routerDirection="forward"  data-desc="Cadastrar leitura">
+          <ion-icon name="book"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+  </div>
 </ion-content>

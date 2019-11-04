@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Criar Aviso</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Local:</ion-label>
+    <ion-input [(ngModel)]="local" placeholder="{{this.firebaseService?.usuario?.attributes?.local_list[0]}}">
+    </ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Serie:</ion-label>
+    <ion-input [(ngModel)]="serie"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Turma:</ion-label>
+    <ion-input [(ngModel)]="turma"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Icone:</ion-label>
+    <ion-select [(ngModel)]="icon">
+      <ion-select-option value="alert">
+        <ion-label>Alerta</ion-label>
+        <ion-icon name="alert"></ion-icon>
+      </ion-select-option>
+      <ion-select-option value="information">
+        <ion-label>Informação</ion-label>
+        <ion-icon name="information"></ion-icon>
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+      <ion-label position="floating">Ocorrência:</ion-label>        
+      <ion-datetime required placeholder="DD/MM/YYYY" display-format="DD/MM/YYYY" 
+      min="2019" max="2100" [(ngModel)]="dataOcorrencia" ></ion-datetime>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-label position="floating">Mensagem</ion-label>
+    <ion-textarea [(ngModel)]="msg"></ion-textarea>
+  </ion-item>
+  <div class="center">
+    <ion-button shape="round" fill="outline" style="color: black;
+            border-color: #000000; " color="dark" (click)="newAviso()" >
+      Criar tarefa
+    </ion-button>
+  </div>
+
+
+
+</ion-content>
