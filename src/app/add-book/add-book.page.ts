@@ -42,11 +42,6 @@ export class AddBookPage implements OnInit {
   };
   search: boolean = true;
 
-
-
-  aluno: any;
-  conta: any;
-
   // ARQUIVOS
   nomeResumo = "Selecionar Resenha/Resumo";
   name: any;
@@ -71,13 +66,11 @@ export class AddBookPage implements OnInit {
 
     this.databaseService.getAlunoFromAPI(undefined).then(res => {
       if (res.data[0] != undefined) {
-        this.aluno = res.data[0];
+        this.databaseService.aluno = res.data[0];
       } else {
         alert("n° de matrícula não encontrada no ano atual")
       }
     });
-
-    this.conta = this.firebaseService.getContaLocal();
   }
 
 

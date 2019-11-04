@@ -11,7 +11,7 @@ import { FirebaseService } from '../firebase.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  matricula: any = "459104";
+  matricula: any = 459104;
   alunoTemp: any = undefined;
   aluno: any = undefined;
 
@@ -20,6 +20,7 @@ export class RegisterPage implements OnInit {
   formReSenha: string = "";
   formNascimento: string = "";
   formResponse: string = "";
+  formEmail: string = "";
   hashSenha: any;
 
 
@@ -74,15 +75,15 @@ export class RegisterPage implements OnInit {
       if (response == undefined) {
         //busca a matricula digitada na API da IMA
         this.databaseService.getAlunoFromAPI(this.matricula).then(res => {
-          if(res.data[0]!=undefined){ 
+          if (res.data[0] != undefined) {
             console.log(res);
             this.alunoTemp = res.data[0];
-          }else{
+          } else {
             alert("n° de matrícula não encontrada no ano atual")
           }
           console.log(this.alunoTemp);
         })
-      }else{
+      } else {
         alert("está matricula ja possui cadastro")
       }
       this.loadingController.dismiss();
@@ -102,14 +103,21 @@ export class RegisterPage implements OnInit {
     else if (this.formSenha.length < 8) {
       this.formResponse = "A senha deve ter ao menos 8 digitos";
     }
+    else if (!(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(this.formEmail)) {
+      this.formResponse = "Email inválido";
+    }
     else {
       this.conta.matricula = this.matricula;
       this.conta.pass = this.md5.toMD5(this.formSenha).toString();
 
       this.usuarioAluno.matricula = this.matricula;
+      this.usuarioAluno.attributes.email = this.formEmail
+      this.usuarioAluno.attributes.local = this.aluno.attributes.local_cod
+      this.usuarioAluno.attributes.serie = this.aluno.attributes.serie_cod
+      this.usuarioAluno.attributes.turma = this.aluno.attributes.turma
 
       this.firebaseService.newConta(this.conta, this.usuarioAluno, this.matricula).then(resp => {
-        console.log("resp of Promise.then: "+resp);
+        console.log("resp of Promise.then: " + resp);
         if (resp) {
           alert("Bem vindo ao Portal SEILE!")
           this.firebaseService.setUsuario(this.matricula);
@@ -119,7 +127,7 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  goToRegisterProf(){
+  goToRegisterProf() {
     this.router.navigate(['/register-prof/']);
   }
 

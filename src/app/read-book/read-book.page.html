@@ -19,7 +19,8 @@
     <ion-item color="light">
       <ion-label>Leituras Pendentes</ion-label>
       <ion-select [(ngModel)]="profLocalSelected" (ionChange)="profLocalChange()">
-        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}</ion-select-option>
+        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}
+        </ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -38,22 +39,32 @@
     <ion-card-header color="light">
       <ion-card-title>{{this.databaseService?.aluno?.attributes?.nome}}</ion-card-title>
     </ion-card-header>
-    <ion-card-content>
+    <div>
       <ion-item lines="none">
-        <ion-card-subtitle slot="start">
+        <ion-label slot="start">
           <b>{{this.firebaseService?.alunoLeiturasCorrigidas?.length}}</b>/<b>{{this.firebaseService?.leituras?.length}}</b>
-          Leituras validadas
-        </ion-card-subtitle>
-        <ion-card-subtitle slot="end"> <b>{{this.firebaseService?.usuario?.attributes?.leit_pont}}</b> Pontos
-        </ion-card-subtitle>
+          Leituras
+          validadas</ion-label>
+        <ion-label><b>{{this.firebaseService?.usuario?.attributes?.leit_pont}} Pontos</b></ion-label>
       </ion-item>
-    </ion-card-content>
+      <ion-item>
+        <ion-label><b>{{this.leituraLocalRank | async }}° Colocado</b> da
+          {{this.firebaseService?.usuario?.attributes?.serie}} serie em
+          {{this.firebaseService?.usuario?.attributes?.local}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>{{this.leituraLocalSerieRank | async }}° Colocado</b> em
+          {{this.firebaseService?.usuario?.attributes?.local}}</ion-label>
+      </ion-item>
+      <ion-card-subtitle slot="end">
+      </ion-card-subtitle>
+    </div>
   </div>
   <br>
   <br>
   <div style="border: 1px solid lightgray" *ngIf="this.firebaseService?.usuario?.type!='Professor'">
     <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
-      <ion-card-subtitle><b>Minhas Leituras</b></ion-card-subtitle>
+      <ion-label><b>Minhas Leituras</b></ion-label>
     </ion-card-header>
 
     <ion-list lines="none" color="light">

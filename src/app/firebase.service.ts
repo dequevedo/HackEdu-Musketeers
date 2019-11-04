@@ -82,6 +82,34 @@ export class FirebaseService {
     });
   }
 
+
+  getIndexRanking(local: any, serie: any, matricula: any) {
+    return new Promise((resolve) => {
+
+      this.db.list("SeileDB/usuarios", ref => ref.orderByChild('attributes/local').equalTo(local)).valueChanges().subscribe(response => {
+        var resp: any[] = response;
+
+        if (serie == undefined || serie == null) {
+          resp = resp.filter(usuario => usuario.attributes.serie == serie);
+        }
+
+        var arraySorted = resp.sort((a, b) => (a.attributes.leit_pont > b.attributes.leit_pont) ? -1 : 1)
+        var id = arraySorted.findIndex(x => x.matricula == matricula) + 1;
+        var index;
+        if (id == 0) index = 1;
+        else index = id;
+
+        //se encontrar o user, retorna a conta, senão retorna undefined
+        if (index != undefined && index != null) {
+          resolve(index);
+        } else {
+          resolve(undefined);
+        }
+      });
+    });
+
+  }
+
   avaliarLeitura(leitura: any) {
     const url = "SeileDB/leituras/" + leitura.key
     return new Promise((resolve) => {

@@ -12,7 +12,7 @@
     align-items-center>
     <ion-item>
       <ion-label position="floating">N° da Matrícula</ion-label>
-      <ion-input [(ngModel)]="matricula"></ion-input>
+      <ion-input [(ngModel)]="matricula" type="number"></ion-input>
     </ion-item>
     <ion-button color="primary" fill="outline" (click)="findMatricula()">Pronto</ion-button>
   </ion-row>
@@ -40,6 +40,10 @@
         <ion-input placeholder="1995-12-31" [(ngModel)]="formNascimento"></ion-input>
       </ion-item>
       <ion-item>
+        <ion-label position="floating">E-mail</ion-label>
+        <ion-input [(ngModel)]="formEmail" type="email"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label position="floating">Crie uma senha</ion-label>
         <ion-input type="password" [(ngModel)]="formSenha"></ion-input>
       </ion-item>
@@ -60,7 +64,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-item detail  *ngIf="this.alunoTemp == undefined && this.aluno == undefined">  
+    <ion-item detail *ngIf="this.alunoTemp == undefined && this.aluno == undefined">
       <ion-label>Professor?</ion-label>
       <ion-button color="medium" fill="outline" (click)="goToRegisterProf()">Registrar Professor</ion-button>
     </ion-item>
