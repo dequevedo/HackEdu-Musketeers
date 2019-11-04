@@ -93,19 +93,22 @@ export class FirebaseService {
       this.db.list("SeileDB/usuarios", ref => ref.orderByChild('attributes/local').equalTo(local)).valueChanges().subscribe(response => {
         var resp: any[] = response;
 
-        if (serie == undefined || serie == null) {
+        if (serie != undefined || serie != null) {
+          console.log("serie: '"+serie+"'")
           resp = resp.filter(usuario => usuario.attributes.serie == serie);
         }
 
         var arraySorted = resp.sort((a, b) => (a.attributes.leit_pont > b.attributes.leit_pont) ? -1 : 1)
-        var id = arraySorted.findIndex(x => x.matricula == matricula) + 1;
-        var index;
-        if (id == 0) index = 1;
-        else index = id;
+        var id = arraySorted.findIndex(x => x.matricula == matricula);
+        var index = id;
+        console.log("teste")
+        console.log("("+arraySorted.length+""+"-"+index+")/"+arraySorted.length+" = "+((arraySorted.length-index)/arraySorted.length));
+        var percent = ((arraySorted.length-index)/arraySorted.length)
 
         //se encontrar o user, retorna a conta, senão retorna undefined
-        if (index != undefined && index != null) {
-          resolve(index);
+        if (percent != undefined && percent != null && percent <= 1) {
+          console.log(percent);
+          resolve(percent);
         } else {
           resolve(undefined);
         }

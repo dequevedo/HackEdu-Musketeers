@@ -20,7 +20,8 @@
       <ion-label>Leituras Pendentes</ion-label>
       <ion-select [(ngModel)]="profLocalSelected" (ionChange)="profLocalChange()">
         <!-- ESSA LINHA PODE BUGAR A SELEÇÃO DE LOCAIS DO PROFESSOR SE HOUVER ESPAÇO NO LOCAL: ('C0001' != 'C0001 ') -->
-        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}</ion-select-option>
+        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}
+        </ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -36,34 +37,96 @@
 
   <!-- ALUNOS -->
   <div *ngIf="this.firebaseService?.usuario?.type!='Professor'" style="border: 1px solid lightgray">
-    <ion-card-header color="light">
-      <ion-card-title>{{this.databaseService?.aluno?.attributes?.nome}}</ion-card-title>
-    </ion-card-header>
+    <ion-item color="primary" text-center>
+      <ion-label>
+        <h2><b>
+            <ion-icon name="person"></ion-icon>&nbsp;{{this.databaseService?.aluno?.attributes?.nome}}
+          </b></h2>
+      </ion-label>
+    </ion-item>
+    <br>
+    <ion-row justify-content-center align-items-center>
+      <div style="-moz-border-radius:50%;
+      -webkit-border-radius:50%;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      background-color: #3880ff;
+      text-align:center;
+      color:white;
+      ">
+        <h2><b>{{this.firebaseService?.usuario?.attributes?.leit_pont}}</b></h2>
+        <p>Pontos</p>
+      </div>
+    </ion-row>
+    <br>
+    <br>
     <div>
-      <ion-item lines="none">
-        <ion-label slot="start">
-          <b>{{this.firebaseService?.alunoLeiturasCorrigidas?.length}}</b>/<b>{{this.firebaseService?.leituras?.length}}</b>
-          Leituras
-          validadas</ion-label>
-        <ion-label><b>{{this.firebaseService?.usuario?.attributes?.leit_pont}} Pontos</b></ion-label>
-      </ion-item>
+      <ion-row justify-content-center align-items-center>
+        <ion-label>Leituras validadas&nbsp;&nbsp;</ion-label>
+        <div style="-moz-border-radius:50%;
+        -webkit-border-radius:50%;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        background-color: #0cd1e8;
+        text-align:center;
+        color:white;
+        ">
+          <br><b>{{this.firebaseService?.alunoLeiturasCorrigidas?.length}}</b>/<b>{{this.firebaseService?.leituras?.length}}</b>
+        </div>
+      </ion-row>
       <ion-item>
-        <ion-label><b>{{this.leituraLocalRank | async }}° Colocado</b> da
-          {{this.firebaseService?.usuario?.attributes?.serie}} serie em
-          {{this.firebaseService?.usuario?.attributes?.local}}</ion-label>
+        <ion-progress-bar color="secondary"
+          value="{{this.firebaseService?.alunoLeiturasCorrigidas?.length/this.firebaseService?.leituras?.length}}"
+          buffer="0"></ion-progress-bar>
       </ion-item>
+
+      <ion-row justify-content-center align-items-center>
+        <ion-label>Lê mais que&nbsp;&nbsp;</ion-label>
+        <div style="-moz-border-radius:50%;
+                -webkit-border-radius:50%;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                background-color: #7044ff;
+                text-align:center;
+                color:white;
+                "><br><b>{{this.leituraLocalSerieRank*100}}%</b></div>
+        <ion-label>
+          &nbsp;&nbsp;da {{this.firebaseService?.usuario?.attributes?.serie}} serie em
+          {{this.firebaseService?.usuario?.attributes?.local}}</ion-label>
+      </ion-row>
+
       <ion-item>
-        <ion-label><b>{{this.leituraLocalSerieRank | async }}° Colocado</b> em
-          {{this.firebaseService?.usuario?.attributes?.local}}</ion-label>
+        <ion-progress-bar color="tertiary" value="{{this.leituraLocalSerieRank}}" buffer="0">
+        </ion-progress-bar>
       </ion-item>
-      <ion-card-subtitle slot="end">
-      </ion-card-subtitle>
+
+      <ion-row justify-content-center align-items-center>
+        <ion-label>Lê mais que&nbsp;&nbsp;</ion-label>
+        <div style="-moz-border-radius:50%;
+            -webkit-border-radius:50%;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background-color: #10dc60;
+            text-align:center;
+            color:white;
+            "><br><b> {{this.leituraLocalRank*100}}% </b></div>
+        <ion-label>&nbsp;&nbsp;dos alunos em {{this.firebaseService?.usuario?.attributes?.local}}</ion-label>
+
+      </ion-row>
+      <ion-item>
+        <ion-progress-bar color="success" value="{{this.leituraLocalRank}}" buffer="0"></ion-progress-bar>
+      </ion-item>
+
     </div>
   </div>
   <br>
   <br>
   <div style="border: 1px solid lightgray" *ngIf="this.firebaseService?.usuario?.type!='Professor'">
-    <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
+    <ion-card-header color="primary" style="border-bottom: 1px solid lightgray">
       <ion-label><b>Minhas Leituras</b></ion-label>
     </ion-card-header>
 
@@ -74,9 +137,9 @@
         <ion-label slot="end"><b>{{leitura?.nota}}</b></ion-label>
       </ion-item>
     </ion-list>
-    <ion-card-content color="light" no-margin no-padding>
-      <ion-item color="light" lines="none" (click)="addLeitura()">
-        <ion-icon slot="end" color="medium" name="add"></ion-icon>
+    <ion-card-content color="primary" no-margin no-padding>
+      <ion-item color="primary" lines="none" (click)="addLeitura()">
+        <ion-icon slot="end" name="add"></ion-icon>
         <ion-label slot="start">Nova leitura</ion-label>
       </ion-item>
     </ion-card-content>

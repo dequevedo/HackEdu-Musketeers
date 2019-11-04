@@ -14,9 +14,9 @@ export class ReadBookPage implements OnInit {
 
   aluno: any;
 
-  leituraLocalRank: any;
+  leituraLocalRank: number;
 
-  leituraLocalSerieRank: any;
+  leituraLocalSerieRank: number;
 
   search: Boolean = false
 
@@ -44,8 +44,14 @@ export class ReadBookPage implements OnInit {
     this.menu.enable(true);
 
     if (this.firebaseService.usuario.type != "Professor") {
-      this.leituraLocalRank = this.firebaseService.getIndexRanking(this.firebaseService.usuario.attributes.local, undefined, this.firebaseService.usuario.matricula);
-      this.leituraLocalSerieRank = this.firebaseService.getIndexRanking(this.firebaseService.usuario.attributes.local, this.firebaseService.usuario.attributes.serie, this.firebaseService.usuario.matricula);
+      this.firebaseService.getIndexRanking(this.firebaseService.usuario.attributes.local, undefined, this.firebaseService.usuario.matricula).then(response => {
+        var resp: any = response;
+        this.leituraLocalRank = resp;
+      });
+      this.firebaseService.getIndexRanking(this.firebaseService.usuario.attributes.local, this.firebaseService.usuario.attributes.serie, this.firebaseService.usuario.matricula).then(response => {
+        var resp: any = response;
+        this.leituraLocalSerieRank = resp;
+      });
 
       this.databaseService.getAlunoFromAPI(undefined).then(res => {
         if (res.data[0] != undefined) {
