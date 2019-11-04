@@ -93,41 +93,6 @@
         <ion-textarea color="medium" rows="1" readonly>
           {{this.firebaseService?.leituraDetail?.comment}}</ion-textarea>
       </ion-item>
-
-      <!-- <ion-card *ngIf="this.aluno != undefined" class="welcome-card"
-    style="border: 1px solid lightgray; border-radius: 25px;">
-    <ion-card-header>
-      <ion-card-subtitle>Cadastre seus dados</ion-card-subtitle>
-      <ion-card-title>{{this.aluno?.attributes?.nome}}</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      <ion-item color="light">
-        <ion-label position="floating">A Matrícula será o seu login de acesso</ion-label>
-        <ion-input value="{{this.aluno?.attributes?.matricula}}" readonly></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Data de Nascimento</ion-label>
-        <ion-input placeholder="1995-12-31" [(ngModel)]="formNascimento"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Crie uma senha</ion-label>
-        <ion-input type="password" [(ngModel)]="formSenha"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Repita a senha</ion-label>
-        <ion-input type="password" [(ngModel)]="formReSenha"></ion-input>
-      </ion-item>
-      <br>
-      <ion-row>
-        <ion-label color="danger">{{this.formResponse}}</ion-label>
-      </ion-row>
-      <ion-row>
-        <ion-button color="success" fill="outline" (click)="cadastrar()">Cadastrar</ion-button>
-        <ion-button color="danger" fill="outline" (click)="this.aluno = undefined">Cancelar</ion-button>
-      </ion-row>
-    </ion-card-content>
-  </ion-card> -->
     </ion-card-header>
 
     <ion-card-content style="background-color: white;">
@@ -142,7 +107,7 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">Nota Atribuída(0-10)</ion-label>
-        <ion-input type="number" placeholder="5.5" [(ngModel)]="notaForm"></ion-input>
+        <ion-input type="number" placeholder="5.5" max="10" min="0" [(ngModel)]="notaForm"></ion-input>
       </ion-item>
       <ion-item lines="none">
         <ion-label position="floating">Comentário</ion-label>

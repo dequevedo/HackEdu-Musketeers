@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterProfPage implements OnInit {
 
-  matricula: any = "905001587";
+  matricula: any = 905001587;
   matExists: Boolean = false;
 
   //variaveis para controle de formulário
@@ -20,6 +20,7 @@ export class RegisterProfPage implements OnInit {
   formReSenha: string = "";
   formNome: string = "";
   formResponse: string = "";
+  formEmail: string = "";
   hashSenha: any;
   localArray: any[] = [];
 
@@ -91,6 +92,9 @@ export class RegisterProfPage implements OnInit {
     else if (this.formSenha.length < 8) {
       this.formResponse = "A senha deve ter ao menos 8 digitos";
     }
+    else if (!(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(this.formEmail)) {
+      this.formResponse = "Email inválido";
+    }
     else {
       this.conta.matricula = this.matricula;
       this.conta.pass = this.md5.toMD5(this.formSenha).toString();
@@ -98,9 +102,11 @@ export class RegisterProfPage implements OnInit {
       this.usuarioProf.matricula = this.matricula;
       this.usuarioProf.attributes.nome = this.formNome;
       this.usuarioProf.attributes.local_list = this.localArray;
+      this.usuarioProf.attributes.email = this.formEmail
 
       this.firebaseService.newConta(this.conta, this.usuarioProf, this.matricula).then(resp => {
         if (resp) {
+          alert("Bem vindo ao Portal SEILE!")
           this.firebaseService.setUsuario(this.matricula);
           this.router.navigate(['/home/']);
         }
