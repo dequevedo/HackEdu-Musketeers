@@ -47,9 +47,7 @@ export class LoginPage implements OnInit {
     });
 
     await this.firebaseService.verifyUser(this.userLogin).then(resp => {
-      this.loadingController.dismiss();
       var response: any = resp
-
       if (response != undefined && response != null) {
         var hashPass = this.md5.toMD5(this.password).toString(); //transforma a senha digitada em hash com md5
         // console.log(hashPass + " - hpass | rpass - " + response.pass)
@@ -65,7 +63,6 @@ export class LoginPage implements OnInit {
         this.firebaseService.setUsuario(undefined);
         this.erroMessage = "login ou senha incorretos";
       }
-      this.loadingController.dismiss();
     });
   }
 

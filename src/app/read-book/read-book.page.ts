@@ -43,15 +43,6 @@ export class ReadBookPage implements OnInit {
   ionViewDidEnter() {
     this.menu.enable(true);
 
-    this.loadingController.create({
-      message: 'Um momento...',
-      duration: 6000
-    }).then((res) => {
-      res.present();
-      res.onDidDismiss().then((dis) => {
-      });
-    });
-
     if (this.firebaseService.usuario.type != "Professor") {
       this.leituraLocalRank = this.firebaseService.getIndexRanking(this.firebaseService.usuario.attributes.local, undefined, this.firebaseService.usuario.matricula);
       this.leituraLocalSerieRank = this.firebaseService.getIndexRanking(this.firebaseService.usuario.attributes.local, this.firebaseService.usuario.attributes.serie, this.firebaseService.usuario.matricula);
@@ -69,9 +60,7 @@ export class ReadBookPage implements OnInit {
       })
       this.firebaseService.getAlunoLeiturasCorrigidas(undefined).then(res => {
         this.firebaseService.alunoLeiturasCorrigidas = res;
-        this.loadingController.dismiss();
       })
-      
     }
   }
 

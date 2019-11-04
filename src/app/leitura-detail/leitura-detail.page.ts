@@ -17,7 +17,7 @@ export class LeituraDetailPage implements OnInit {
     private firebaseService: FirebaseService,
     private menu: MenuController, ) { }
 
-  notaForm: number = 0;
+  notaForm: Number = 0.0;
   commentForm: string = "";
 
   ngOnInit() {
@@ -30,7 +30,7 @@ export class LeituraDetailPage implements OnInit {
   avaliarLeitura() {
     //cria nova leitura
     this.firebaseService.leituraDetail.prof_matr = this.firebaseService.usuario.matricula
-    this.firebaseService.leituraDetail.nota = this.notaForm.toFixed(1);
+    this.firebaseService.leituraDetail.nota = this.notaForm;
     this.firebaseService.leituraDetail.comment = this.commentForm
 
     this.firebaseService.avaliarLeitura(this.firebaseService.leituraDetail).then(resp =>{

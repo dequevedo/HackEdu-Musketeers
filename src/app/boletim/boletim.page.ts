@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/database.service';
-import { MenuController } from '@ionic/angular'; 
+import { MenuController, LoadingController } from '@ionic/angular'; 
 import { FirebaseService } from '../firebase.service';
 
 @Component({
@@ -22,6 +22,7 @@ export class BoletimPage implements OnInit {
 
   constructor(
     private databaseService: DatabaseService,
+    private loadingController: LoadingController,
     private firebaseService: FirebaseService,
     private menu: MenuController
   ) { }
@@ -31,10 +32,21 @@ export class BoletimPage implements OnInit {
   }
 
   ionViewDidEnter() {
+
+
     if(this.firebaseService.usuario.type != "Professor"){
       if (this.databaseService.materiaArray != undefined) {
         this.materiaArray = this.databaseService.materiaArray
       } else {
+        this.loadingController.create({
+          message: 'Um momento...',
+          duration: 6000
+        }).then((res) => {
+          res.present();
+          res.onDidDismiss().then((dis) => {
+          });
+        });
+
         this.materiaArray = undefined;
         this.databaseService.getNotas().then(res => {
           if (res.data[0] != undefined) {
@@ -61,6 +73,7 @@ export class BoletimPage implements OnInit {
             this.databaseService.materiaArray = this.materiaArray
             alert("Não foram encontradas notas do aluno no ano atual")
           }
+          this.loadingController.dismiss();
         });
       }
     }

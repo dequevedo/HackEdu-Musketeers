@@ -95,7 +95,7 @@
       </ion-item>
     </ion-card-header>
 
-    <ion-card-content style="background-color: white;">
+    <ion-card-content style="background-color: white;" *ngIf="this.firebaseService?.usuario?.type=='Professor' && this.firebaseService?.leituraDetail?.prof_matr == '-'">
       <ion-row justify-content-center align-items-center>
         <ion-label>
           <h2>AVALIAR LEITURA</h2>
