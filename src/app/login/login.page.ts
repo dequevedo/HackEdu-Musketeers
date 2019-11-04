@@ -39,7 +39,7 @@ export class LoginPage implements OnInit {
   async login() {
     this.loadingController.create({
       message: 'Um momento...',
-      duration: 8000
+      duration: 6000
     }).then((res) => {
       res.present();
       res.onDidDismiss().then((dis) => {
@@ -52,7 +52,7 @@ export class LoginPage implements OnInit {
 
       if (response != undefined && response != null) {
         var hashPass = this.md5.toMD5(this.password).toString(); //transforma a senha digitada em hash com md5
-        console.log(hashPass + " - hpass | rpass - " + response.pass)
+        // console.log(hashPass + " - hpass | rpass - " + response.pass)
         if (hashPass == response.pass) {
           this.firebaseService.setUsuario(this.userLogin);
           this.erroMessage = undefined;

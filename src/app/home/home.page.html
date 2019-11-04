@@ -14,21 +14,73 @@
 </ion-header>
 
 <ion-content>
-  <ion-card style="border: 1px solid lightgray" (click)="abrirAvisos()">
+  <!-- AVISOS FEITOS PELO PROFESSOR -->
+  <ion-card style="border: 1px solid lightgray" (click)="abrirAvisos()"
+    *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
     <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
-      <ion-card-subtitle>Avisos</ion-card-subtitle>
+      <ion-label>Meus Avisos</ion-label>
+    </ion-card-header>
+    <ion-item *ngFor="let aviso of this.firebaseService?.avisosProf">
+      <ion-icon slot="start" color="medium" name="{{aviso.icon}}"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <h3>Prof.:{{aviso.prof_matr}} Escola:{{aviso.local}} Serie:{{aviso.serie}} Turma:{{aviso.turma}}</h3>
+        <p>{{aviso.msg}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
+  <!-- CRIAÇÃO DE AVISOS PROFESSOR -->
+  <ion-card style="border: 1px solid lightgray" *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
+    <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
+      <ion-label>Criar novo aviso</ion-label>
     </ion-card-header>
     <ion-card-content>
       <ion-list lines="none">
-        <ion-item *ngFor="let aviso of avisos" lines="inset">
-          <ion-icon slot="start" color="medium" name="{{aviso.icon}}"></ion-icon>
-          <ion-label>{{aviso.msg}}</ion-label>
+        <ion-item>
+          <ion-label position="floating">Local</ion-label>
+          <ion-input [(ngModel)]="local" placeholder="{{this.firebaseService?.usuario?.attributes?.local_list[0]}}">
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Serie</ion-label>
+          <ion-input [(ngModel)]="serie"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Turma</ion-label>
+          <ion-input [(ngModel)]="turma"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">icone ('alert' ou 'information')</ion-label>
+          <ion-input [(ngModel)]="icon"></ion-input>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label position="floating">Mensagem</ion-label>
+          <ion-textarea [(ngModel)]="msg"></ion-textarea>
         </ion-item>
       </ion-list>
+      <ion-row>
+        <ion-button color="success" fill="outline" (click)="newAviso()">Criar aviso</ion-button>
+      </ion-row>
     </ion-card-content>
   </ion-card>
-  <ion-card style="border: 1px solid lightgray" (click)="abrirTarefas()">
-      <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
+
+  <!-- AVISOS DO ALUNO -->
+  <ion-card style="border: 1px solid lightgray" (click)="abrirAvisos()"
+    *ngIf="this.firebaseService?.usuario?.type != 'Professor'">
+    <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
+      <ion-label>Avisos</ion-label>
+    </ion-card-header>
+    <ion-item *ngFor="let aviso of this.firebaseService?.avisos">
+      <ion-icon slot="start" color="medium" name="{{aviso.icon}}"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <h3>Prof.:{{aviso.prof_matr}} Escola:{{aviso.local}} Serie:{{aviso.serie}} Turma:{{aviso.turma}}</h3>
+        <p>{{aviso.msg}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
+  <!-- <ion-card style="border: 1px solid lightgray" (click)="abrirTarefas()">
+    <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
       <ion-card-subtitle>Tarefas de Casa</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
@@ -39,6 +91,6 @@
         </ion-item>
       </ion-list>
     </ion-card-content>
-  </ion-card>
-  <ion-button (click) = "test()">teste</ion-button>
+  </ion-card> -->
+  <!-- <ion-button (click)="test()">teste</ion-button> -->
 </ion-content>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookServiceService } from 'src/app/book-service.service';
 import { DatabaseService } from 'src/app/database.service';
-import { MenuController } from '@ionic/angular';
+import { MenuController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../firebase.service';
 
@@ -29,9 +29,9 @@ export class ReadBookPage implements OnInit {
   };
 
   constructor(
-    private bookService: BookServiceService,
     private databaseService: DatabaseService,
     private firebaseService: FirebaseService,
+    private loadingController: LoadingController,
     private menu: MenuController,
     private router: Router
   ) { }
@@ -42,6 +42,15 @@ export class ReadBookPage implements OnInit {
 
   ionViewDidEnter() {
     this.menu.enable(true);
+
+    this.loadingController.create({
+      message: 'Um momento...',
+      duration: 6000
+    }).then((res) => {
+      res.present();
+      res.onDidDismiss().then((dis) => {
+      });
+    });
 
     if (this.firebaseService.usuario.type != "Professor") {
       this.leituraLocalRank = this.firebaseService.getIndexRanking(this.firebaseService.usuario.attributes.local, undefined, this.firebaseService.usuario.matricula);
@@ -60,7 +69,9 @@ export class ReadBookPage implements OnInit {
       })
       this.firebaseService.getAlunoLeiturasCorrigidas(undefined).then(res => {
         this.firebaseService.alunoLeiturasCorrigidas = res;
+        this.loadingController.dismiss();
       })
+      
     }
   }
 

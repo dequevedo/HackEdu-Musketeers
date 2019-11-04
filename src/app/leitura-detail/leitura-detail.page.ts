@@ -30,10 +30,12 @@ export class LeituraDetailPage implements OnInit {
   avaliarLeitura() {
     //cria nova leitura
     this.firebaseService.leituraDetail.prof_matr = this.firebaseService.usuario.matricula
-    this.firebaseService.leituraDetail.nota = this.notaForm
+    this.firebaseService.leituraDetail.nota = this.notaForm.toFixed(1);
     this.firebaseService.leituraDetail.comment = this.commentForm
 
-    this.firebaseService.avaliarLeitura(this.firebaseService.leituraDetail);
+    this.firebaseService.avaliarLeitura(this.firebaseService.leituraDetail).then(resp =>{
+      alert("Sua Avaliação foi enviada.")
+    });
   }
 
   downloadArquivoLeitura(){

@@ -19,8 +19,8 @@
     <ion-item color="light">
       <ion-label>Leituras Pendentes</ion-label>
       <ion-select [(ngModel)]="profLocalSelected" (ionChange)="profLocalChange()">
-        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}
-        </ion-select-option>
+        <!-- ESSA LINHA PODE BUGAR A SELEÇÃO DE LOCAIS DO PROFESSOR SE HOUVER ESPAÇO NO LOCAL: ('C0001' != 'C0001 ') -->
+        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}</ion-select-option>
       </ion-select>
     </ion-item>
 

@@ -3,7 +3,7 @@ import { DatabaseService } from 'src/app/database.service';
 import { MenuController } from '@ionic/angular';
 import { FirebaseService } from '../firebase.service';
 
-import { EmailComposer } from '@ionic-native/email-composer/ngx';  
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
 
 
 @Component({
@@ -22,9 +22,24 @@ export class HomePage {
 
   public aluno: any;
   profLocal: any;
+  icon = "information";
+  msg = "";
+  local = "";
+  serie = "";
+  turma = "";
+
 
   avisos: any[] = [
-    { icon: "alert", msg: "Não haverá aula no dia 20/10/2019" },
+    {
+      prof_matr: 0,
+      icon: "alert",
+      msg: "Não haverá aula no dia 20/10/2019",
+      local: "",
+      serie: "",
+      turma: "",
+      key: "",
+      date: new Date().toISOString()
+    },
     { icon: "information", msg: "No dia 27/11/2019 haverá reunião de pais" },
     { icon: "information", msg: "No dia 30/11/2019 haverá exposição de projetos de ciência" },
     { icon: "information", msg: "No dia 02/12/2019 será o ultimo dia de aula" }
@@ -52,34 +67,53 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    if(this.firebaseService.usuario.type != "Professor"){
+    if (this.firebaseService.usuario.type != "Professor") {
       this.databaseService.getAlunoFromAPI(undefined).then(res => {
         if (res.data[0] != undefined) {
-          this.aluno = res.data[0];
-          this.databaseService.aluno = this.aluno
+          this.databaseService.aluno = res.data[0];
+          this.firebaseService.getAvisos(this.firebaseService.usuario.attributes.local, this.firebaseService.usuario.attributes.serie, this.firebaseService.usuario.attributes.turma).then(response => {
+            var resp: any = response;
+            this.firebaseService.avisos = resp;
+          });
         } else {
           alert("Aluno não encontrado no ano atual")
         }
       });
-    }else if(this.databaseService.profLocal == undefined){
+    } else if (this.databaseService.profLocal == undefined) {
       this.databaseService.getLocal(this.firebaseService.usuario.attributes.local_list[0]).then(res => {
         if (res.data[0] != undefined) {
           this.databaseService.profLocal = res.data[0];
+          this.firebaseService.getAvisosProf(this.firebaseService.usuario.matricula).then(response => {
+            var resp: any = response;
+            this.firebaseService.avisosProf = resp;
+          });
         } else {
-          alert("Aluno não encontrado no ano atual")
+          alert("Professor não encontrado")
         }
       });
     }
     this.menu.enable(true);
   }
 
+  newAviso() {
+    var aviso = {
+      prof_matr: this.firebaseService.usuario.matricula,
+      icon: this.icon || "information",
+      msg: this.msg,
+      local: this.local || this.firebaseService.usuario.attributes.local_list[0],
+      serie: this.serie,
+      turma: this.turma,
+      key: "",
+      date: new Date().toISOString()
+    }
 
-
+    this.firebaseService.newAviso(aviso);
+  }
 
 
   // }
-  //Só fuinciona abrindo o gmail
-  enviarEmail() {
+  //Só funciona abrindo o gmail
+  enviarEmail(local: any, serie: any, turma: any) {
     let email = {
       to: 'iagoisborichi@gmail.com',
       cc: '',
@@ -90,8 +124,9 @@ export class HomePage {
       isHtml: true
     }
 
-    this.emailComposer.open(email).then((res) => {alert("enviado: " + res)
-  }).catch(e => alert(e));
+    this.emailComposer.open(email).then((res) => {
+      alert("enviado: " + res)
+    }).catch(e => alert(e));
   }
 
 }

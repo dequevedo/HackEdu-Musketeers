@@ -39,12 +39,13 @@ export class AppComponent {
       title: 'Principal',
       url: '/home',
       icon: 'home'
-    },
-    {
-      title: 'Boletim',
-      url: '/boletim',
-      icon: 'list'
     }
+    // ,
+    // {
+    //   title: 'Boletim',
+    //   url: '/boletim',
+    //   icon: 'list'
+    // }
     ,
     {
       title: 'Leitura',
@@ -75,25 +76,19 @@ export class AppComponent {
   ngOnInit() {
   }
 
-
-  // ionViewDidEnter() {
-  //   console.log(this.firebaseService.matricula);
-  //   this.databaseService.getAlunoFromAPI().then(res => {
-  //     if (res.data[0] != undefined) {
-  //       this.aluno = res.data[0];
-  //     } else {
-  //       alert("n° de matrícula não encontrada no ano atual")
-  //     }
-  //   });
-  //   this.conta = this.firebaseService.getContaLocal();
-
-  // }
-
   desconectar() {
     this.firebaseService.usuario = undefined;
     this.firebaseService.matricula = undefined;
+    this.firebaseService.avisos = undefined;
+    this.firebaseService.avisosProf = undefined;
+    this.firebaseService.alunoLeiturasCorrigidas = undefined;
+    this.firebaseService.leituras = undefined;
+    this.firebaseService.leituraDetail = undefined;
+
     this.databaseService.aluno = undefined;
     this.databaseService.materiaArray = undefined;
+    this.databaseService.profLocal = undefined;
+
     this.router.navigate(['/login/']);
   }
 }

@@ -105,60 +105,33 @@ export class AddBookPage implements OnInit {
   enviarArquivo() {
     var nameArquivo: any = (new Date().toISOString()) + "-" + this.firebaseService.usuario.matricula + "." + this.tipoDocF;
     var leitura = {
-      "aluno_local": this.databaseService.aluno.attributes.local_cod,
-      "aluno_matr": this.firebaseService.usuario.matricula,
-      "dataInicio": this.dataInicio,
+      "aluno_local": this.databaseService.aluno.attributes.local_cod || "",
+      "aluno_matr": this.firebaseService.usuario.matricula || "",
+      "dataInicio": this.dataInicio || "",
       "createDate": new Date().toISOString(),
       "book": {
-        "authors": this.book.volumeInfo.authors,
-        "publishedDate": this.book.volumeInfo.publishedDate,
-        "title": this.book.volumeInfo.title,
-        "categories": this.book.volumeInfo.categories,
-        "pageCount": this.book.volumeInfo.pageCount
+        "authors": this.book.volumeInfo.authors || "",
+        "publishedDate": this.book.volumeInfo.publishedDate || "",
+        "title": this.book.volumeInfo.title || "",
+        "categories": this.book.volumeInfo.categories || "",
+        "pageCount": this.book.volumeInfo.pageCount || ""
       },
-      "fileName": nameArquivo,
+      "fileName": nameArquivo || "",
       "fileUrl": "",
       "nota": "-",
       "prof_matr": "-"
-    } 
+    }
 
     //Nome do Arquivo que será armazenado no firebase
-    var nomeAFB = this.firebaseService.matricula 
+    var nomeAFB = this.firebaseService.matricula
       + "/" + "nA" + "/" + nameArquivo;
     this.file.readAsArrayBuffer(this.dirPath, this.name).then(async (buffer) => {
       await this.firebaseService.uploadResumo(buffer, nomeAFB, leitura); //nA de Não Avaliado - Arrumar o nome do arquivo
 
     }).catch(e => alert(JSON.stringify(e)));
 
-
-
     this.butEnviar = true;
   }
-
-  // enviarFirebase(url: any) {
-
-  //   var leitura = {
-  //     "aluno_local": this.databaseService.aluno.attributes.local_cod,
-  //     "aluno_matr": this.firebaseService.usuario.matricula,
-  //     "dataInicio": this.dataInicio,
-  //     "createDate": new Date().toISOString(),
-  //     "book": {
-  //       "authors": this.book.volumeInfo.authors,
-  //       "publishedDate": this.book.volumeInfo.publishedDate,
-  //       "title": this.book.volumeInfo.title,
-  //       "categories": this.book.volumeInfo.categories,
-  //       "pageCount": this.book.volumeInfo.pageCount
-  //     },
-  //     "file": "",
-  //     "nota": "-",
-  //     "prof_matr": "-"
-  //   }
-
-  //   this.firebaseService.newLeitura(leitura).then(resp => {
-  //     alert("Leitura enviada com sucesso! Aguarte até que ela seja avaliada.");
-  //     this.router.navigate(['/read-book/']);
-  //   }).catch((e) => alert(JSON.stringify(e)));
-  // }
 
   cancelarEnvio() {
     // this.butEnviar = true;

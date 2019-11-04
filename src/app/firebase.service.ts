@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 
 import { AngularFireStorage } from '@angular/fire/storage'
-import { FileTransfer} from '@ionic-native/file-transfer/ngx'
+import { FileTransfer } from '@ionic-native/file-transfer/ngx'
 import { Downloader } from '@ionic-native/downloader/ngx'
 
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Router } from '@angular/router';
-import {LoadingController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 
 
 
@@ -24,7 +24,7 @@ export class FirebaseService {
     private loadingController: LoadingController,
     private androidPermissions: AndroidPermissions,
     private downloader: Downloader,
-    private router: Router    
+    private router: Router
   ) { }
 
 
@@ -32,6 +32,9 @@ export class FirebaseService {
 
   matricula: 905001587;
   usuario: any;
+
+  avisos: any;
+  avisosProf: any;
 
   alunoLeiturasCorrigidas: any;
 
@@ -70,7 +73,7 @@ export class FirebaseService {
 
         var arraySorted = resp.sort((a, b) => (a.nota > b.nota) ? -1 : 1)
 
-        console.log("leituras do aluno filtradas: " + JSON.stringify(resp));
+        // console.log("leituras do aluno filtradas: " + JSON.stringify(resp));
         //se encontrar o user, retorna a conta, senão retorna undefined
 
         if (arraySorted != undefined && arraySorted != null) {
@@ -115,7 +118,7 @@ export class FirebaseService {
     return new Promise((resolve) => {
       this.db.object(url).update(leitura).then(response => {
         var resp: any = response;
-        console.log("leitura avaliada: " + JSON.stringify(resp));
+        // console.log("leitura avaliada: " + JSON.stringify(resp));
         this.somarAlunoLeiturasCorrigidas(leitura.aluno_matr);
         resolve(resp);
       }
@@ -133,19 +136,45 @@ export class FirebaseService {
         var leit_pont = array.reduce(function (prev, cur) {
           return prev + cur.nota;
         }, 0);
-        console.log(leit_pont);
+        // console.log(leit_pont);
 
         this.db.object("SeileDB/usuarios/" + matricula).valueChanges().subscribe(response => {
           var resp: any = response;
 
-          resp.attributes.leit_pont = leit_pont
+          resp.attributes.leit_pont = leit_pont.toFixed(1);
           this.db.object("SeileDB/usuarios/" + matricula).update(response).then(resp => {
-            console.log("urlUsuario criada: " + JSON.stringify(resp));
+            // console.log("urlUsuario criada: " + JSON.stringify(resp));
             resolve(true);
           });
         });
       }
       )
+    });
+  }
+
+
+  getAvisos(local: any, serie: any, turma: any) {
+    return new Promise((resolve) => {
+      this.db.list("SeileDB/avisos/", ref => ref.orderByChild('local').equalTo(local)).valueChanges().subscribe(response => {
+        var resp: any[] = response;
+
+        resp = resp.filter(aviso => aviso.serie == "" || aviso.serie == serie);
+
+        resp = resp.filter(aviso => aviso.turma == "" || aviso.turma == turma);
+        // console.log("resp getAvisos: "+JSON.stringify(resp));
+        resolve(resp);
+      });
+    });
+  }
+
+
+  getAvisosProf(prof_matr: any){
+    return new Promise((resolve) => {
+      this.db.list("SeileDB/avisos/", ref => ref.orderByChild('prof_matr').equalTo(prof_matr)).valueChanges().subscribe(response => {
+        var resp: any = response;
+        // console.log("resp getAvisosProf: "+JSON.stringify(resp));
+         resolve(resp);
+      });
     });
   }
 
@@ -159,7 +188,7 @@ export class FirebaseService {
         var resp: any[] = response;
 
         var arrayFiltered = resp.filter(leitura => leitura.prof_matr != "-");
-        console.log("leituras do aluno filtradas: " + JSON.stringify(resp));
+        // console.log("leituras do aluno filtradas: " + JSON.stringify(resp));
         //se encontrar o user, retorna a conta, senão retorna undefined
 
         if (arrayFiltered != undefined && arrayFiltered != null) {
@@ -174,7 +203,7 @@ export class FirebaseService {
   verifyUser(user: any) {
     return new Promise((resolve) => {
       this.db.object("SeileDB/contas/" + user).valueChanges().subscribe(response => {
-        console.log("(SeileDB/contas/" + user + ") verifyied: " + response);
+        // console.log("(SeileDB/contas/" + user + ") verifyied: " + response);
         //se encontrar o user, retorna a conta, senão retorna undefined
         var resp: any = response;
         if (resp != undefined && resp != null) {
@@ -191,17 +220,32 @@ export class FirebaseService {
       const urlConta = "SeileDB/contas/" + matricula
       this.db.object(urlConta).update(conta).then(response => {
         var resp: any = response;
-        console.log("urlConta criada: " + JSON.stringify(resp));
+        // console.log("urlConta criada: " + JSON.stringify(resp));
         const urlUsuario = "SeileDB/usuarios/" + matricula
         this.db.object(urlUsuario).update(usuario).then(response2 => {
           var resp2: any = response2;
-          console.log("urlUsuario criada: " + JSON.stringify(resp2));
+          // console.log("urlUsuario criada: " + JSON.stringify(resp2));
           resolve(true);
         });
       });
     });
   }
 
+
+  newAviso(aviso:any) {
+    return new Promise((resolve) => {
+      const url = "SeileDB/avisos/"
+      this.db.list(url).push(aviso).then(response => {
+        var resp: any = response;
+        aviso.key = resp.key;
+        const url = "SeileDB/avisos/" + aviso.key
+        this.db.object(url).update(aviso).then(response2 => {
+          var resp2: any = response2;
+          resolve(resp2);
+        });
+      });
+    });
+  }
 
   newLeitura(leitura: any) {
     const url = "SeileDB/leituras/"
@@ -212,7 +256,7 @@ export class FirebaseService {
         const url = "SeileDB/leituras/" + leitura.key
         this.db.object(url).update(leitura).then(response2 => {
           var resp2: any = response2;
-          console.log("new leitura: " + JSON.stringify(resp2));
+          // console.log("new leitura: " + JSON.stringify(resp2));
           resolve(resp2);
         });
       }
@@ -231,9 +275,9 @@ export class FirebaseService {
 
   setUsuario(user: string) {
     this.db.object("SeileDB/usuarios/" + user).valueChanges().subscribe(resp => {
-      console.log("SeileDB/usuarios/" + user + " finded: " + resp);
+      // console.log("SeileDB/usuarios/" + user + " finded: " + resp);
       this.usuario = resp;
-      console.log("this.usuario: " + this.usuario);
+      // console.log("this.usuario: " + this.usuario);
       this.matricula = this.usuario.matricula
     });
   }
@@ -257,7 +301,7 @@ export class FirebaseService {
         this.newLeitura(leitura).then(resp => {
           loading.dismiss();
           alert("Leitura enviada com sucesso! Aguarte até que ela seja avaliada.");
-           this.router.navigate(['/read-book/']);
+          this.router.navigate(['/read-book/']);
 
         }).catch((e) => alert(JSON.stringify(e)));
 
@@ -276,28 +320,29 @@ export class FirebaseService {
     );
 
     const loading = await this.loadingController.create({
-      message: 'Baixando..'
+      message: 'Baixando..',
+      duration: 5000
     });
     await loading.present();
-    
-      var request = {
-        uri: fileUrl,
-        title: nameArquivo,
-        description: nameAluno,
-        mimeType: '',
-        visibleInDownloadsUi: true,
-        notificationVisibility: 1,
-        destinationInExternalPublicDir: {
-          dirType: '/Resumos/', //Arrumar
-          subPath: nameArquivo
-        },
 
-      };
-      this.downloader.download(request)
-        .then((location: string) => {
-          loading.dismiss();
-          alert('Baixado')          
-        }).catch((error: any) => alert(JSON.stringify(error)));
+    var request = {
+      uri: fileUrl,
+      title: nameArquivo,
+      description: nameAluno,
+      mimeType: '',
+      visibleInDownloadsUi: true,
+      notificationVisibility: 1,
+      destinationInExternalPublicDir: {
+        dirType: '/Resumos/', //Arrumar
+        subPath: nameArquivo
+      },
+
+    };
+    this.downloader.download(request)
+      .then((location: string) => {
+        loading.dismiss();
+        alert('O arquivo foi baixado.')
+      }).catch((error: any) => alert(JSON.stringify(error)));
 
 
 
