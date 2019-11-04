@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 
 import { AngularFireStorage } from '@angular/fire/storage'
-import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx'
-import { Downloader } from '@ionic-native/downloader/ngx';
+import { FileTransfer} from '@ionic-native/file-transfer/ngx'
+import { Downloader } from '@ionic-native/downloader/ngx'
 
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { NavController, LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import {LoadingController } from '@ionic/angular';
+
 
 
 
@@ -21,7 +23,8 @@ export class FirebaseService {
     private transfer: FileTransfer,
     private loadingController: LoadingController,
     private androidPermissions: AndroidPermissions,
-    private downloader: Downloader
+    private downloader: Downloader,
+    private router: Router    
   ) { }
 
 
@@ -208,23 +211,35 @@ export class FirebaseService {
   }
 
 
-  async uploadResumo(buffer, name, tipoDocF) {
+  async uploadResumo(buffer, name, leitura) {
     let blob = new Blob([buffer]);
     const loading = await this.loadingController.create({
       message: 'Enviando..'
     });
     await loading.present();
 
-    this.firebase.ref('Resumos/' + name + '.' + tipoDocF).put(blob).then((d) => {
-      loading.dismiss();
-      alert("Enviado!")
+    var path: any = 'Resumos/' + name;
+
+    this.firebase.ref(path).put(blob).then((d) => {
+
+      this.firebase.ref(path).getDownloadURL().toPromise().then((resp) => {
+        leitura.file = resp;
+
+        //TEM UM ERRO AQUI QUE DÁ DE VEZ EM QUANDO
+        this.newLeitura(leitura).then(resp => {
+          loading.dismiss();
+          alert("Leitura enviada com sucesso! Aguarte até que ela seja avaliada.");
+           this.router.navigate(['/read-book/']);
+
+        }).catch((e) => alert(JSON.stringify(e)));
+
+      }).catch(e => alert("Erro ao obter a URL do Arquivo: " + JSON.stringify(e)));
+
     }).catch(e => alert(JSON.stringify(e)));
 
   }
 
-
-
-  async downloadArquivo() {
+  async downloadArquivo(nameArquivo: any, fileUrl: any, nameAluno: any) {
 
     this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE]);
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
@@ -236,34 +251,27 @@ export class FirebaseService {
       message: 'Baixando..'
     });
     await loading.present();
-
-    this.firebase.ref('Resumos/459102/nA/1572225922444.pdf').getDownloadURL().toPromise().then((en) => {
-
-
+    
       var request = {
-        uri: en,
-        title: 'Test',
-        description: '',
+        uri: fileUrl,
+        title: nameArquivo,
+        description: nameAluno,
         mimeType: '',
         visibleInDownloadsUi: true,
         notificationVisibility: 1,
         destinationInExternalPublicDir: {
           dirType: '/Resumos/', //Arrumar
-          subPath: '1572225922444.pdf'
+          subPath: nameArquivo
         },
-        //destinationUri: '/storage/emulated/0/Resumos/1572225922444.pdf'
+
       };
-
-
-
       this.downloader.download(request)
         .then((location: string) => {
-          alert('Baixado' + location)
           loading.dismiss();
+          alert('Baixado')          
         }).catch((error: any) => alert(JSON.stringify(error)));
 
 
-    }).catch(e => alert(e));
 
     //Outra maneira de fazer Download do Arquivo:
 

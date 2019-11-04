@@ -36,4 +36,13 @@ export class LeituraDetailPage implements OnInit {
     this.firebaseService.avaliarLeitura(this.firebaseService.leituraDetail);
   }
 
+  downloadArquivoLeitura(){
+    var URL: any =this.firebaseService.leituraDetail.fileUrl;
+    var nameArquivo: any = this.firebaseService.leituraDetail.fileName;
+    var nameA: any = this.firebaseService.usuario.attributes.nome;
+
+    this.firebaseService.downloadArquivo(nameArquivo, URL, nameA);
+    
+  }
+
 }
