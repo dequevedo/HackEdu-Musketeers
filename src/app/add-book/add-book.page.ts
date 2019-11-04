@@ -11,6 +11,7 @@ import { buffer } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage'
 
 import { NavController, LoadingController } from '@ionic/angular';
+import * as moment from 'moment';
 
 
 //import firebase from '@angular/fire/firebase-node'
@@ -93,7 +94,7 @@ export class AddBookPage implements OnInit {
               this.tipoDocF = tipoDocI.pop(); // Tratar erro caso for diferente de jpg, pdf, docx
 
               this.nomeResumo = name; //Não está mostrando o nome do arquivo selecionado????
-              this.butEnviar = false;
+              this.butEnviar = true;
 
             }).catch(err => alert(JSON.stringify(err)));
 
@@ -103,12 +104,13 @@ export class AddBookPage implements OnInit {
   }
 
   enviarArquivo() {
-    var nameArquivo: any = (new Date().toISOString()) + "-" + this.firebaseService.usuario.matricula + "." + this.tipoDocF;
+    var date: any = moment(new Date().toISOString()).locale("pt-br").format("DD/MM/YYYY  h:mm:ss");
+    var nameArquivo: any = date + "-" + this.firebaseService.usuario.matricula + "." + this.tipoDocF;
     var leitura = {
       "aluno_local": this.databaseService.aluno.attributes.local_cod || "",
       "aluno_matr": this.firebaseService.usuario.matricula || "",
       "dataInicio": this.dataInicio || "",
-      "createDate": new Date().toISOString(),
+      "createDate": date,
       "book": {
         "authors": this.book.volumeInfo.authors || "",
         "publishedDate": this.book.volumeInfo.publishedDate || "",

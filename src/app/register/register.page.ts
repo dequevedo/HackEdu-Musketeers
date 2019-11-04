@@ -4,6 +4,7 @@ import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Md5Service } from '../md5.service';
 import { FirebaseService } from '../firebase.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-register',
@@ -92,8 +93,9 @@ export class RegisterPage implements OnInit {
 
 
   cadastrar() {
-    if (this.formNascimento != this.aluno.attributes.data_nascimento) {
-      console.log(this.formNascimento + " != " + this.aluno.attributes.data_nascimento)
+    var dateB: any = moment(this.formNascimento).format("YYYY-MM-DD");    
+    if (dateB != this.aluno.attributes.data_nascimento) {      
+      console.log(dateB + " != " + this.aluno.attributes.data_nascimento)
       this.formResponse = "Data de nascimento incorreta";
     }
     else if (this.formReSenha != this.formSenha) {

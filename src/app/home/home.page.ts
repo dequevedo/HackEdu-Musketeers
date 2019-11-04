@@ -4,6 +4,8 @@ import { MenuController } from '@ionic/angular';
 import { FirebaseService } from '../firebase.service';
 
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { LoadingController } from '@ionic/angular';
+import * as moment from 'moment';
 
 
 @Component({
@@ -17,7 +19,8 @@ export class HomePage {
     private databaseService: DatabaseService,
     private firebaseService: FirebaseService,
     private menu: MenuController,
-    private emailComposer: EmailComposer
+    private emailComposer: EmailComposer,
+    private loadingController: LoadingController,
   ) { }
 
   public aluno: any;
@@ -77,7 +80,9 @@ export class HomePage {
           });
         } else {
           alert("Aluno não encontrado no ano atual")
+          
         }
+        this.loadingController.dismiss();
       });
     } else if (this.databaseService.profLocal == undefined) {
       this.databaseService.getLocal(this.firebaseService.usuario.attributes.local_list[0]).then(res => {
@@ -90,6 +95,7 @@ export class HomePage {
         } else {
           alert("Professor não encontrado")
         }
+        this.loadingController.dismiss();
       });
     }
     this.menu.enable(true);
@@ -107,26 +113,46 @@ export class HomePage {
       date: new Date().toISOString()
     }
 
-    this.firebaseService.newAviso(aviso);
+    this.firebaseService.newAviso(aviso).then(e => {
+      this.enviarEmail();      
+    });
   }
 
 
   // }
   //Só funciona abrindo o gmail
-  enviarEmail(local: any, serie: any, turma: any) {
-    let email = {
-      to: 'iagoisborichi@gmail.com',
-      cc: '',
-      bcc: [],
-      attachments: [],
-      subject: 'Não haverá aula amanha',
-      body: 'Ass: FACAMP',
-      isHtml: true
-    }
+  enviarEmail() {
 
-    this.emailComposer.open(email).then((res) => {
-      alert("enviado: " + res)
-    }).catch(e => alert(e));
+    this.firebaseService.getUsers(this.firebaseService.usuario.attributes.local_list[0], this.serie, this.turma).then(response =>{
+      var resp: any = response;
+      resp = resp.map(function(user){
+        return user.attributes.email;
+      });
+      console.log(resp);
+        let email = {
+          to: resp,
+          cc: '',
+          bcc: [],
+          attachments: [],
+          subject: 'Aviso escola: ' + this.local,
+          body: this.msg + "/n "+ this.firebaseService.usuario.attributes.nome,
+          isHtml: true
+        }
+    
+        this.emailComposer.open(email).then((res) => {
+          alert("enviado: " + res)
+          this.msg = "";
+          this.serie = "";
+          this.turma = "";
+        }).catch(e => alert(e));
+
+     
+    });
+
   }
+  // test(){
+  //   var date: any = moment(new Date().toISOString()).locale("pt-br").format("DD/MM/YYYY  h:mm:ss");
+  //   alert(date);
+  // }
 
 }

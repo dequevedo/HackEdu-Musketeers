@@ -5,6 +5,7 @@ import { LoadingController } from '@ionic/angular';
 import { Md5Service } from '../md5.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-register-prof',
   templateUrl: './register-prof.page.html',

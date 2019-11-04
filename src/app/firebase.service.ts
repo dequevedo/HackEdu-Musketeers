@@ -12,6 +12,7 @@ import { LoadingController } from '@ionic/angular';
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -141,7 +142,7 @@ export class FirebaseService {
         this.db.object("SeileDB/usuarios/" + matricula).valueChanges().subscribe(response => {
           var resp: any = response;
 
-          resp.attributes.leit_pont = leit_pont.toFixed(1);
+          resp.attributes.leit_pont = leit_pont;
           this.db.object("SeileDB/usuarios/" + matricula).update(response).then(resp => {
             // console.log("urlUsuario criada: " + JSON.stringify(resp));
             resolve(true);
@@ -161,7 +162,28 @@ export class FirebaseService {
         resp = resp.filter(aviso => aviso.serie == "" || aviso.serie == serie);
 
         resp = resp.filter(aviso => aviso.turma == "" || aviso.turma == turma);
-        // console.log("resp getAvisos: "+JSON.stringify(resp));
+        //console.log("resp getAvisos: "+JSON.stringify(resp));
+        resolve(resp);
+      });
+    });
+  }
+
+  getUsers(local: any, serie: any, turma: any) {
+    return new Promise((resolve) => {
+      this.db.list("SeileDB/usuarios/", ref => ref.orderByChild('attributes/local').equalTo(local)).valueChanges().subscribe(response => {
+        var resp: any[] = response;
+        console.log("resp getAvisos: "+JSON.stringify(resp));
+        resp = resp.filter(usuario => usuario.type == "Aluno");
+        console.log("resp getAvisssos: "+JSON.stringify(resp));
+        if(serie != undefined && serie != null && serie != ""){
+          resp = resp.filter(usuario => usuario.serie == serie);
+          if(turma != undefined && turma != null && turma != ""){
+            resp = resp.filter(usuario => usuario.turma == turma);
+          }
+
+        }  
+        console.log("resp getAvisssodddds: "+JSON.stringify(resp));     
+        
         resolve(resp);
       });
     });
@@ -172,7 +194,7 @@ export class FirebaseService {
     return new Promise((resolve) => {
       this.db.list("SeileDB/avisos/", ref => ref.orderByChild('prof_matr').equalTo(prof_matr)).valueChanges().subscribe(response => {
         var resp: any = response;
-        // console.log("resp getAvisosProf: "+JSON.stringify(resp));
+        //console.log("resp getAvisosProf: "+JSON.stringify(resp));
          resolve(resp);
       });
     });
@@ -232,7 +254,12 @@ export class FirebaseService {
   }
 
 
-  newAviso(aviso:any) {
+  async newAviso(aviso:any) {
+    const loading = await this.loadingController.create({
+      message: 'Criando aviso..'
+    });
+    await loading.present();
+
     return new Promise((resolve) => {
       const url = "SeileDB/avisos/"
       this.db.list(url).push(aviso).then(response => {
@@ -242,6 +269,8 @@ export class FirebaseService {
         this.db.object(url).update(aviso).then(response2 => {
           var resp2: any = response2;
           resolve(resp2);
+          loading.dismiss();
+          alert("Aviso criado")
         });
       });
     });

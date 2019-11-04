@@ -48,6 +48,7 @@
     "http": "0.0.0",
     "http-module": "0.0.5",
     "integrator-cordova-plugin-downloader": "^1.1.0",
+    "moment": "^2.24.0",
     "resources": "^0.4.3",
     "rxjs": "~6.5.1",
     "ts-md5": "^1.2.6",
