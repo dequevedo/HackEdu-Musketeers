@@ -223,7 +223,7 @@ export class FirebaseService {
     this.firebase.ref(path).put(blob).then((d) => {
 
       this.firebase.ref(path).getDownloadURL().toPromise().then((resp) => {
-        leitura.file = resp;
+        leitura.fileUrl = resp;
 
         //TEM UM ERRO AQUI QUE DÁ DE VEZ EM QUANDO
         this.newLeitura(leitura).then(resp => {
@@ -251,7 +251,7 @@ export class FirebaseService {
       message: 'Baixando..'
     });
     await loading.present();
-    
+
       var request = {
         uri: fileUrl,
         title: nameArquivo,
