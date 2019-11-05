@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="light">
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -67,7 +67,7 @@
     </ion-card-content>
   </div>
 
-  <ion-item color="light" *ngIf="search">
+  <ion-item color="primary" *ngIf="search">
     <ion-searchbar placeholder="Digite o nome do Livro..." [(ngModel)]="terms" (ionInput)="digitEvent($event)"
       clearInput>
     </ion-searchbar>

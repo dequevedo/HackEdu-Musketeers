@@ -2,8 +2,8 @@
   <ion-split-pane>
     <ion-menu type="overlay">
       <ion-header>
-        <ion-toolbar>
-          <ion-item *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
+        <ion-toolbar color="secondary">
+          <ion-item color="secondary" *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
             <!-- <ion-thumbnail slot="start">
               <img src="{{this.firebaseService?.usuario?.img || async }}">
             </ion-thumbnail> -->
@@ -14,7 +14,7 @@
               <!-- <p color="medium" style="font-size: 10px;">Serie: {{this.databaseService?.aluno?.attributes?.curso || async}} - {{this.databaseService?.aluno?.attributes?.turma || async}}</p> -->
             </ion-label>
           </ion-item>
-          <ion-item *ngIf="this.firebaseService?.usuario?.type != 'Professor'" lines="none">
+          <ion-item color="secondary" *ngIf="this.firebaseService?.usuario?.type != 'Professor'" lines="none">
             <!-- <ion-thumbnail slot="start">
               <img src="{{this.firebaseService?.usuario?.img || async }}">
             </ion-thumbnail> -->

@@ -131,7 +131,6 @@ export class FirebaseService {
   }
 
   somarAlunoLeiturasCorrigidas(matricula: any) {
-    var leit_pont: any;
     return new Promise((resolve) => {
       this.getAlunoLeiturasCorrigidas(matricula).then(response => {
         var resp: any = response;

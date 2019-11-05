@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -17,7 +17,7 @@
   <!-- AVISOS E TAREFAS FEITOS PELO PROFESSOR -->
   <ion-card style="border: 1px solid lightgray; height: 40%" 
     *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
-    <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
+    <ion-card-header color="primary" style="border-bottom: 1px solid lightgray">
       <ion-label>Meus Avisos</ion-label>
     </ion-card-header>
 
@@ -34,7 +34,7 @@
 
   <ion-card style="border: 1px solid lightgray; height: 55%;" 
     *ngIf="this.firebaseService?.usuario?.type == 'Professor'">
-    <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
+    <ion-card-header color="primary" style="border-bottom: 1px solid lightgray">
       <ion-label>Tarefas</ion-label>
     </ion-card-header>
 
@@ -52,7 +52,7 @@
   <!-- AVISOS E TAREFAS DO ALUNO -->
   <ion-card style="border: 1px solid lightgray; height: 40%; scroll-margin-block-end: unset;" 
     *ngIf="this.firebaseService?.usuario?.type != 'Professor'">
-    <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
+    <ion-card-header color="primary" style="border-bottom: 1px solid lightgray">
       <ion-label>Avisos</ion-label>
     </ion-card-header>
 
@@ -69,7 +69,7 @@
 
   <ion-card style="border: 1px solid lightgray; height: 55%;" 
     *ngIf="this.firebaseService?.usuario?.type != 'Professor'">
-    <ion-card-header color="light" style="border-bottom: 1px solid lightgray">
+    <ion-card-header color="primary" style="border-bottom: 1px solid lightgray">
       <ion-label>Tarefas</ion-label>
     </ion-card-header>
 

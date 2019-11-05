@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="light">
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
       <ion-back-button></ion-back-button>
@@ -19,9 +19,9 @@
 
     <ion-card-header color="light">
 
-      <ion-row justify-content-center align-items-center>
+      <ion-row style="background-color: #3880ff;" justify-content-center align-items-center>
         <ion-label>
-          <h2>SOBRE O LIVRO</h2>
+          <h2 style="color: white;">SOBRE O LIVRO</h2>
         </ion-label>
       </ion-row>
       <ion-row wrap>
@@ -39,19 +39,19 @@
       </ion-row>
       <br>
 
-      <ion-row justify-content-center align-items-center>
+      <ion-row style="background-color: #3880ff;" justify-content-center align-items-center>
         <ion-label>
-          <h2>ALUNO AUTOR</h2>
+          <h2 style="color: white;">ALUNO AUTOR</h2>
         </ion-label>
       </ion-row>
-      <ion-row justify-content-center align-items-center>
-        <ion-card-title><b>{{this.firebaseService?.leituraDetail?.aluno_matr}}</b></ion-card-title>
+      <ion-row style="background-color: #3880ff;" justify-content-center align-items-center>
+        <ion-card-title style="color: white;"><b>{{this.firebaseService?.leituraDetail?.aluno_matr}}</b></ion-card-title>
       </ion-row>
       <br>
 
-      <ion-row justify-content-center align-items-center>
+      <ion-row style="background-color: #3880ff;" justify-content-center align-items-center>
         <ion-label>
-          <h2>RESUMO/RESENHA</h2>
+          <h2 style="color: white;">RESUMO/RESENHA</h2>
         </ion-label>
       </ion-row>
       <ion-row wrap>
@@ -64,21 +64,21 @@
       </ion-row>
       <br>
 
-      <ion-row justify-content-center align-items-center>
-        <ion-label color="medium">
-          <h4>Baixar Resumo/Resenha</h4>
+      <ion-row style="background-color: #3880ff;" justify-content-center align-items-center>
+        <ion-label>
+          <h4 style="color: white;">Baixar Resumo/Resenha</h4>
         </ion-label>
       </ion-row>
-      <ion-row justify-content-center align-items-center>
-        <ion-button color="primary" expand="block" (click)="downloadArquivoLeitura()">
+      <ion-row style="background-color: #3880ff;" justify-content-center align-items-center>
+        <ion-button color="success" expand="block" (click)="downloadArquivoLeitura()">
           <ion-icon slot="icon-only" color="light" name="download"></ion-icon>
         </ion-button>
       </ion-row>
       <br>
 
-      <ion-row justify-content-center align-items-center>
+      <ion-row style="background-color: #3880ff;" justify-content-center align-items-center>
         <ion-label>
-          <h2>AVALIAÇÃO DO RESUMO/RESENHA</h2>
+          <h2 style="color: white;">AVALIAÇÃO DO RESUMO/RESENHA</h2>
         </ion-label>
       </ion-row>
 
@@ -96,9 +96,9 @@
     </ion-card-header>
 
     <ion-card-content style="background-color: white;" *ngIf="this.firebaseService?.usuario?.type=='Professor' && this.firebaseService?.leituraDetail?.prof_matr == '-'">
-      <ion-row justify-content-center align-items-center>
+      <ion-row style="background-color: #3880ff;" justify-content-center align-items-center>
         <ion-label>
-          <h2>AVALIAR LEITURA</h2>
+          <h2 style="color: white;">AVALIAR LEITURA</h2>
         </ion-label>
       </ion-row>
       <ion-item>
