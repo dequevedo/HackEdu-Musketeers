@@ -94,15 +94,12 @@ export class FirebaseService {
         var resp: any[] = response;
 
         if (serie != undefined || serie != null) {
-          console.log("serie: '"+serie+"'")
           resp = resp.filter(usuario => usuario.attributes.serie == serie);
         }
 
         var arraySorted = resp.sort((a, b) => (a.attributes.leit_pont > b.attributes.leit_pont) ? -1 : 1)
         var id = arraySorted.findIndex(x => x.matricula == matricula);
         var index = id;
-        console.log("teste")
-        console.log("("+arraySorted.length+""+"-"+index+")/"+arraySorted.length+" = "+((arraySorted.length-index)/arraySorted.length));
         var percent = ((arraySorted.length-index)/arraySorted.length)
 
         //se encontrar o user, retorna a conta, senão retorna undefined
@@ -135,17 +132,16 @@ export class FirebaseService {
       this.getAlunoLeiturasCorrigidas(matricula).then(response => {
         var resp: any = response;
         var array: any[] = resp;
+        console.log("resp: "+resp);
+        var leit_pont = array.reduce( (accum, curr) => (+accum) + (+curr.nota) );
 
-        var leit_pont = array.reduce(function (prev, cur) {
-          return prev + cur.nota;
-        }, 0);
-
+        console.log(leit_pont);
 
         this.db.object("SeileDB/usuarios/" + matricula).valueChanges().subscribe(response => {
           var resp: any = response;
 
           resp.attributes.leit_pont = leit_pont;
-          this.db.object("SeileDB/usuarios/" + matricula).update(response).then(resp => {
+          this.db.object("SeileDB/usuarios/" + matricula).update(resp).then(resp => {
 
             resolve(true);
           });

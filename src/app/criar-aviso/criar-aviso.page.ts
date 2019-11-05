@@ -58,7 +58,7 @@ export class CriarAvisoPage implements OnInit {
       resp = resp.map(function(user){
         return user.attributes.email;
       });
-      console.log(resp);
+      // console.log(resp);
         let email = {
           to: resp,
           cc: '',
