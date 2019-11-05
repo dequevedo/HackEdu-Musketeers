@@ -66,7 +66,7 @@ export class HomePage {
       buttons: ['OK']
     });
 
-    await alert.present();    
+    await alert.present();
   }
 
   async abrirTarefas(tarefa) {
@@ -77,14 +77,18 @@ export class HomePage {
       buttons: ['OK']
     });
 
-    await alert.present(); 
+    await alert.present();
   }
 
   ngOnInit() {
-    this.menu.enable(true);
   }
 
   ionViewDidEnter() {
+    this.menu.enable(true);
+    this.atualizaDados()
+  }
+
+  atualizaDados() {
     if (this.firebaseService.usuario.type != "Professor") {
       this.databaseService.getAlunoFromAPI(undefined).then(res => {
         if (res.data[0] != undefined) {
@@ -99,9 +103,10 @@ export class HomePage {
           });
         } else {
           alert("Aluno não encontrado no ano atual")
-          
         }
-        this.loadingController.dismiss();
+        this.loadingController.getTop().then(resp => {
+          if(resp != undefined) this.loadingController.dismiss();
+        });
       });
     } else if (this.databaseService.profLocal == undefined) {
       this.databaseService.getLocal(this.firebaseService.usuario.attributes.local_list[0]).then(res => {
@@ -119,10 +124,11 @@ export class HomePage {
         } else {
           alert("Professor não encontrado")
         }
-        this.loadingController.dismiss();
+        this.loadingController.getTop().then(resp => {
+          if(resp != undefined) this.loadingController.dismiss();
+        });
       });
     }
-    this.menu.enable(true);
   }
 
   newAviso() {
@@ -138,7 +144,7 @@ export class HomePage {
     }
 
     this.firebaseService.newAviso(aviso).then(e => {
-      this.enviarEmail();      
+      this.enviarEmail();
     });
   }
 
@@ -147,36 +153,32 @@ export class HomePage {
   //Só funciona abrindo o gmail
   enviarEmail() {
 
-    this.firebaseService.getUsers(this.firebaseService.usuario.attributes.local_list[0], this.serie, this.turma).then(response =>{
+    this.firebaseService.getUsers(this.firebaseService.usuario.attributes.local_list[0], this.serie, this.turma).then(response => {
       var resp: any = response;
-      resp = resp.map(function(user){
+      resp = resp.map(function (user) {
         return user.attributes.email;
       });
       console.log(resp);
-        let email = {
-          to: resp,
-          cc: '',
-          bcc: [],
-          attachments: [],
-          subject: 'Aviso escola: ' + this.firebaseService.usuario.attributes.local_list[0],
-          body: this.msg +" \t /t /n \n  "+ "/n "+ this.firebaseService.usuario.attributes.nome,
-          isHtml: true
-        }
-    
-        this.emailComposer.open(email).then((res) => {
-          alert("enviado: " + res)
-          this.msg = "";
-          this.serie = "";
-          this.turma = "";
-        }).catch(e => alert(e));
+      let email = {
+        to: resp,
+        cc: '',
+        bcc: [],
+        attachments: [],
+        subject: 'Aviso escola: ' + this.firebaseService.usuario.attributes.local_list[0],
+        body: this.msg + " \t /t /n \n  " + "/n " + this.firebaseService.usuario.attributes.nome,
+        isHtml: true
+      }
 
-     
+      this.emailComposer.open(email).then((res) => {
+        alert("enviado: " + res)
+        this.msg = "";
+        this.serie = "";
+        this.turma = "";
+      }).catch(e => alert(e));
+
+
     });
 
   }
-  // test(){
-  //   var date: any = moment(new Date().toISOString()).locale("pt-br").format("DD/MM/YYYY  h:mm:ss");
-  //   alert(date);
-  // }
 
 }
