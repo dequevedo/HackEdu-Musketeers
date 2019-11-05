@@ -26,3 +26,5 @@ npm install @ionic-native/downloader
 
 ionic cordova plugin add cordova-plugin-email-composer
 npm install @ionic-native/email-composer
+
+npm install moment --save
