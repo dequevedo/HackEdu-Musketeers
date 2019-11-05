@@ -25,7 +25,7 @@
       <ion-item *ngFor="let aviso of this.firebaseService?.avisosProf" (click)="abrirAvisos(aviso)">
         <ion-icon slot="start" color="medium" name="{{aviso.icon}}"></ion-icon>
         <ion-label class="ion-text-wrap">
-          <h3>Prof.:{{aviso.prof_matr}} Escola:{{aviso.local}} Serie:{{aviso.serie}} Turma:{{aviso.turma}}</h3>
+          <h3>Serie:{{aviso.serie}} Turma:{{aviso.turma}}</h3>
           <p>{{aviso.msg}}</p>
         </ion-label>
       </ion-item>
@@ -42,7 +42,7 @@
       <ion-item *ngFor="let tarefa of this.firebaseService?.tarefasProf" (click)="abrirTarefas(tarefa)">
         <ion-icon slot="start" color="medium" name="{{tarefa.icon}}"></ion-icon>
         <ion-label class="ion-text-wrap">
-          <h3>Prof.:{{tarefa.prof_matr}} Escola:{{tarefa.local}} Serie:{{tarefa.serie}} Turma:{{tarefa.turma}} Data de Entrega:{{tarefa.dataEntrega}}</h3>
+          <h3>Serie:{{tarefa.serie}} Turma:{{tarefa.turma}} Data de Entrega:{{tarefa.dataEntrega}}</h3>
           <p>{{tarefa.msg}}</p>
         </ion-label>
       </ion-item>
@@ -60,7 +60,7 @@
       <ion-item *ngFor="let aviso of this.firebaseService?.avisos" (click)="abrirAvisos(aviso)">
         <ion-icon slot="start" color="medium" name="{{aviso.icon}}"></ion-icon>
         <ion-label class="ion-text-wrap">
-          <h3>Prof.:{{aviso.prof_matr}} Escola:{{aviso.local}} Serie:{{aviso.serie}} Turma:{{aviso.turma}}</h3>
+          <h3>Serie:{{aviso.serie}} Turma:{{aviso.turma}}</h3>
           <p>{{aviso.msg}}</p>
         </ion-label>
       </ion-item>
@@ -77,7 +77,7 @@
       <ion-item *ngFor="let tarefa of this.firebaseService?.tarefas" (click)="abrirTarefas(tarefa)">
         <ion-icon slot="start" color="medium" name="{{tarefa.icon}}"></ion-icon>
         <ion-label class="ion-text-wrap">
-          <h3>Prof.:{{tarefa.prof_matr}} Escola:{{tarefa.local}} Serie:{{tarefa.serie}} Turma:{{tarefa.turma}}</h3>
+          <h3>Serie:{{tarefa.serie}} Turma:{{tarefa.turma}}</h3>
           <p>{{tarefa.msg}}</p>
         </ion-label>
       </ion-item>

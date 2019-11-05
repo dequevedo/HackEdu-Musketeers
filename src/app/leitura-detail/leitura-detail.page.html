@@ -44,8 +44,9 @@
           <h2 style="color: white;">ALUNO AUTOR</h2>
         </ion-label>
       </ion-row>
-      <ion-row style="background-color: #3880ff;" justify-content-center align-items-center>
-        <ion-card-title style="color: white;"><b>{{this.firebaseService?.leituraDetail?.aluno_matr}}</b></ion-card-title>
+      <ion-row style="background-color: #0cd1e8;" justify-content-center align-items-center>
+          
+        <ion-card-title style="color: white;"><b>{{this.databaseService?.nomeAluno?.attributes?.nome}}</b></ion-card-title>
       </ion-row>
       <br>
 
@@ -84,7 +85,7 @@
 
       <ion-item color="light">
         <ion-label>
-          <h2><b>Prof.: {{this.firebaseService?.leituraDetail?.prof_matr}}</b></h2>
+          <h2><b>Prof.: {{this.firebaseService?.nomeProf?.attributes?.nome}}</b></h2>
           <h2><b>Nota: {{this.firebaseService?.leituraDetail?.nota}}</b></h2>
         </ion-label>
       </ion-item>
@@ -95,7 +96,7 @@
       </ion-item>
     </ion-card-header>
 
-    <ion-card-content style="background-color: white;" *ngIf="this.firebaseService?.usuario?.type=='Professor' && this.firebaseService?.leituraDetail?.prof_matr == '-'">
+    <ion-card-content style="background-color: white;" *ngIf="this.firebaseService?.usuario?.type=='Professor' && (this.firebaseService?.leituraDetail?.prof_matr == '-' || this.firebaseService?.leituraDetail?.prof_matr == this.firebaseService?.usuario?.matricula)">
       <ion-row style="background-color: #3880ff;" justify-content-center align-items-center>
         <ion-label>
           <h2 style="color: white;">AVALIAR LEITURA</h2>

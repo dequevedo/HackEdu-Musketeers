@@ -40,9 +40,13 @@ export class FirebaseService {
   tarefas: any;
   tarefasProf: any;
 
+  nomeProf: any;
+
   alunoLeiturasCorrigidas: any;
 
   leituras: any;
+
+  profLeituras: any;
 
   leituraDetail: any;
 
@@ -66,6 +70,7 @@ export class FirebaseService {
   }
 
 
+
   getAlunoLeituras(matricula: any) {
     if (matricula == null && matricula == undefined) {
       matricula = this.matricula;
@@ -79,6 +84,42 @@ export class FirebaseService {
         //se encontrar o user, retorna a conta, senão retorna undefined
         if (arraySorted != undefined && arraySorted != null) {
           resolve(arraySorted);
+        } else {
+          resolve(undefined);
+        }
+      });
+    });
+  }
+
+
+  getProfLeituras(matricula: any) {
+    if (matricula == null && matricula == undefined) {
+      matricula = this.matricula;
+    }
+    return new Promise((resolve) => {
+      this.db.list("SeileDB/leituras", ref => ref.orderByChild('prof_matr').equalTo(matricula)).valueChanges().subscribe(response => {
+        var resp: any[] = response;
+
+        var arraySorted = resp.sort((a, b) => (a.nota > b.nota) ? -1 : 1)
+
+        //se encontrar o user, retorna a conta, senão retorna undefined
+        if (arraySorted != undefined && arraySorted != null) {
+          resolve(arraySorted);
+        } else {
+          resolve(undefined);
+        }
+      });
+    });
+  }
+
+  getProfessor(prof_matr: any){
+    return new Promise((resolve) => {
+      this.db.object("SeileDB/usuarios/" + prof_matr).valueChanges().subscribe(response => {
+        var resp: any = response;
+        if (resp != undefined && resp != null) {
+          this.nomeProf = resp;
+          // console.log("PROFESSOR: "+JSON.stringify(resp))
+          resolve(resp);
         } else {
           resolve(undefined);
         }
@@ -140,7 +181,7 @@ export class FirebaseService {
         this.db.object("SeileDB/usuarios/" + matricula).valueChanges().subscribe(response => {
           var resp: any = response;
 
-          resp.attributes.leit_pont = leit_pont;
+          resp.attributes.leit_pont = Number(Number(leit_pont).toFixed(1));
           this.db.object("SeileDB/usuarios/" + matricula).update(resp).then(resp => {
 
             resolve(true);

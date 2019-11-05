@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterProfPage implements OnInit {
 
-  matricula: any = 905001587;
+  matricula: number;
   matExists: Boolean = false;
 
   //variaveis para controle de formulário

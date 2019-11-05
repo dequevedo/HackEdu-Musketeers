@@ -20,6 +20,8 @@ export class ReadBookPage implements OnInit {
 
   search: Boolean = false
 
+  profMostrarLeituras: any = 'false';
+
   terms: string;
 
   profLocalSelected: any;
@@ -74,6 +76,10 @@ export class ReadBookPage implements OnInit {
       })
       this.firebaseService.getAlunoLeiturasCorrigidas(undefined).then(res => {
         this.firebaseService.alunoLeiturasCorrigidas = res;
+      })
+    }else{
+      this.firebaseService.getProfLeituras(undefined).then(res => {
+        this.firebaseService.profLeituras = res;
       })
     }
   }

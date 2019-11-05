@@ -12,7 +12,7 @@ import * as moment from 'moment';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  matricula: any = 459104;
+  matricula: number;
   alunoTemp: any = undefined;
   aluno: any = undefined;
 

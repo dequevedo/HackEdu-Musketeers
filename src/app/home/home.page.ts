@@ -60,36 +60,57 @@ export class HomePage {
 
 
   async abrirAvisos(aviso) {
-    const alert = await this.alertController.create({
-      header: "Prof.:" + aviso.prof_matr,
-      message: aviso.msg,
-      buttons: ['OK']
-    });
+    var nomeProfessor;
+    this.firebaseService.getProfessor(aviso.prof_matr).then(response => {
+      var resp: any = response;
+      nomeProfessor = resp.attributes.nome;
 
-    await alert.present();
+      var nomeLocal;
+      this.databaseService.getLocalNome(aviso.local).then(async response2 => {
+        var resp2: any = response2;
+        nomeLocal = resp2.attributes.loc_descr;
+        const alert = await this.alertController.create({
+          header: "Prof.:" + nomeProfessor,
+          subHeader: 'Escola: ' + nomeLocal,
+          message: aviso.msg,
+          buttons: ['OK']
+        });
+        await alert.present();
+      })
+    })
   }
 
   async abrirTarefas(tarefa) {
-    const alert = await this.alertController.create({
-      header: "Prof.:" + tarefa.prof_matr,
-      subHeader: 'Entrega: ' + tarefa.dataEntrega,
-      message: tarefa.msg,
-      buttons: ['OK']
-    });
+    var nomeProfessor;
+    this.firebaseService.getProfessor(tarefa.prof_matr).then(async response => {
+      var resp: any = response;
+      nomeProfessor = resp.attributes.nome;
 
-    await alert.present();
-  }
+      var nomeLocal;
+      this.databaseService.getLocalNome(tarefa.local).then(async response2 => {
+        var resp2: any = response2;
+        nomeLocal = resp2.attributes.loc_descr;
+        const alert = await this.alertController.create({
+          header: "Prof.:" + nomeProfessor,
+          subHeader: 'Escola: ' + nomeLocal +" "+" -------------       Entrega: " + tarefa.dataEntrega,
+          message: tarefa.msg,
+          buttons: ['OK']
+        });
+        await alert.present();
+      })
+    });
+    }
 
   ngOnInit() {
-  }
+    }
 
   ionViewDidEnter() {
-    this.menu.enable(true);
-    this.atualizaDados()
-  }
+      this.menu.enable(true);
+      this.atualizaDados()
+    }
 
   atualizaDados() {
-    if (this.firebaseService.usuario.type != "Professor") {
+      if(this.firebaseService.usuario.type != "Professor") {
       this.databaseService.getAlunoFromAPI(undefined).then(res => {
         if (res.data[0] != undefined) {
           this.databaseService.aluno = res.data[0];
@@ -105,7 +126,7 @@ export class HomePage {
           alert("Aluno não encontrado no ano atual")
         }
         this.loadingController.getTop().then(resp => {
-          if(resp != undefined) this.loadingController.dismiss();
+          if (resp != undefined) this.loadingController.dismiss();
         });
       });
     } else if (this.databaseService.profLocal == undefined) {
@@ -120,12 +141,12 @@ export class HomePage {
             var resp: any = response;
             this.firebaseService.tarefasProf = resp;
           });
- 
+
         } else {
           alert("Professor não encontrado")
         }
         this.loadingController.getTop().then(resp => {
-          if(resp != undefined) this.loadingController.dismiss();
+          if (resp != undefined) this.loadingController.dismiss();
         });
       });
     }

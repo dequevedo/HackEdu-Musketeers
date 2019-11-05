@@ -16,12 +16,11 @@
 <ion-content>
   <!-- PROFESSOR -->
   <div color="light" style="border: 1px solid lightgray" *ngIf="this.firebaseService?.usuario?.type =='Professor'">
-    <ion-item color="light">
-      <ion-label>Leituras Pendentes</ion-label>
+    <ion-item color="primary">
+      <ion-label>Mostrar Leituras Pendentes em</ion-label>
       <ion-select [(ngModel)]="profLocalSelected" (ionChange)="profLocalChange()">
         <!-- ESSA LINHA PODE BUGAR A SELEÇÃO DE LOCAIS DO PROFESSOR SE HOUVER ESPAÇO NO LOCAL: ('C0001' != 'C0001 ') -->
-        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}
-        </ion-select-option>
+        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}</ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -33,6 +32,30 @@
         </ion-item>
       </ion-list>
     </div>
+    <br>
+    <ion-segment style="background-color: #3880ff;" class="bot" [(ngModel)]="profMostrarLeituras">
+      <ion-segment-button class="seg" *ngIf="profMostrarLeituras == 'true'" no-padding layout="icon-end" value="false">
+        <ion-label style="color: white;">Leituras que eu validei</ion-label>
+        <ion-icon style="color: white;" class="icon" name="arrow-dropup"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button class="segActive" *ngIf="profMostrarLeituras == 'false'" no-padding layout="icon-end"
+        value="true">
+        <ion-label style="color: white;">Leituras que eu validei</ion-label>
+        <ion-icon style="color: white;" class="icon" name="arrow-dropdown"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="profMostrarLeituras">
+      <div *ngSwitchCase="'true'">
+        <ion-item *ngFor="let leitura of this.firebaseService?.profLeituras" detail (click)="leituraDetail(leitura)">
+          <ion-label slot="start">{{leitura?.book?.title}}</ion-label>
+          <ion-label slot="end"><b>{{leitura?.nota}}</b></ion-label>
+        </ion-item>
+      </div>
+      <div *ngSwitchCase="'false'">
+      </div>
+    </div>
+
   </div>
 
   <!-- ALUNOS -->
@@ -125,7 +148,8 @@
   <br>
 
   <div style="border: 1px solid lightgray;" *ngIf="this.firebaseService?.usuario?.type!='Professor'">
-    <ion-row justify-content-center align-items-center color="primary" style="text-align: center; background: #3880ff; height: 50px;">
+    <ion-row justify-content-center align-items-center color="primary"
+      style="text-align: center; background: #3880ff; height: 50px;">
       <ion-label style="color: white; font-size: 18px;"><b>Minhas Leituras</b></ion-label>
     </ion-row>
 

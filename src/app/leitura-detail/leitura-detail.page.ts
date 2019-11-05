@@ -25,12 +25,20 @@ export class LeituraDetailPage implements OnInit {
 
   ionViewDidEnter() {
     this.menu.enable(true);
+    this.firebaseService.nomeProf = undefined;
+    this.firebaseService.getProfessor(this.firebaseService.leituraDetail.prof_matr);
+    this.databaseService.getNomeAluno(this.firebaseService.leituraDetail.aluno_matr).then(resp => {
+      this.databaseService.nomeAluno = resp;
+    });
   }
 
   avaliarLeitura() {
     //cria nova leitura
     this.firebaseService.leituraDetail.prof_matr = this.firebaseService.usuario.matricula
-    this.firebaseService.leituraDetail.nota = Number(this.notaForm).toFixed(1);
+    if(Number(this.notaForm) > 10){
+      this.notaForm = 10;
+    }
+    this.firebaseService.leituraDetail.nota = Number(Number(this.notaForm).toFixed(1));
     this.firebaseService.leituraDetail.comment = this.commentForm
 
     console.log(JSON.stringify(this.firebaseService.leituraDetail))

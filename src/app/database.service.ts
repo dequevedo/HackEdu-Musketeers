@@ -16,6 +16,9 @@ export class DatabaseService {
   public materiaArray = undefined;
   public profLocal: any = undefined;
 
+  nomeAluno: any;
+  nomeLocal: any;
+
   constructor(private httpClient: HttpClient,
     private firebaseService: FirebaseService
   ) { }
@@ -35,6 +38,19 @@ export class DatabaseService {
     });
   }
 
+
+  async getNomeAluno(matricula: any): Promise<any> {
+    const url: string = this.imabaseUrl + "/alunos?filter%5Bmatricula%5D=" + matricula + "&filter%5Bano%5D=2019&apikey=" + this.imaDBkey;
+
+    return new Promise((resolve) => {
+      this.httpClient.get(url).subscribe(res => {
+        var resp: any = res;
+        resolve(resp.data[0]);
+      });
+    });
+  }
+
+
   async getNotas(): Promise<any> {
     const url: string = this.imabaseUrl + "/alunos_notas?filter%5Bano%5D=2019&filter%5Bmatricula%5D=" + this.firebaseService.matricula + "&apikey=" + this.imaDBkey;
     return new Promise((resolve) => {
@@ -51,6 +67,16 @@ export class DatabaseService {
     return new Promise((resolve) => {
       this.httpClient.get(url).subscribe(res => {
         resolve(res);
+      });
+    });
+  }
+
+  async getLocalNome(id: any): Promise<any> {
+    const url: string = this.imabaseUrl + "/locais/" + id + "?&apikey=" + this.imaDBkey;
+    return new Promise((resolve) => {
+      this.httpClient.get(url).subscribe(res => {
+        var resp: any = res;
+        resolve(resp.data[0]);
       });
     });
   }
