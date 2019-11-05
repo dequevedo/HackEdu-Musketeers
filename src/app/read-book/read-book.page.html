@@ -20,7 +20,8 @@
       <ion-label>Leituras Pendentes</ion-label>
       <ion-select [(ngModel)]="profLocalSelected" (ionChange)="profLocalChange()">
         <!-- ESSA LINHA PODE BUGAR A SELEÇÃO DE LOCAIS DO PROFESSOR SE HOUVER ESPAÇO NO LOCAL: ('C0001' != 'C0001 ') -->
-        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}</ion-select-option>
+        <ion-select-option *ngFor="let local of this.firebaseService?.usuario?.attributes?.local_list">{{local}}
+        </ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -160,15 +161,17 @@
     </div>
   </div>
 
-  <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button class="fab">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button routerLink="/add-book/" routerDirection="forward" data-desc="Cadastrar leitura">
-        <ion-icon name="book"></ion-icon>
+  <div *ngIf="this.firebaseService?.usuario?.type!='Professor'">
+    <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button class="fab">
+        <ion-icon name="add"></ion-icon>
       </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
+      <ion-fab-list side="top">
+        <ion-fab-button routerLink="/add-book/" routerDirection="forward" data-desc="Cadastrar leitura">
+          <ion-icon name="book"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+  </div>
 
 </ion-content>
