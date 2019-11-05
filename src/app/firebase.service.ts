@@ -132,8 +132,8 @@ export class FirebaseService {
       this.getAlunoLeiturasCorrigidas(matricula).then(response => {
         var resp: any = response;
         var array: any[] = resp;
-        console.log("resp: "+resp);
-        var leit_pont = array.reduce( (accum, curr) => (+accum) + (+curr.nota) );
+        console.log("leiturasAluno: "+JSON.stringify(resp));
+        var leit_pont = array.reduce((sum, leitura) => sum + leitura.nota, 0);
 
         console.log(leit_pont);
 

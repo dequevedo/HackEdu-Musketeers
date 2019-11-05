@@ -46,7 +46,10 @@ export class ReadBookPage implements OnInit {
 
   ionViewDidEnter() {
     this.menu.enable(true);
+    this.atualizaDados();
+  }
 
+  atualizaDados() {
     if (this.firebaseService.usuario.type != "Professor") {
       this.firebaseService.getIndexRanking(this.firebaseService.usuario.attributes.local, undefined, this.firebaseService.usuario.matricula).then(response => {
         var resp: any = response;
@@ -86,7 +89,7 @@ export class ReadBookPage implements OnInit {
     })
   }
 
-  leiturasAeN(){
+  leiturasAeN() {
     //Pega a leituras já avaliadas
     this.lAv = this.firebaseService.leituras;
     this.lAv = this.lAv.filter(leitura => leitura.nota != "-");
