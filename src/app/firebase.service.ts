@@ -47,8 +47,7 @@ export class FirebaseService {
   leituraDetail: any;
 
 
-  //COMO USAR QUERY NO ANGULARFIREDATABASE
-  // this.db.list('/items', ref => ref.orderByChild('size').equalTo('large')) 
+
 
   getLeiturasAguardando(local: any) {
     return new Promise((resolve) => {
@@ -77,9 +76,7 @@ export class FirebaseService {
 
         var arraySorted = resp.sort((a, b) => (a.nota > b.nota) ? -1 : 1)
 
-        // console.log("leituras do aluno filtradas: " + JSON.stringify(resp));
         //se encontrar o user, retorna a conta, senão retorna undefined
-
         if (arraySorted != undefined && arraySorted != null) {
           resolve(arraySorted);
         } else {
@@ -125,7 +122,7 @@ export class FirebaseService {
     return new Promise((resolve) => {
       this.db.object(url).update(leitura).then(response => {
         var resp: any = response;
-        // console.log("leitura avaliada: " + JSON.stringify(resp));
+
         this.somarAlunoLeiturasCorrigidas(leitura.aluno_matr);
         resolve(resp);
       }
@@ -143,14 +140,14 @@ export class FirebaseService {
         var leit_pont = array.reduce(function (prev, cur) {
           return prev + cur.nota;
         }, 0);
-        // console.log(leit_pont);
+
 
         this.db.object("SeileDB/usuarios/" + matricula).valueChanges().subscribe(response => {
           var resp: any = response;
 
           resp.attributes.leit_pont = leit_pont;
           this.db.object("SeileDB/usuarios/" + matricula).update(response).then(resp => {
-            // console.log("urlUsuario criada: " + JSON.stringify(resp));
+
             resolve(true);
           });
         });
@@ -168,7 +165,7 @@ export class FirebaseService {
         resp = resp.filter(aviso => aviso.serie == "" || aviso.serie == serie);
 
         resp = resp.filter(aviso => aviso.turma == "" || aviso.turma == turma);
-        //console.log("resp getAvisos: "+JSON.stringify(resp));
+
         resolve(resp);
       });
     });
@@ -214,7 +211,7 @@ export class FirebaseService {
     return new Promise((resolve) => {
       this.db.list("SeileDB/avisos/", ref => ref.orderByChild('prof_matr').equalTo(prof_matr)).valueChanges().subscribe(response => {
         var resp: any = response;
-        //console.log("resp getAvisosProf: "+JSON.stringify(resp));
+
          resolve(resp);
       });
     });
@@ -224,7 +221,7 @@ export class FirebaseService {
     return new Promise((resolve) => {
       this.db.list("SeileDB/tarefas/", ref => ref.orderByChild('prof_matr').equalTo(prof_matr)).valueChanges().subscribe(response => {
         var resp: any = response;
-        //console.log("resp getAvisosProf: "+JSON.stringify(resp));
+
          resolve(resp);
       });
     });
@@ -240,7 +237,7 @@ export class FirebaseService {
         var resp: any[] = response;
 
         var arrayFiltered = resp.filter(leitura => leitura.prof_matr != "-");
-        // console.log("leituras do aluno filtradas: " + JSON.stringify(resp));
+
         //se encontrar o user, retorna a conta, senão retorna undefined
 
         if (arrayFiltered != undefined && arrayFiltered != null) {
@@ -255,7 +252,7 @@ export class FirebaseService {
   verifyUser(user: any) {
     return new Promise((resolve) => {
       this.db.object("SeileDB/contas/" + user).valueChanges().subscribe(response => {
-        // console.log("(SeileDB/contas/" + user + ") verifyied: " + response);
+
         //se encontrar o user, retorna a conta, senão retorna undefined
         var resp: any = response;
         if (resp != undefined && resp != null) {
@@ -272,11 +269,11 @@ export class FirebaseService {
       const urlConta = "SeileDB/contas/" + matricula
       this.db.object(urlConta).update(conta).then(response => {
         var resp: any = response;
-        // console.log("urlConta criada: " + JSON.stringify(resp));
+
         const urlUsuario = "SeileDB/usuarios/" + matricula
         this.db.object(urlUsuario).update(usuario).then(response2 => {
           var resp2: any = response2;
-          // console.log("urlUsuario criada: " + JSON.stringify(resp2));
+
           resolve(true);
         });
       });
@@ -337,7 +334,7 @@ export class FirebaseService {
         const url = "SeileDB/leituras/" + leitura.key
         this.db.object(url).update(leitura).then(response2 => {
           var resp2: any = response2;
-          // console.log("new leitura: " + JSON.stringify(resp2));
+
           resolve(resp2);
         });
       }
@@ -356,9 +353,9 @@ export class FirebaseService {
 
   setUsuario(user: string) {
     this.db.object("SeileDB/usuarios/" + user).valueChanges().subscribe(resp => {
-      // console.log("SeileDB/usuarios/" + user + " finded: " + resp);
+
       this.usuario = resp;
-      // console.log("this.usuario: " + this.usuario);
+
       this.matricula = this.usuario.matricula
     });
   }
@@ -378,7 +375,7 @@ export class FirebaseService {
       this.firebase.ref(path).getDownloadURL().toPromise().then((resp) => {
         leitura.fileUrl = resp;
 
-        //TEM UM ERRO AQUI QUE DÁ DE VEZ EM QUANDO
+        //TEM UM ERRO AQUI QUE DÁ DE VEZ EM QUANDO( quando o livro da api do gooble nao tem a categoria do livro)
         this.newLeitura(leitura).then(resp => {
           loading.dismiss();
           alert("Leitura enviada com sucesso! Aguarte até que ela seja avaliada.");
@@ -414,7 +411,7 @@ export class FirebaseService {
         visibleInDownloadsUi: true,
         notificationVisibility: 1,
         destinationInExternalPublicDir: {
-          dirType: '/Resumos/', //Arrumar
+          dirType: '/Resumos/', 
           subPath: nameArquivo
         },
 

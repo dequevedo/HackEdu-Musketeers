@@ -6,6 +6,7 @@ import { FirebaseService } from '../firebase.service';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { LoadingController } from '@ionic/angular';
 import * as moment from 'moment';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class HomePage {
     private menu: MenuController,
     private emailComposer: EmailComposer,
     private loadingController: LoadingController,
+    public alertController: AlertController
   ) { }
 
   public aluno: any;
@@ -57,12 +59,25 @@ export class HomePage {
 
 
 
-  abrirAvisos() {
-    console.log("abrirAvisos");
+  async abrirAvisos(aviso) {
+    const alert = await this.alertController.create({
+      header: "Prof.:" + aviso.prof_matr,
+      message: aviso.msg,
+      buttons: ['OK']
+    });
+
+    await alert.present();    
   }
 
-  abrirTarefas() {
-    console.log("abrirTarefas");
+  async abrirTarefas(tarefa) {
+    const alert = await this.alertController.create({
+      header: "Prof.:" + tarefa.prof_matr,
+      subHeader: 'Entrega: ' + tarefa.dataEntrega,
+      message: tarefa.msg,
+      buttons: ['OK']
+    });
+
+    await alert.present(); 
   }
 
   ngOnInit() {

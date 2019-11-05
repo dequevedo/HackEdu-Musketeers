@@ -59,8 +59,7 @@
         <p>Pontos</p>
       </div>
     </ion-row>
-    <br>
-    <br>
+
     <div>
       <ion-row justify-content-center align-items-center>
         <ion-label>Leituras validadas&nbsp;&nbsp;</ion-label>
@@ -124,26 +123,53 @@
     </div>
   </div>
   <br>
-  <br>
-  <div style="border: 1px solid lightgray" *ngIf="this.firebaseService?.usuario?.type!='Professor'">
-    <ion-card-header color="primary" style="border-bottom: 1px solid lightgray">
-      <ion-label><b>Minhas Leituras</b></ion-label>
-    </ion-card-header>
 
-    <ion-list lines="none" color="light">
-      <ion-item *ngFor="let leitura of this.firebaseService.leituras" detail (click)="leituraDetail(leitura)">
-        <!-- <ion-icon slot="start" color="medium" name="book"></ion-icon> -->
-        <ion-label slot="start">{{leitura?.book?.title}}</ion-label>
-        <ion-label slot="end"><b>{{leitura?.nota}}</b></ion-label>
-      </ion-item>
-    </ion-list>
-    <ion-card-content color="primary" no-margin no-padding>
-      <ion-item color="primary" lines="none" (click)="addLeitura()">
-        <ion-icon slot="end" name="add"></ion-icon>
-        <ion-label slot="start">Nova leitura</ion-label>
-      </ion-item>
-    </ion-card-content>
+  <div style="border: 1px solid lightgray;" *ngIf="this.firebaseService?.usuario?.type!='Professor'">
+    <ion-row color="primary" style="text-align: center; background: darkblue; height: 50px;">
+      <ion-label style="color: white; font-size: 20px;"><b>Minhas Leituras</b></ion-label>
+    </ion-row>
+
+
+    <ion-segment [(ngModel)]="leituraStatus">
+      <ion-segment-button class="seg" value="navaliada">
+        <ion-label style="font-weight: bold">Não Avaliada(s)</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button class="seg" value="avaliadas">
+        <ion-label style="font-weight: bold">Avaliada(s)</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+
+    <div [ngSwitch]="leituraStatus">
+      <div *ngSwitchCase="'navaliada'">
+        <ion-list lines="none" color="light">
+          <ion-item *ngFor="let leitura of this.lNAv" detail (click)="leituraDetail(leitura)">
+            <ion-label slot="start">{{leitura?.book?.title}}</ion-label>
+            <ion-label slot="end"><b>{{leitura?.nota}}</b></ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div *ngSwitchCase="'avaliadas'">
+        <ion-list lines="none" color="light">
+          <ion-item *ngFor="let leitura of this.lAv" detail (click)="leituraDetail(leitura)">
+            <ion-label slot="start">{{leitura?.book?.title}}</ion-label>
+            <ion-label slot="end"><b>{{leitura?.nota}}</b></ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
   </div>
 
+  <ion-fab class="fab" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="fab">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button routerLink="/add-book/" routerDirection="forward" data-desc="Cadastrar leitura">
+        <ion-icon name="book"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 
 </ion-content>

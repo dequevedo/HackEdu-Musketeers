@@ -28,6 +28,10 @@ export class ReadBookPage implements OnInit {
     items: []
   };
 
+  lAv: any;
+  lNAv: any;
+  leituraStatus = "navaliada";
+
   constructor(
     private databaseService: DatabaseService,
     private firebaseService: FirebaseService,
@@ -63,6 +67,7 @@ export class ReadBookPage implements OnInit {
       //pega as leituras do aluno
       this.firebaseService.getAlunoLeituras(undefined).then(res => {
         this.firebaseService.leituras = res;
+        this.leiturasAeN();
       })
       this.firebaseService.getAlunoLeiturasCorrigidas(undefined).then(res => {
         this.firebaseService.alunoLeiturasCorrigidas = res;
@@ -79,6 +84,18 @@ export class ReadBookPage implements OnInit {
     this.firebaseService.getLeiturasAguardando(this.profLocalSelected).then(res => {
       this.firebaseService.leituras = res;
     })
+  }
+
+  leiturasAeN(){
+    //Pega a leituras já avaliadas
+    this.lAv = this.firebaseService.leituras;
+    this.lAv = this.lAv.filter(leitura => leitura.nota != "-");
+
+    //Pega a leituras não avaliadas
+    this.lNAv = this.firebaseService.leituras;
+    this.lNAv = this.lNAv.filter(leitura => leitura.nota == "-");
+    console.log(this.lAv)
+
   }
 
   leituraDetail(leitura) {
