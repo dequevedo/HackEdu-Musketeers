@@ -30,6 +30,17 @@ export class CriarTarefaPage implements OnInit {
   ngOnInit() {
   }
 
+  ionViewWillLeave(){
+    
+
+          this.firebaseService.getTarefasProf(this.firebaseService.usuario.matricula).then(response => {
+            var resp: any = response;
+            this.firebaseService.tarefasProf = resp;
+            console.log(this.firebaseService.tarefasProf);
+          });
+
+  }
+
   newTarefa() {
     var tarefa = {
       prof_matr: this.firebaseService.usuario.matricula,

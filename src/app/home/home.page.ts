@@ -120,7 +120,7 @@ export class HomePage {
             var resp: any = response;
             this.firebaseService.tarefasProf = resp;
           });
-
+ 
         } else {
           alert("Professor não encontrado")
         }
